@@ -4,6 +4,8 @@ https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CompletionStage.h
 https://www.nurkiewicz.com/2013/05/java-8-definitive-guide-to.html
 https://www.deadcoderising.com/java8-writing-asynchronous-code-with-completablefuture/
 https://www.baeldung.com/java-completablefuture
+https://mincong.io/2020/06/26/completable-future/
+https://habr.com/ru/post/213319/
 
 https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
 https://habr.com/ru/post/213319/
