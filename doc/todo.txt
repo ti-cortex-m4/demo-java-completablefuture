@@ -5,6 +5,7 @@ then,both,either
 async
 exceptionally,handle,whenComplete
 
+
 # Creating CompletableFuture
 runAsync
 supplyAsync
@@ -14,7 +15,7 @@ complete
 completeExceptionally
 
 # Transforming and acting on one CompletableFuture
-thenApply
+thenApply(Function)
 thenApplyAsync
 
 # Running code on completion
