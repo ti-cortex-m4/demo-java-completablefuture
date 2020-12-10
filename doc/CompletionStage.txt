@@ -2,8 +2,8 @@
     acceptEitherAsync
     applyToEither
     applyToEitherAsync
-exceptionally
-exceptionallyAsync
+    exceptionally
+    exceptionallyAsync
 exceptionallyCompose
 exceptionallyComposeAsync
 handle
@@ -12,18 +12,18 @@ handleAsync
     runAfterBothAsync
 runAfterEither
 runAfterEitherAsync
-thenAccept
-thenAcceptAsync
+    thenAccept
+    thenAcceptAsync
     thenAcceptBoth
     thenAcceptBothAsync
-thenApply
-thenApplyAsync
-thenCombine
-thenCombineAsync
-thenCompose
-thenComposeAsync
-thenRun
-thenRunAsync
+    thenApply
+    thenApplyAsync
+    thenCombine
+    thenCombineAsync
+    thenCompose
+    thenComposeAsync
+    thenRun
+    thenRunAsync
 toCompletableFuture
 whenComplete
 whenCompleteAsync

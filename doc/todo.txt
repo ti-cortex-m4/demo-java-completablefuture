@@ -5,20 +5,37 @@ then,both,either
 async
 exceptionally,handle,whenComplete
 
+# Creating CompletableFuture
+runAsync
+supplyAsync
 
-# Completing
-CompletableFuture   public boolean complete(T value)
-CompletableFuture   public boolean completeExceptionally(Throwable ex)
+# Completing CompletableFuture
+complete
+completeExceptionally
 
-# Transforming and acting on one CompletableFuture (thenApply)
+# Transforming and acting on one CompletableFuture
+thenApply
+thenApplyAsync
 
-# Running code on completion (thenAccept/thenRun)
+# Running code on completion
+thenAccept
+thenAcceptAsync
+thenRun
+thenRunAsync
 
 # Combining two CompletableFuture together
 
-## Combining (chaining) two futures (thenCompose())
-## Transforming values of two futures (thenCombine())
-    So we now know how to wait for two futures to complete (using thenCombine()) and for the first one to complete (applyToEither()).
+# Error handling of single CompletableFuture
+exceptionally
+exceptionallyAsync
+
+## Combining (chaining) two futures
+thenCompose
+thenComposeAsync
+
+## Transforming values of two futures
+thenCombine
+thenCombineAsync
 
 ## Waiting for both CompletableFutures to complete
 thenAcceptBoth
