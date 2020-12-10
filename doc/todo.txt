@@ -1,0 +1,6 @@
+CompletionStage
+apply,accept,run=Function,Consumer,Runnable
+compose
+then,both,either
+async
+exceptionally,handle,whenComplete
