@@ -45,10 +45,14 @@ runAfterBoth
 runAfterBothAsync
 
 # Waiting for first CompletableFuture to complete
-acceptEither
-acceptEitherAsync
 applyToEither
 applyToEitherAsync
+
+# Running code on completion
+acceptEither
+acceptEitherAsync
+runAfterEither
+runAfterEitherAsync
 
 # Combining multiple CompletableFuture together
 allOf

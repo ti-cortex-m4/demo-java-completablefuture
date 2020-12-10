@@ -10,8 +10,8 @@ handle
 handleAsync
     runAfterBoth
     runAfterBothAsync
-runAfterEither
-runAfterEitherAsync
+    runAfterEither
+    runAfterEitherAsync
     thenAccept
     thenAcceptAsync
     thenAcceptBoth
