@@ -31,11 +31,11 @@ exceptionally
 exceptionallyAsync
 
 ## Combining (chaining) two futures
-thenCompose
+thenCompose     (Function<? super T, ? extends CompletionStage<U>> fn)
 thenComposeAsync
 
 ## Transforming values of two futures
-thenCombine
+thenCombine     (CompletionStage<? extends U> other, BiFunction<? super T,? super U,? extends V> fn)
 thenCombineAsync
 
 ## Waiting for both CompletableFutures to complete
