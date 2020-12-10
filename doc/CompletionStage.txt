@@ -1,21 +1,21 @@
-acceptEither
-acceptEitherAsync
-applyToEither
-applyToEitherAsync
+    acceptEither
+    acceptEitherAsync
+    applyToEither
+    applyToEitherAsync
 exceptionally
 exceptionallyAsync
 exceptionallyCompose
 exceptionallyComposeAsync
 handle
 handleAsync
-runAfterBoth
-runAfterBothAsync
+    runAfterBoth
+    runAfterBothAsync
 runAfterEither
 runAfterEitherAsync
 thenAccept
 thenAcceptAsync
-thenAcceptBoth
-thenAcceptBothAsync
+    thenAcceptBoth
+    thenAcceptBothAsync
 thenApply
 thenApplyAsync
 thenCombine

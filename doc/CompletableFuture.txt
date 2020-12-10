@@ -1,9 +1,9 @@
-allOf
-anyOf
+    allOf
+    anyOf
 cancel
-complete
+    complete
 completeAsync
-completeExceptionally
+    completeExceptionally
 completeOnTimeout
 completedFuture
 completedStage
