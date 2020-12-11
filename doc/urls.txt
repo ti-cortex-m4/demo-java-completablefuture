@@ -15,3 +15,8 @@ https://habr.com/ru/post/418547/
 https://habr.com/ru/post/327460/
 
 https://habr.com/ru/company/funcorp/blog/477052/
+
+https://www.jrebel.com/blog/java-completablefuture-api
+https://deepakvadgama.com/blog/completable-future-internals/
+http://www.polarsparc.com/xhtml/Java8-CompletableFuture-4.html
+https://www.slideshare.net/jpaumard/asynchronous-api-in-java8-how-to-use-completablefuture
