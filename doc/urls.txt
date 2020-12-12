@@ -7,12 +7,7 @@ https://www.deadcoderising.com/java8-writing-asynchronous-code-with-completablef
 https://www.baeldung.com/java-completablefuture
 https://habr.com/ru/post/213319/
 https://www.callicoder.com/java-8-completablefuture-tutorial/
-
 https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
-https://habr.com/ru/post/213319/
-https://habr.com/ru/post/325730/
-https://habr.com/ru/post/418547/
-https://habr.com/ru/post/327460/
 
 https://www.jrebel.com/blog/java-completablefuture-api
 https://deepakvadgama.com/blog/completable-future-internals/
