@@ -11,4 +11,3 @@ https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-pro
 
 https://www.jrebel.com/blog/java-completablefuture-api
 https://deepakvadgama.com/blog/completable-future-internals/
-https://www.slideshare.net/jpaumard/asynchronous-api-in-java8-how-to-use-completablefuture
