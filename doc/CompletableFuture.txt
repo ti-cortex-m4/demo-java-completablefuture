@@ -22,6 +22,7 @@ static Executor delayedExecutor(long,TimeUnit)
 CompletableFuture exceptionally(java.util.function.Function)
 CompletableFuture exceptionallyAsync(java.util.function.Function)
 CompletableFuture exceptionallyAsync(java.util.function.Function,Executor)
+
 CompletableFuture exceptionallyCompose(java.util.function.Function)
 CompletableFuture exceptionallyComposeAsync(java.util.function.Function,Executor)
 CompletableFuture exceptionallyComposeAsync(java.util.function.Function)
@@ -44,9 +45,11 @@ boolean isCompletedExceptionally()
 boolean isDone()
 
 java.lang.Object join()
+
 CompletableFuture newIncompleteFuture()
 void obtrudeException(java.lang.Throwable)
 void obtrudeValue(java.lang.Object)
+
 CompletableFuture orTimeout(long,TimeUnit)
 
 static CompletableFuture runAsync(java.lang.Runnable,Executor)
