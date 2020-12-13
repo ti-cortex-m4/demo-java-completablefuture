@@ -19,9 +19,32 @@ runAfterEither
 
 ## CompletableFuture
 
-### Future methods
+### methods to create
 
-### CompletionStage methods
+#### incompleted
+runAsync
+supplyAsync
+
+#### completed
+
+### methods to complete
+boolean complete(java.lang.Object)
+boolean completeExceptionally(java.lang.Throwable)
+boolean cancel(boolean)
+
+### methods to verify
+isDone
+isCompletedExceptionally
+isCancelled
+
+### methods to get
+java.lang.Object get()
+java.lang.Object get(long,TimeUnit)
+java.lang.Object join()
+java.lang.Object getNow(java.lang.Object)
+CompletableFuture orTimeout(long,TimeUnit)
+
+### methods with timeout
 
 ### methods to combine multiple futures into one: 
 allOf 
