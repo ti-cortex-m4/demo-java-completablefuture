@@ -7,7 +7,20 @@ https://www.deadcoderising.com/java8-writing-asynchronous-code-with-completablef
 https://www.baeldung.com/java-completablefuture
 https://habr.com/ru/post/213319/
 https://www.callicoder.com/java-8-completablefuture-tutorial/
-https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
 
 https://www.jrebel.com/blog/java-completablefuture-api
 https://deepakvadgama.com/blog/completable-future-internals/
+
+https://blog.knoldus.com/future-vs-completablefuture-1/
+https://blog.knoldus.com/future-vs-completablefuture-in-java-2/
+
+https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
+https://medium.com/@tahadalal6/java-completablefuture-cheat-sheet-fda37d72affa
+https://medium.com/javarevisited/completablefuture-usage-and-best-practises-4285c4ceaad4
+https://medium.com/@Mumuksia/completablefuture-practical-guide-e4564f332f83
+https://codeburst.io/a-new-concurrency-model-in-java-975d597dd5e4?source=search_post
+https://medium.com/swlh/completablefuture-a-simplified-guide-to-async-programming-41cecb162308
+https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
+https://medium.com/swlh/combining-multiple-api-calls-with-completablefuture-1d9d27e03bec
+https://blog.softwaremill.com/synchronous-or-asynchronous-and-why-wrestle-with-wrappers-2c5667eb7acf
+https://medium.com/@kalpads/fantastic-completablefuture-allof-and-how-to-handle-errors-27e8a97144a0
