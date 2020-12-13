@@ -13,8 +13,6 @@ https://deepakvadgama.com/blog/completable-future-internals/
 
 https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
 https://medium.com/@tahadalal6/java-completablefuture-cheat-sheet-fda37d72affa
-https://medium.com/javarevisited/completablefuture-usage-and-best-practises-4285c4ceaad4
-https://medium.com/@Mumuksia/completablefuture-practical-guide-e4564f332f83
 https://codeburst.io/a-new-concurrency-model-in-java-975d597dd5e4?source=search_post
 https://medium.com/swlh/completablefuture-a-simplified-guide-to-async-programming-41cecb162308
 https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d

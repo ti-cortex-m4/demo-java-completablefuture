@@ -25,6 +25,7 @@ runAfterEither
 ### methods to create
 
 #### incompleted
+constructor
 runAsync
 supplyAsync
 
@@ -50,6 +51,9 @@ java.lang.Object getNow(java.lang.Object)
 CompletableFuture orTimeout(long,TimeUnit)
 
 ### methods to handle errors
+exceptionally(Async)
+handle
+whenComplete
 
 ### methods with timeout
 
