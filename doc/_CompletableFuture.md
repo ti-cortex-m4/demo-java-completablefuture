@@ -3,14 +3,17 @@
 ## CompletionStage
 
 ### triggered by a single previous stage
-thenApply
-thenAccept
-thenRun
+thenApply(Async)
+thenAccept(Async)
+thenRun(Async)
 
 ### triggered by both of two previous stages
 thenCombine
 thenAcceptBoth
 runAfterBoth
+
+### ?
+thenCompose(Async)
 
 ### triggered by either one of two previous stages
 applyToEither

@@ -5,55 +5,6 @@ then,both,either
 async
 exceptionally,handle,whenComplete
 
-
-# Creating CompletableFuture
-runAsync
-supplyAsync
-
-# Completing CompletableFuture
-complete
-completeExceptionally
-
-# Transforming and acting on one CompletableFuture
-thenApply(Function)
-thenApplyAsync
-
-# Running code on completion
-thenAccept
-thenAcceptAsync
-thenRun
-thenRunAsync
-
-# Combining two CompletableFuture together
-
 # Error handling of single CompletableFuture
 exceptionally
 exceptionallyAsync
-
-## Combining (chaining) two futures
-thenCompose     (Function<? super T, ? extends CompletionStage<U>> fn)
-thenComposeAsync
-
-## Transforming values of two futures
-thenCombine     (CompletionStage<? extends U> other, BiFunction<? super T,? super U,? extends V> fn)
-thenCombineAsync
-
-## Waiting for both CompletableFutures to complete
-thenAcceptBoth
-thenAcceptBothAsync
-runAfterBoth
-runAfterBothAsync
-
-# Waiting for first CompletableFuture to complete
-applyToEither
-applyToEitherAsync
-
-# Running code on completion
-acceptEither
-acceptEitherAsync
-runAfterEither
-runAfterEitherAsync
-
-# Combining multiple CompletableFuture together
-allOf
-anyOf
