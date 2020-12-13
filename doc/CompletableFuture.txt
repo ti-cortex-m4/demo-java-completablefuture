@@ -1,13 +1,5 @@
-CompletableFuture acceptEither(CompletionStage,java.util.function.Consumer)
-CompletableFuture acceptEitherAsync(CompletionStage,java.util.function.Consumer)
-CompletableFuture acceptEitherAsync(CompletionStage,java.util.function.Consumer,Executor)
-
 static CompletableFuture allOf(CompletableFuture[])
 static CompletableFuture anyOf(CompletableFuture[])
-
-CompletableFuture applyToEither(CompletionStage,java.util.function.Function)
-CompletableFuture applyToEitherAsync(CompletionStage,java.util.function.Function)
-CompletableFuture applyToEitherAsync(CompletionStage,java.util.function.Function,Executor)
 
 boolean cancel(boolean)
 boolean complete(java.lang.Object)
@@ -21,6 +13,7 @@ CompletableFuture completeOnTimeout(java.lang.Object,long,TimeUnit)
 
 static CompletableFuture completedFuture(java.lang.Object)
 static CompletionStage completedStage(java.lang.Object)
+
 CompletableFuture copy()
 Executor defaultExecutor()
 static Executor delayedExecutor(long,TimeUnit,Executor)
@@ -56,41 +49,11 @@ void obtrudeException(java.lang.Throwable)
 void obtrudeValue(java.lang.Object)
 CompletableFuture orTimeout(long,TimeUnit)
 
-CompletableFuture runAfterBoth(CompletionStage,java.lang.Runnable)
-CompletableFuture runAfterBothAsync(CompletionStage,java.lang.Runnable,Executor)
-CompletableFuture runAfterBothAsync(CompletionStage,java.lang.Runnable)
-CompletableFuture runAfterEither(CompletionStage,java.lang.Runnable)
-CompletableFuture runAfterEitherAsync(CompletionStage,java.lang.Runnable)
-CompletableFuture runAfterEitherAsync(CompletionStage,java.lang.Runnable,Executor)
-
 static CompletableFuture runAsync(java.lang.Runnable,Executor)
 static CompletableFuture runAsync(java.lang.Runnable)
 static CompletableFuture supplyAsync(java.util.function.Supplier,Executor)
 static CompletableFuture supplyAsync(java.util.function.Supplier)
 
-CompletableFuture thenAccept(java.util.function.Consumer)
-CompletableFuture thenAcceptAsync(java.util.function.Consumer,Executor)
-CompletableFuture thenAcceptAsync(java.util.function.Consumer)
-CompletableFuture thenAcceptBoth(CompletionStage,java.util.function.BiConsumer)
-CompletableFuture thenAcceptBothAsync(CompletionStage,java.util.function.BiConsumer)
-CompletableFuture thenAcceptBothAsync(CompletionStage,java.util.function.BiConsumer,Executor)
-CompletableFuture thenApply(java.util.function.Function)
-CompletableFuture thenApplyAsync(java.util.function.Function,Executor)
-CompletableFuture thenApplyAsync(java.util.function.Function)
-CompletableFuture thenCombine(CompletionStage,java.util.function.BiFunction)
-CompletableFuture thenCombineAsync(CompletionStage,java.util.function.BiFunction,Executor)
-CompletableFuture thenCombineAsync(CompletionStage,java.util.function.BiFunction)
-CompletableFuture thenCompose(java.util.function.Function)
-CompletableFuture thenComposeAsync(java.util.function.Function,Executor)
-CompletableFuture thenComposeAsync(java.util.function.Function)
-CompletableFuture thenRun(java.lang.Runnable)
-CompletableFuture thenRunAsync(java.lang.Runnable)
-CompletableFuture thenRunAsync(java.lang.Runnable,Executor)
-
 CompletableFuture toCompletableFuture()
 
 java.lang.String toString()
-
-CompletableFuture whenComplete(java.util.function.BiConsumer)
-CompletableFuture whenCompleteAsync(java.util.function.BiConsumer)
-CompletableFuture whenCompleteAsync(java.util.function.BiConsumer,Executor)

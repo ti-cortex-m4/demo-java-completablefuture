@@ -26,6 +26,8 @@ runAsync
 supplyAsync
 
 #### completed
+completedFuture,completedStage
+failedFuture,failedStage
 
 ### methods to complete
 boolean complete(java.lang.Object)
@@ -44,8 +46,10 @@ java.lang.Object join()
 java.lang.Object getNow(java.lang.Object)
 CompletableFuture orTimeout(long,TimeUnit)
 
+### methods to handle errors
+
 ### methods with timeout
 
-### methods to combine multiple futures into one: 
+### methods to combine multiple futures into one
 allOf 
 anyOf
