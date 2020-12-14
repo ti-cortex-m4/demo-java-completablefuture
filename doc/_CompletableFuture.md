@@ -143,23 +143,68 @@ runAfterEither
 ### methods to create
 
 #### incompleted
-constructor
+new CompletableFuture<>()
+    Create an incomplete future
 
 ##### Factory methods
 Initiate async two-way or one-way computations without using threads explicitly
 Help make programs more elastic by leveraging a pool of worker threads
 
+Four factory methods initiate async computations
+These computations may or may not return a value
+Async functionality runs in a thread pool
+However, a pre- or user-defined thread pool can also be given
+
 runAsync
 supplyAsync
 
+• supplyAsync() allows twoway calls via a supplier
+• Can be passed params & returns a value
+• supplyAsync() does not create a new thread!
+• Instead, it return a future that’s completed by a worker thread running in common fork-join pool
+
+Methods Params Returns Behavior
+supplyAsync
+Supplier 
+Completable Future with result of Supplier
+Asynchronouslyrun supplier incommon fork/join pool
+
+supplyAsync
+Supplier,Executor
+CompletableFuture withresult ofSupplier
+Asynchronously run supplier in given executor pool
+
+• runAsync() enables oneway calls via a runnable
+runAsync() enables oneway calls via a runnable
+• Can be passed params,but returns no values
+• Any output must therefore come from “side-effects”
+
+Methods Params Returns Behavior
+runAsync
+Runnable 
+Completable Future with result of Void
+Asynchronously run runnable in common fork/join pool
+
+runAsync
+Runnable,Executor
+Completable Future with result of Void
+Asynchronously run runnable in given executor pool
+
 #### completed
 completedFuture,completedStage
+A completable future can be initialized to a value/constant
+
 failedFuture,failedStage
 
 ### methods to complete
 boolean complete(java.lang.Object)
+    Can be completed explicitly
+    i.e., sets result returned by get()/join() to a given value
 boolean completeExceptionally(java.lang.Throwable)
 boolean cancel(boolean)
+
+• cancel() doesn’t interruptthe computation by default
+    www.nurkiewicz.com/2015/03/completablefuture-cant-be-interrupted.html
 
 ### methods to verify
 isDone
@@ -169,7 +214,11 @@ isCancelled
 ### methods to get
 java.lang.Object get()
 java.lang.Object get(long,TimeUnit)
-java.lang.Object join()
+
+java.lang.Object join()     
+    Define a join() method Behaves like get() without using checked exceptions
+    CompletableFuture::join can be used as a method reference in a Java stream
+
 java.lang.Object getNow(java.lang.Object)
 CompletableFuture orTimeout(long,TimeUnit)
 
