@@ -12,3 +12,5 @@ https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-pro
 https://theboreddev.com/a-new-java-concurrency-model/
 https://theboreddev.com/combining-multiple-api-calls-with-completablefuture/
 https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
+https://crondev.blog/2017/01/23/timeouts-with-java-8-completablefuture-youre-probably-doing-it-wrong/
+
