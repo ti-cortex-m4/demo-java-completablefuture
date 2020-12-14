@@ -7,10 +7,8 @@ https://www.deadcoderising.com/java8-writing-asynchronous-code-with-completablef
 https://www.baeldung.com/java-completablefuture
 https://habr.com/ru/post/213319/
 https://www.callicoder.com/java-8-completablefuture-tutorial/
-https://www.jrebel.com/blog/java-completablefuture-api
 https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
 https://theboreddev.com/a-new-java-concurrency-model/
 https://theboreddev.com/combining-multiple-api-calls-with-completablefuture/
 https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
-https://crondev.blog/2017/01/23/timeouts-with-java-8-completablefuture-youre-probably-doing-it-wrong/
 
