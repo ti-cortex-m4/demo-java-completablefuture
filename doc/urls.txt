@@ -13,13 +13,5 @@ https://theboreddev.com/combining-multiple-api-calls-with-completablefuture/
 https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
 
 https://speakerdeck.com/mrmixsun/sierghiei-kuksienko-kak-sdielat-completablefuture-ieshchie-bystrieie-soviety-i-triuki-po-proizvoditiel-nosti?slide=20
-http://agrajmangal.in/blog/java/java-8-back-to-the-future/
-https://sites.google.com/site/robhamk/java/completablefuture
 https://www.slideshare.net/CrossoverRomania/asynchronous-completablefuture-presentation-by-lszlrbert-albert-crossover
-https://speakerdeck.com/mkarg/completablefuture-fibers-fur-java-8
-https://github.com/kubamarchwicki/completablefuture-marbles
-http://millross-consultants.com/completion-stage-future-introduction.html
 https://www.marccarre.com/2016/05/08/java-8-concurrency-completablefuture-in-practice.html
-https://thepracticaldeveloper.com/differences-between-completablefuture-future-and-streams/
-https://www.cnblogs.com/aniao/p/aniao_cf.html
-
