@@ -21,3 +21,5 @@ https://github.com/kubamarchwicki/completablefuture-marbles
 http://millross-consultants.com/completion-stage-future-introduction.html
 https://www.marccarre.com/2016/05/08/java-8-concurrency-completablefuture-in-practice.html
 https://thepracticaldeveloper.com/differences-between-completablefuture-future-and-streams/
+https://www.cnblogs.com/aniao/p/aniao_cf.html
+
