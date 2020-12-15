@@ -122,20 +122,47 @@ Chain together actions that perform async result processing & composition
 Help make programs more responsive by not blocking user code
 
 thenApply(Async)
+Returns a future containing the result of the action
+Used for a quick sync action that returns a value rather than a future
+
 thenAccept(Async)
+Often used at the end of a chain of completion stages
+
 thenRun(Async)
+Applies a consumer action to handle previous stage’s result
+This action behaves as a “callback” with a side-effect
+
+A lambda action is called only after previous stage completes successfully
+Action is “deferred” until previous stage completes & fork-join thread is available
+
+Completion stage methods are grouped based on how a stage is triggered by one or more previous stage(s)
 
 ### triggered by both of two previous stages
 thenCombine
+Applies a bifunction action to two previous stages’ results
+Returns a future containing the result of the action
+thenCombine() essentially performs a “reduction”
+Used to “join” two paths of asynchronous execution
+
 thenAcceptBoth
 runAfterBoth
 
+These methods run in the invoking thread or the same thread as previous stage
+
 ### ?
 thenCompose(Async)
+Returns a future containing result of the action directly i.e., not a nested future
+Used for a longer async action that returns a future
+Can be used to avoid calling join() when flattening nested completable futures
 
 ### triggered by either one of two previous stages
 applyToEither
+
 acceptEither
+Applies a consumer action that handles either of the previous stages' results
+Often used at the end of a chain of completion stages
+acceptEither() does not cancel the second future after the first one completes
+
 runAfterEither
 
 ## CompletableFuture
@@ -225,9 +252,15 @@ CompletableFuture orTimeout(long,TimeUnit)
 ### methods to handle errors
 Handle exceptional conditions at runtime
 Help make programs more resilient by handling erroneous computations gracefully
+
 exceptionally(Async)
+When exception occurs, replace exception with result value
+
 handle
+Handle outcome of a stage & return new value
+
 whenComplete
+Handle outcome of a stage, whether a result value or an exception
 
 ### methods with timeout
 
@@ -235,5 +268,9 @@ whenComplete
 “Arbitrary-arity” methods
 • Process futures in bulk by combine multiple futures into a single future
 Help make programs more responsive by not blocking user code
-allOf 
+
+allOf
+Return a future that completes when all futures in params complete
+
 anyOf
+Return a future that completes when any future in params complete
