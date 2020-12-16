@@ -12,6 +12,5 @@ https://theboreddev.com/a-new-java-concurrency-model/
 https://theboreddev.com/combining-multiple-api-calls-with-completablefuture/
 https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
 
-https://speakerdeck.com/mrmixsun/sierghiei-kuksienko-kak-sdielat-completablefuture-ieshchie-bystrieie-soviety-i-triuki-po-proizvoditiel-nosti?slide=20
-https://www.slideshare.net/CrossoverRomania/asynchronous-completablefuture-presentation-by-lszlrbert-albert-crossover
 https://www.marccarre.com/2016/05/08/java-8-concurrency-completablefuture-in-practice.html
+https://en.wikipedia.org/wiki/Futures_and_promises
