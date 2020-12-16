@@ -274,3 +274,34 @@ Return a future that completes when all futures in params complete
 
 anyOf
 Return a future that completes when any future in params complete
+
+#### Pros of the Java Completable Futures Framework
+Greatly simplifies programming of asynchronous operations
+• Supports dependent actions that trigger upon completion of async operations
+    • Async operations can be forked, chained, & joined in a relatively intuitive way
+    • Enables async programs to appear like sync programs
+• Async operations run in parallel in a thread pool
+    • Either a (common) fork-join pool or various types of preor user-defined thread pools
+    • No explicit synchronization or threading is required for completable futures
+    • Java libraries handle locking needed to protect shared mutable state
+    
+#### Understand the cons of using the Java completable futures framework
+
+• Again, we evaluate the Java completable futures framework compared with the parallel streams framework
+• It’s easier to program Java parallel streams than completable futures
+    • The overall control flow is similar when using the Java streams framework
+    • However, async behaviors are more complicated than the sync behaviors!
+
+• There's a tradeoff between computing performance & programmer productivity when choosing amongst these frameworks
+    • Completable futures are more efficient & scalable, but are harder to program
+    • Parallel streams are easier to program, but are less efficient & scalable
+
+Java 9 provides enhancements to the Java 8 completable future framework
+
+Methods Params
+defaultExecutor     () Executor Returns default Executor used for   methods that don’t specify an Executor
+completeAsync       Supplier<T> CompletableFuture<T> Complete CompletableFuture asynchronously using value given by the Supplier
+orTimeout           long timeout,TimeUnit unit CompletableFuture<T> Resolves CompletableFuture exceptionally with TimeoutException, unless it is completed before the specified timeout
+completeOnTimeout   T value,long timeout,TimeUnit unit  CompletableFuture<T>    Completes this CompletableFuture with the given value if not otherwise completed before the given timeout    
+        
+            
