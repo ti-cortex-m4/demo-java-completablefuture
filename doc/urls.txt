@@ -13,4 +13,6 @@ https://theboreddev.com/combining-multiple-api-calls-with-completablefuture/
 https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
 
 https://www.marccarre.com/2016/05/08/java-8-concurrency-completablefuture-in-practice.html
+https://www.ibm.com/developerworks/library/j-jvmc2/index.html
+https://www.infoq.com/articles/Functional-Style-Callbacks-Using-CompletableFuture/
 https://en.wikipedia.org/wiki/Futures_and_promises
