@@ -6,7 +6,7 @@ https://www.callicoder.com/java-8-completablefuture-tutorial/
 https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
 https://theboreddev.com/a-new-java-concurrency-model/
 https://theboreddev.com/combining-multiple-api-calls-with-completablefuture/
-https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
+
 
 https://www.marccarre.com/2016/05/08/java-8-concurrency-completablefuture-in-practice.html
 https://www.ibm.com/developerworks/library/j-jvmc2/index.html

@@ -1,6 +1,0 @@
-CompletionStage
-apply,accept,run=Function,Consumer,Runnable
-compose,combine
-then,both,either
-async
-exceptionally,handle,whenComplete
