@@ -1,11 +1,7 @@
-https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CompletableFuture.html
-https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CompletionStage.html
-
 https://www.jesperdj.com/2015/09/26/the-future-is-completable-in-java-8/
 https://www.nurkiewicz.com/2013/05/java-8-definitive-guide-to.html
 https://www.deadcoderising.com/java8-writing-asynchronous-code-with-completablefuture/
 https://www.baeldung.com/java-completablefuture
-https://habr.com/ru/post/213319/
 https://www.callicoder.com/java-8-completablefuture-tutorial/
 https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
 https://theboreddev.com/a-new-java-concurrency-model/
@@ -18,7 +14,5 @@ https://www.infoq.com/articles/Functional-Style-Callbacks-Using-CompletableFutur
 https://en.wikipedia.org/wiki/Futures_and_promises
 
 https://www.youtube.com/watch?v=W7iK74YA5NM&ab_channel=JUGNsk
-? https://www.youtube.com/watch?v=yBF9VRiGkik&ab_channel=LuxoftTrainingCenter
-https://www.youtube.com/watch?v=lyJBtg6Dgwc&ab_channel=Java
 https://www.youtube.com/watch?v=hqR41XVx3kM&ab_channel=JUG.ru
 https://www.youtube.com/watch?v=-MBPQ7NIL_Y&ab_channel=JUG.ru
