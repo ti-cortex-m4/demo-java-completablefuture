@@ -3,7 +3,6 @@ https://www.nurkiewicz.com/2013/05/java-8-definitive-guide-to.html
 https://www.deadcoderising.com/java8-writing-asynchronous-code-with-completablefuture/
 https://www.baeldung.com/java-completablefuture
 https://www.callicoder.com/java-8-completablefuture-tutorial/
-https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
 https://theboreddev.com/a-new-java-concurrency-model/
 https://theboreddev.com/combining-multiple-api-calls-with-completablefuture/
 
