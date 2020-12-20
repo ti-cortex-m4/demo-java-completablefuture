@@ -8,7 +8,6 @@ interface java.util.concurrent.Future {
 	{method}  {abstract} +isDone () : boolean
 }
 
-
 class java.util.concurrent.FutureTask {
 	{method} +cancel ( paramboolean1 : boolean ) : boolean
 	{method} +get () : Object
@@ -18,14 +17,11 @@ class java.util.concurrent.FutureTask {
 	{method} +toString () : String
 }
 
-
 interface java.util.concurrent.RunnableFuture {
 	{method}  {abstract} +run () : void
 }
 
-
-
-
-
+java.util.concurrent.FutureTask ..|>  java.util.concurrent.RunnableFuture
+java.util.concurrent.RunnableFuture ..|>  java.util.concurrent.Future
 
 @enduml

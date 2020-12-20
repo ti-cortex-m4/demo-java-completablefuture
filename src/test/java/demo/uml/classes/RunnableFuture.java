@@ -1,9 +1,7 @@
 package demo.uml.classes;
 
-
 import java.util.concurrent.Executor;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
+
 
 /**
  * A {@link java.util.concurrent.Future} that is {@link Runnable}. Successful execution of
