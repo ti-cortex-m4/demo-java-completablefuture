@@ -1,6 +1,6 @@
 @startuml
 
-interface demo.uml.classes.Future {
+interface java.util.concurrent.Future {
 	{method}  {abstract} +cancel ( paramboolean1 : boolean ) : boolean
 	{method}  {abstract} +get () : Object
 	{method}  {abstract} +get ( paramlong1 : long , paramTimeUnit2 : java.util.concurrent.TimeUnit ) : Object
@@ -9,7 +9,7 @@ interface demo.uml.classes.Future {
 }
 
 
-class demo.uml.classes.FutureTask {
+class java.util.concurrent.FutureTask {
 	{method} +cancel ( paramboolean1 : boolean ) : boolean
 	{method} +get () : Object
 	{method} +get ( paramlong1 : long , paramTimeUnit2 : java.util.concurrent.TimeUnit ) : Object
@@ -19,7 +19,7 @@ class demo.uml.classes.FutureTask {
 }
 
 
-interface demo.uml.classes.RunnableFuture {
+interface java.util.concurrent.RunnableFuture {
 	{method}  {abstract} +run () : void
 }
 
