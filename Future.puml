@@ -10,35 +10,11 @@ interface demo.uml.classes.Future {
 
 
 class demo.uml.classes.FutureTask {
-	{field} {static} -CANCELLED : int
-	{field} {static} -COMPLETING : int
-	{field} {static} -EXCEPTIONAL : int
-	{field} {static} -INTERRUPTED : int
-	{field} {static} -INTERRUPTING : int
-	{field} {static} -NEW : int
-	{field} {static} -NORMAL : int
-	{field} {static} -RUNNER : invoke.VarHandle
-	{field} {static} -STATE : invoke.VarHandle
-	{field} {static} -WAITERS : invoke.VarHandle
-	{field} -callable : java.util.concurrent.Callable
-	{field} -outcome : Object
-	{field} -runner : Thread
-	{field} -state : int
-	{field} -waiters : demo.uml.classes.FutureTask$WaitNode
-	{method} -awaitDone ( paramboolean1 : boolean , paramlong2 : long ) : int
 	{method} +cancel ( paramboolean1 : boolean ) : boolean
-	{method} #done () : void
-	{method} -finishCompletion () : void
 	{method} +get () : Object
 	{method} +get ( paramlong1 : long , paramTimeUnit2 : java.util.concurrent.TimeUnit ) : Object
-	{method} -handlePossibleCancellationInterrupt ( paramint1 : int ) : void
 	{method} +isDone () : boolean
-	{method} -removeWaiter ( paramFutureTask$WaitNode1 : demo.uml.classes.FutureTask$WaitNode ) : void
-	{method} -report ( paramint1 : int ) : Object
 	{method} +run () : void
-	{method} #runAndReset () : boolean
-	{method} #set ( paramObject1 : Object ) : void
-	{method} #setException ( paramThrowable1 : Throwable ) : void
 	{method} +toString () : String
 }
 
@@ -51,6 +27,5 @@ interface demo.uml.classes.RunnableFuture {
 
 
 
-hide fields
 
 @enduml
