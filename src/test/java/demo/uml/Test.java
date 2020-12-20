@@ -1,4 +1,4 @@
-package demo;
+package demo.uml;
 
 import de.elnarion.util.plantuml.generator.PlantUMLClassDiagramGenerator;
 
@@ -12,14 +12,14 @@ public class Test {
 
     public static void main(String[] args) throws Exception {
         List<String> scanpackages = new ArrayList<>();
-        scanpackages.add("java.util.concurrent");
+        scanpackages.add("demo.uml.classes");
         String whitelistRegExp = ".*Future.*";
         List<String> hideClasses = new ArrayList<>();
         PlantUMLClassDiagramGenerator generator = new PlantUMLClassDiagramGenerator(
-                        Future.class.getClassLoader(),
+                    Test.class.getClassLoader(),
                         whitelistRegExp,
                         hideClasses,
-                        false,
+                        true,
                         false,
                         scanpackages);
         String result = generator.generateDiagramText();
