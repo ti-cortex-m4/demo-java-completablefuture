@@ -2,9 +2,8 @@ package demo.uml.classes;
 
 import java.util.concurrent.Executor;
 
-
 /**
- * A {@link java.util.concurrent.Future} that is {@link Runnable}. Successful execution of
+ * A {@link Future} that is {@link Runnable}. Successful execution of
  * the {@code run} method causes completion of the {@code Future}
  * and allows access to its results.
  * @see FutureTask
@@ -20,4 +19,3 @@ public interface RunnableFuture<V> extends Runnable, Future<V> {
      */
     void run();
 }
-

@@ -1,8 +1,6 @@
 package demo.uml.classes;
 
-import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -128,5 +126,5 @@ public interface Future<V> {
      * @throws TimeoutException if the wait timed out
      */
     V get(long timeout, TimeUnit unit)
-            throws InterruptedException, ExecutionException, TimeoutException;
+        throws InterruptedException, ExecutionException, TimeoutException;
 }

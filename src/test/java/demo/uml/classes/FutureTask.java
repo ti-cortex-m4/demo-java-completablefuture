@@ -135,7 +135,7 @@ public class FutureTask<V> implements RunnableFuture<V> {
 
     public boolean cancel(boolean mayInterruptIfRunning) {
         if (!(state == NEW && STATE.compareAndSet
-                (this, NEW, mayInterruptIfRunning ? INTERRUPTING : CANCELLED)))
+              (this, NEW, mayInterruptIfRunning ? INTERRUPTING : CANCELLED)))
             return false;
         try {    // in case call to interrupt throws exception
             if (mayInterruptIfRunning) {
@@ -167,12 +167,12 @@ public class FutureTask<V> implements RunnableFuture<V> {
      * @throws CancellationException {@inheritDoc}
      */
     public V get(long timeout, TimeUnit unit)
-            throws InterruptedException, ExecutionException, TimeoutException {
+        throws InterruptedException, ExecutionException, TimeoutException {
         if (unit == null)
             throw new NullPointerException();
         int s = state;
         if (s <= COMPLETING &&
-                (s = awaitDone(true, unit.toNanos(timeout))) <= COMPLETING)
+            (s = awaitDone(true, unit.toNanos(timeout))) <= COMPLETING)
             throw new TimeoutException();
         return report(s);
     }
@@ -225,7 +225,7 @@ public class FutureTask<V> implements RunnableFuture<V> {
 
     public void run() {
         if (state != NEW ||
-                !RUNNER.compareAndSet(this, null, Thread.currentThread()))
+            !RUNNER.compareAndSet(this, null, Thread.currentThread()))
             return;
         try {
             Callable<V> c = callable;
@@ -266,7 +266,7 @@ public class FutureTask<V> implements RunnableFuture<V> {
      */
     protected boolean runAndReset() {
         if (state != NEW ||
-                !RUNNER.compareAndSet(this, null, Thread.currentThread()))
+            !RUNNER.compareAndSet(this, null, Thread.currentThread()))
             return false;
         boolean ran = false;
         int s = state;
@@ -363,7 +363,7 @@ public class FutureTask<V> implements RunnableFuture<V> {
      * @return state upon completion or at timeout
      */
     private int awaitDone(boolean timed, long nanos)
-            throws InterruptedException {
+        throws InterruptedException {
         // The code below is very delicate, to achieve these goals:
         // - call nanoTime exactly once for each call to park
         // - if nanos <= 0L, return promptly without allocation or nanoTime
@@ -467,22 +467,22 @@ public class FutureTask<V> implements RunnableFuture<V> {
     public String toString() {
         final String status;
         switch (state) {
-            case NORMAL:
-                status = "[Completed normally]";
-                break;
-            case EXCEPTIONAL:
-                status = "[Completed exceptionally: " + outcome + "]";
-                break;
-            case CANCELLED:
-            case INTERRUPTING:
-            case INTERRUPTED:
-                status = "[Cancelled]";
-                break;
-            default:
-                final Callable<?> callable = this.callable;
-                status = (callable == null)
-                        ? "[Not completed]"
-                        : "[Not completed, task = " + callable + "]";
+        case NORMAL:
+            status = "[Completed normally]";
+            break;
+        case EXCEPTIONAL:
+            status = "[Completed exceptionally: " + outcome + "]";
+            break;
+        case CANCELLED:
+        case INTERRUPTING:
+        case INTERRUPTED:
+            status = "[Cancelled]";
+            break;
+        default:
+            final Callable<?> callable = this.callable;
+            status = (callable == null)
+                ? "[Not completed]"
+                : "[Not completed, task = " + callable + "]";
         }
         return super.toString() + status;
     }
@@ -494,9 +494,9 @@ public class FutureTask<V> implements RunnableFuture<V> {
     static {
         try {
             MethodHandles.Lookup l = MethodHandles.lookup();
-            STATE = l.findVarHandle(java.util.concurrent.FutureTask.class, "state", int.class);
-            RUNNER = l.findVarHandle(java.util.concurrent.FutureTask.class, "runner", Thread.class);
-            WAITERS = l.findVarHandle(java.util.concurrent.FutureTask.class, "waiters", WaitNode.class);
+            STATE = l.findVarHandle(FutureTask.class, "state", int.class);
+            RUNNER = l.findVarHandle(FutureTask.class, "runner", Thread.class);
+            WAITERS = l.findVarHandle(FutureTask.class, "waiters", WaitNode.class);
         } catch (ReflectiveOperationException e) {
             throw new ExceptionInInitializerError(e);
         }
@@ -507,4 +507,3 @@ public class FutureTask<V> implements RunnableFuture<V> {
     }
 
 }
-
