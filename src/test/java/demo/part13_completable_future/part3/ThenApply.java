@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutionException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+// apply Function after finishing future
 public class ThenApply extends Demo1 {
 
     @Test

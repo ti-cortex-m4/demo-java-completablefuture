@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertNull;
 
+// complete future after running Runnable asynchronously
 public class RunAsync extends Demo1 {
 
     @Test

@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertNull;
 
+// accept result in Consumer after finishing future
 public class ThenAccept extends Demo1 {
 
     @Test
