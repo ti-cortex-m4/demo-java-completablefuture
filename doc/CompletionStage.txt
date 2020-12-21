@@ -28,7 +28,7 @@ abstract CompletionStage runAfterEither(CompletionStage,java.lang.Runnable)
 abstract CompletionStage runAfterEitherAsync(CompletionStage,java.lang.Runnable,Executor)
 abstract CompletionStage runAfterEitherAsync(CompletionStage,java.lang.Runnable)
 
-abstract CompletionStage thenAccept(java.util.function.Consumer)
+    abstract CompletionStage thenAccept(java.util.function.Consumer)
 abstract CompletionStage thenAcceptAsync(java.util.function.Consumer)
 abstract CompletionStage thenAcceptAsync(java.util.function.Consumer,Executor)
 
@@ -36,7 +36,7 @@ abstract CompletionStage thenAcceptBoth(CompletionStage,java.util.function.BiCon
 abstract CompletionStage thenAcceptBothAsync(CompletionStage,java.util.function.BiConsumer,Executor)
 abstract CompletionStage thenAcceptBothAsync(CompletionStage,java.util.function.BiConsumer)
 
-abstract CompletionStage thenApply(java.util.function.Function)
+    abstract CompletionStage thenApply(java.util.function.Function)
 abstract CompletionStage thenApplyAsync(java.util.function.Function,Executor)
 abstract CompletionStage thenApplyAsync(java.util.function.Function)
 
@@ -48,7 +48,7 @@ abstract CompletionStage thenCompose(java.util.function.Function)
 abstract CompletionStage thenComposeAsync(java.util.function.Function)
 abstract CompletionStage thenComposeAsync(java.util.function.Function,Executor)
 
-abstract CompletionStage thenRun(java.lang.Runnable)
+    abstract CompletionStage thenRun(java.lang.Runnable)
 abstract CompletionStage thenRunAsync(java.lang.Runnable,Executor)
 abstract CompletionStage thenRunAsync(java.lang.Runnable)
 

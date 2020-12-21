@@ -1,16 +1,19 @@
 package demo.part13_completable_future.part3;
 
 import demo.common.Demo1;
+import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-// run Runnable after finishing future
+import static org.junit.Assert.assertNull;
+
 public class ThenRun extends Demo1 {
 
-    public static void main(String[] args) throws InterruptedException, ExecutionException {
-        CompletableFuture.supplyAsync(() -> sleepAndGet("value"))
-                .thenRun(() -> logger.info("run in Runnable"))
-                .get();
+    @Test
+    public void testThenRun() throws InterruptedException, ExecutionException {
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"))
+                .thenRun(() -> logger.info("run in Runnable"));
+        assertNull(future.get());
     }
 }
