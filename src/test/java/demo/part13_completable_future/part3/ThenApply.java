@@ -1,4 +1,4 @@
-package demo._part13_completable_future.part3;
+package demo.part13_completable_future.part3;
 
 import demo.common.Demo1;
 

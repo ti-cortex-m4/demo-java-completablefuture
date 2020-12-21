@@ -52,10 +52,10 @@ void obtrudeValue(java.lang.Object)
 
 CompletableFuture orTimeout(long,TimeUnit)
 
-static CompletableFuture runAsync(java.lang.Runnable,Executor)
-static CompletableFuture runAsync(java.lang.Runnable)
-static CompletableFuture supplyAsync(java.util.function.Supplier,Executor)
-static CompletableFuture supplyAsync(java.util.function.Supplier)
+    static CompletableFuture runAsync(java.lang.Runnable,Executor)
+    static CompletableFuture runAsync(java.lang.Runnable)
+    static CompletableFuture supplyAsync(java.util.function.Supplier,Executor)
+    static CompletableFuture supplyAsync(java.util.function.Supplier)
 
 CompletableFuture toCompletableFuture()
 
