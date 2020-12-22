@@ -36,8 +36,8 @@ int getNumberOfDependents()
 
     CompletableFuture newIncompleteFuture()
 
-void obtrudeException(java.lang.Throwable)
-void obtrudeValue(java.lang.Object)
+    void obtrudeException(java.lang.Throwable)
+    void obtrudeValue(java.lang.Object)
 
     CompletableFuture orTimeout(long,TimeUnit)
 
