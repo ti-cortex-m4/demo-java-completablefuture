@@ -42,9 +42,9 @@
     abstract CompletionStage thenCombineAsync(CompletionStage,java.util.function.BiFunction)
     abstract CompletionStage thenCombineAsync(CompletionStage,java.util.function.BiFunction,Executor)
 
-abstract CompletionStage thenCompose(java.util.function.Function)
-abstract CompletionStage thenComposeAsync(java.util.function.Function)
-abstract CompletionStage thenComposeAsync(java.util.function.Function,Executor)
+    abstract CompletionStage thenCompose(java.util.function.Function)
+    abstract CompletionStage thenComposeAsync(java.util.function.Function)
+    abstract CompletionStage thenComposeAsync(java.util.function.Function,Executor)
 
     abstract CompletionStage thenRun(java.lang.Runnable)
     abstract CompletionStage thenRunAsync(java.lang.Runnable,Executor)
