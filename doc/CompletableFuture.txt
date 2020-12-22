@@ -19,14 +19,6 @@ Executor defaultExecutor()
 static Executor delayedExecutor(long,TimeUnit,Executor)
 static Executor delayedExecutor(long,TimeUnit)
 
-CompletableFuture exceptionally(java.util.function.Function)
-CompletableFuture exceptionallyAsync(java.util.function.Function)
-CompletableFuture exceptionallyAsync(java.util.function.Function,Executor)
-
-CompletableFuture exceptionallyCompose(java.util.function.Function)
-CompletableFuture exceptionallyComposeAsync(java.util.function.Function,Executor)
-CompletableFuture exceptionallyComposeAsync(java.util.function.Function)
-
 static CompletableFuture failedFuture(java.lang.Throwable)
 static CompletionStage failedStage(java.lang.Throwable)
 

@@ -6,13 +6,13 @@
     abstract CompletionStage applyToEitherAsync(CompletionStage,java.util.function.Function,Executor)
     abstract CompletionStage applyToEitherAsync(CompletionStage,java.util.function.Function)
 
-abstract CompletionStage exceptionally(java.util.function.Function)
-default CompletionStage exceptionallyAsync(java.util.function.Function)
-default CompletionStage exceptionallyAsync(java.util.function.Function,Executor)
+    abstract CompletionStage exceptionally(java.util.function.Function)
+    default CompletionStage exceptionallyAsync(java.util.function.Function)
+    default CompletionStage exceptionallyAsync(java.util.function.Function,Executor)
 
-default CompletionStage exceptionallyCompose(java.util.function.Function)
-default CompletionStage exceptionallyComposeAsync(java.util.function.Function)
-default CompletionStage exceptionallyComposeAsync(java.util.function.Function,Executor)
+    default CompletionStage exceptionallyCompose(java.util.function.Function)
+    default CompletionStage exceptionallyComposeAsync(java.util.function.Function)
+    default CompletionStage exceptionallyComposeAsync(java.util.function.Function,Executor)
 
     abstract CompletionStage handle(java.util.function.BiFunction)
     abstract CompletionStage handleAsync(java.util.function.BiFunction,Executor)

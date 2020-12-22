@@ -17,7 +17,7 @@ public class WhenComplete extends Demo1 {
                     if (t == null) {
                         logger.info("success: " + value);
                     } else {
-                        logger.info("error: " + t);
+                        logger.info("error: " + t.getMessage());
                     }
                 });
         assertTrue(future.isDone());
@@ -27,12 +27,12 @@ public class WhenComplete extends Demo1 {
 
     @Test
     public void testWhenCompleteError() {
-        CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException())
+        CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException("error"))
                 .whenComplete((value, t) -> {
                     if (t == null) {
                         logger.info("success: " + value);
                     } else {
-                        logger.info("error: " + t);
+                        logger.info("error: " + t.getMessage());
                     }
                 });
         assertTrue(future.isDone());

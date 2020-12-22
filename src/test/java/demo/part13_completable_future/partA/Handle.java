@@ -11,13 +11,13 @@ import static org.junit.Assert.*;
 public class Handle extends Demo1 {
 
     @Test
-    public void testWhenCompleteSuccess() throws InterruptedException, ExecutionException {
+    public void testHandleSuccess() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.completedFuture("value")
                 .handle((value, t) -> {
                     if (t == null) {
                         return value.toUpperCase();
                     } else {
-                        return "error";
+                        return t.getMessage();
                     }
                 });
         assertTrue(future.isDone());
@@ -26,13 +26,13 @@ public class Handle extends Demo1 {
     }
 
     @Test
-    public void testWhenCompleteError() throws InterruptedException, ExecutionException {
-        CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException())
+    public void testHandleError() throws InterruptedException, ExecutionException {
+        CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException("error"))
                 .handle((value, t) -> {
                     if (t == null) {
                         return value.toUpperCase();
                     } else {
-                        return "error";
+                        return t.getMessage();
                     }
                 });
         assertTrue(future.isDone());
