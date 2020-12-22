@@ -9,7 +9,7 @@ CompletableFuture completeAsync(java.util.function.Supplier,Executor)
 
     boolean completeExceptionally(java.lang.Throwable)
 
-CompletableFuture completeOnTimeout(java.lang.Object,long,TimeUnit)
+    CompletableFuture completeOnTimeout(java.lang.Object,long,TimeUnit)
 
     static CompletableFuture completedFuture(java.lang.Object)
     static CompletionStage completedStage(java.lang.Object)
