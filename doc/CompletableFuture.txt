@@ -22,9 +22,9 @@ static Executor delayedExecutor(long,TimeUnit)
     static CompletableFuture failedFuture(java.lang.Throwable)
     static CompletionStage failedStage(java.lang.Throwable)
 
-java.lang.Object get() throws java.lang.InterruptedException,ExecutionException
-java.lang.Object get(long,TimeUnit) throws java.lang.InterruptedException,ExecutionException,TimeoutException
-java.lang.Object getNow(java.lang.Object)
+    java.lang.Object get() throws java.lang.InterruptedException,ExecutionException
+    java.lang.Object get(long,TimeUnit) throws java.lang.InterruptedException,ExecutionException,TimeoutException
+    java.lang.Object getNow(java.lang.Object)
 
 int getNumberOfDependents()
 
@@ -32,7 +32,7 @@ int getNumberOfDependents()
     boolean isCompletedExceptionally()
     boolean isDone()
 
-java.lang.Object join()
+    java.lang.Object join()
 
 CompletableFuture newIncompleteFuture()
 void obtrudeException(java.lang.Throwable)
