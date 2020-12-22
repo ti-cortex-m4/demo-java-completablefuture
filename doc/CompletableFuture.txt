@@ -1,5 +1,5 @@
-static CompletableFuture allOf(CompletableFuture[])
-static CompletableFuture anyOf(CompletableFuture[])
+    static CompletableFuture allOf(CompletableFuture[])
+    static CompletableFuture anyOf(CompletableFuture[])
 
 boolean cancel(boolean)
 boolean complete(java.lang.Object)
@@ -35,10 +35,6 @@ java.lang.Object get(long,TimeUnit) throws java.lang.InterruptedException,Execut
 java.lang.Object getNow(java.lang.Object)
 
 int getNumberOfDependents()
-
-CompletableFuture handle(java.util.function.BiFunction)
-CompletableFuture handleAsync(java.util.function.BiFunction,Executor)
-CompletableFuture handleAsync(java.util.function.BiFunction)
 
 boolean isCancelled()
 boolean isCompletedExceptionally()
