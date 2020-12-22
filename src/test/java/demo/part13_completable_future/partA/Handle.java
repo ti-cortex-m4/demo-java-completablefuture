@@ -8,34 +8,35 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.*;
 
-public class WhenComplete extends Demo1 {
+public class Handle extends Demo1 {
 
     @Test
     public void testWhenCompleteSuccess() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.completedFuture("value")
-                .whenComplete((value, t) -> {
+                .handle((value, t) -> {
                     if (t == null) {
-                        logger.info("success: " + value);
+                        return value.toUpperCase();
                     } else {
-                        logger.info("error: " + t);
+                        return "error";
                     }
                 });
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
-        assertEquals("value", future.get());
+        assertEquals("VALUE", future.get());
     }
 
     @Test
-    public void testWhenCompleteError() {
+    public void testWhenCompleteError() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException())
-                .whenComplete((value, t) -> {
+                .handle((value, t) -> {
                     if (t == null) {
-                        logger.info("success: " + value);
+                        return value.toUpperCase();
                     } else {
-                        logger.info("error: " + t);
+                        return "error";
                     }
                 });
         assertTrue(future.isDone());
-        assertTrue(future.isCompletedExceptionally());
+        assertFalse(future.isCompletedExceptionally());
+        assertEquals("error", future.get());
     }
 }
