@@ -1,13 +1,13 @@
     static CompletableFuture allOf(CompletableFuture[])
     static CompletableFuture anyOf(CompletableFuture[])
 
-boolean cancel(boolean)
-boolean complete(java.lang.Object)
+    boolean cancel(boolean)
+    boolean complete(java.lang.Object)
 
 CompletableFuture completeAsync(java.util.function.Supplier)
 CompletableFuture completeAsync(java.util.function.Supplier,Executor)
 
-boolean completeExceptionally(java.lang.Throwable)
+    boolean completeExceptionally(java.lang.Throwable)
 
 CompletableFuture completeOnTimeout(java.lang.Object,long,TimeUnit)
 
@@ -38,7 +38,7 @@ CompletableFuture newIncompleteFuture()
 void obtrudeException(java.lang.Throwable)
 void obtrudeValue(java.lang.Object)
 
-CompletableFuture orTimeout(long,TimeUnit)
+    CompletableFuture orTimeout(long,TimeUnit)
 
     static CompletableFuture runAsync(java.lang.Runnable,Executor)
     static CompletableFuture runAsync(java.lang.Runnable)
