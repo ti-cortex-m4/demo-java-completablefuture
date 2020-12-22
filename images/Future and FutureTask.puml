@@ -1,19 +1,21 @@
 @startuml
 
+!include header.iuml
+
 
 interface java.util.concurrent.Future {
-	{method}  {abstract} +cancel ( paramboolean1 : boolean ) : boolean
+	{method}  {abstract} +cancel ( mayInterruptIfRunning : boolean ) : boolean
 	{method}  {abstract} +get () : Object
-	{method}  {abstract} +get ( paramlong1 : long , paramTimeUnit2 : java.util.concurrent.TimeUnit ) : Object
+	{method}  {abstract} +get ( timeout : long , unit : java.util.concurrent.TimeUnit ) : Object
 	{method}  {abstract} +isCancelled () : boolean
 	{method}  {abstract} +isDone () : boolean
 }
 
 
 class java.util.concurrent.FutureTask {
-	{method} +cancel ( paramboolean1 : boolean ) : boolean
+	{method} +cancel ( mayInterruptIfRunning : boolean ) : boolean
 	{method} +get () : Object
-	{method} +get ( paramlong1 : long , paramTimeUnit2 : java.util.concurrent.TimeUnit ) : Object
+	{method} +get ( timeout : long , unit : java.util.concurrent.TimeUnit ) : Object
 	{method} +isDone () : boolean
 	{method} +run () : void
 	{method} +toString () : String

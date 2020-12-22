@@ -34,7 +34,8 @@ int getNumberOfDependents()
 
     java.lang.Object join()
 
-CompletableFuture newIncompleteFuture()
+    CompletableFuture newIncompleteFuture()
+
 void obtrudeException(java.lang.Throwable)
 void obtrudeValue(java.lang.Object)
 
@@ -44,7 +45,5 @@ void obtrudeValue(java.lang.Object)
     static CompletableFuture runAsync(java.lang.Runnable)
     static CompletableFuture supplyAsync(java.util.function.Supplier,Executor)
     static CompletableFuture supplyAsync(java.util.function.Supplier)
-
-CompletableFuture toCompletableFuture()
 
 java.lang.String toString()
