@@ -1,8 +1,8 @@
-abstract CompletionStage acceptEither(CompletionStage,java.util.function.Consumer)
+    abstract CompletionStage acceptEither(CompletionStage,java.util.function.Consumer)
 abstract CompletionStage acceptEitherAsync(CompletionStage,java.util.function.Consumer)
 abstract CompletionStage acceptEitherAsync(CompletionStage,java.util.function.Consumer,Executor)
 
-abstract CompletionStage applyToEither(CompletionStage,java.util.function.Function)
+    abstract CompletionStage applyToEither(CompletionStage,java.util.function.Function)
 abstract CompletionStage applyToEitherAsync(CompletionStage,java.util.function.Function,Executor)
 abstract CompletionStage applyToEitherAsync(CompletionStage,java.util.function.Function)
 
@@ -24,7 +24,7 @@ abstract CompletionStage runAfterBoth(CompletionStage,java.lang.Runnable)
 abstract CompletionStage runAfterBothAsync(CompletionStage,java.lang.Runnable)
 abstract CompletionStage runAfterBothAsync(CompletionStage,java.lang.Runnable,Executor)
 
-abstract CompletionStage runAfterEither(CompletionStage,java.lang.Runnable)
+    abstract CompletionStage runAfterEither(CompletionStage,java.lang.Runnable)
 abstract CompletionStage runAfterEitherAsync(CompletionStage,java.lang.Runnable,Executor)
 abstract CompletionStage runAfterEitherAsync(CompletionStage,java.lang.Runnable)
 
