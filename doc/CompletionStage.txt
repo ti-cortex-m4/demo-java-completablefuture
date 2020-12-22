@@ -47,11 +47,11 @@ abstract CompletionStage thenComposeAsync(java.util.function.Function)
 abstract CompletionStage thenComposeAsync(java.util.function.Function,Executor)
 
     abstract CompletionStage thenRun(java.lang.Runnable)
-abstract CompletionStage thenRunAsync(java.lang.Runnable,Executor)
-abstract CompletionStage thenRunAsync(java.lang.Runnable)
+    abstract CompletionStage thenRunAsync(java.lang.Runnable,Executor)
+    abstract CompletionStage thenRunAsync(java.lang.Runnable)
 
 abstract CompletableFuture toCompletableFuture()
 
-abstract CompletionStage whenComplete(java.util.function.BiConsumer)
-abstract CompletionStage whenCompleteAsync(java.util.function.BiConsumer)
-abstract CompletionStage whenCompleteAsync(java.util.function.BiConsumer,Executor)
+    abstract CompletionStage whenComplete(java.util.function.BiConsumer)
+    abstract CompletionStage whenCompleteAsync(java.util.function.BiConsumer)
+    abstract CompletionStage whenCompleteAsync(java.util.function.BiConsumer,Executor)
