@@ -3,19 +3,13 @@
 !include header.iuml
 
 class java.util.concurrent.CompletableFuture {
-	{method} +acceptEither ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramConsumer2 : java.util.function.Consumer ) : java.util.concurrent.CompletionStage
 	{method} +acceptEither ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramConsumer2 : java.util.function.Consumer ) : java.util.concurrent.CompletableFuture
-	{method} +acceptEitherAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramConsumer2 : java.util.function.Consumer ) : java.util.concurrent.CompletionStage
 	{method} +acceptEitherAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramConsumer2 : java.util.function.Consumer ) : java.util.concurrent.CompletableFuture
-	{method} +acceptEitherAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramConsumer2 : java.util.function.Consumer , paramExecutor3 : java.util.concurrent.Executor ) : java.util.concurrent.CompletionStage
 	{method} +acceptEitherAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramConsumer2 : java.util.function.Consumer , paramExecutor3 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
 	{method}  {static} +allOf ( paramCompletableFuture;1 : [Ljava.util.concurrent.CompletableFuture; ) : java.util.concurrent.CompletableFuture
 	{method}  {static} +anyOf ( paramCompletableFuture;1 : [Ljava.util.concurrent.CompletableFuture; ) : java.util.concurrent.CompletableFuture
 	{method} +applyToEither ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramFunction2 : java.util.function.Function ) : java.util.concurrent.CompletableFuture
-	{method} +applyToEither ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramFunction2 : java.util.function.Function ) : java.util.concurrent.CompletionStage
-	{method} +applyToEitherAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramFunction2 : java.util.function.Function ) : java.util.concurrent.CompletionStage
 	{method} +applyToEitherAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramFunction2 : java.util.function.Function ) : java.util.concurrent.CompletableFuture
-	{method} +applyToEitherAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramFunction2 : java.util.function.Function , paramExecutor3 : java.util.concurrent.Executor ) : java.util.concurrent.CompletionStage
 	{method} +applyToEitherAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramFunction2 : java.util.function.Function , paramExecutor3 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
 	{method} +cancel ( paramboolean1 : boolean ) : boolean
 	{method} +complete ( paramObject1 : Object ) : boolean
@@ -30,16 +24,10 @@ class java.util.concurrent.CompletableFuture {
 	{method}  {static} +delayedExecutor ( paramlong1 : long , paramTimeUnit2 : java.util.concurrent.TimeUnit ) : java.util.concurrent.Executor
 	{method}  {static} +delayedExecutor ( paramlong1 : long , paramTimeUnit2 : java.util.concurrent.TimeUnit , paramExecutor3 : java.util.concurrent.Executor ) : java.util.concurrent.Executor
 	{method} +exceptionally ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletableFuture
-	{method} +exceptionally ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletionStage
 	{method} +exceptionallyAsync ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletableFuture
-	{method} +exceptionallyAsync ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletionStage
-	{method} +exceptionallyAsync ( paramFunction1 : java.util.function.Function , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletionStage
 	{method} +exceptionallyAsync ( paramFunction1 : java.util.function.Function , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
 	{method} +exceptionallyCompose ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletableFuture
-	{method} +exceptionallyCompose ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletionStage
 	{method} +exceptionallyComposeAsync ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletableFuture
-	{method} +exceptionallyComposeAsync ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletionStage
-	{method} +exceptionallyComposeAsync ( paramFunction1 : java.util.function.Function , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletionStage
 	{method} +exceptionallyComposeAsync ( paramFunction1 : java.util.function.Function , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
 	{method}  {static} +failedFuture ( paramThrowable1 : Throwable ) : java.util.concurrent.CompletableFuture
 	{method}  {static} +failedStage ( paramThrowable1 : Throwable ) : java.util.concurrent.CompletionStage
@@ -48,11 +36,8 @@ class java.util.concurrent.CompletableFuture {
 	{method} +getNow ( paramObject1 : Object ) : Object
 	{method} +getNumberOfDependents () : int
 	{method} +handle ( paramBiFunction1 : java.util.function.BiFunction ) : java.util.concurrent.CompletableFuture
-	{method} +handle ( paramBiFunction1 : java.util.function.BiFunction ) : java.util.concurrent.CompletionStage
 	{method} +handleAsync ( paramBiFunction1 : java.util.function.BiFunction ) : java.util.concurrent.CompletableFuture
-	{method} +handleAsync ( paramBiFunction1 : java.util.function.BiFunction ) : java.util.concurrent.CompletionStage
 	{method} +handleAsync ( paramBiFunction1 : java.util.function.BiFunction , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
-	{method} +handleAsync ( paramBiFunction1 : java.util.function.BiFunction , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletionStage
 	{method} +isCancelled () : boolean
 	{method} +isCompletedExceptionally () : boolean
 	{method} +isDone () : boolean
