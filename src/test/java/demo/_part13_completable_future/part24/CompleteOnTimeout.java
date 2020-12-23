@@ -14,7 +14,7 @@ public class CompleteOnTimeout extends Demo1 {
     @Test
     public void testCompleteOnTimeout1() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet(2, "value"))
-                .completeOnTimeout("value2",3, TimeUnit.SECONDS);
+                .completeOnTimeout("value2", 3, TimeUnit.SECONDS);
         assertEquals("value", future.get());
     }
 

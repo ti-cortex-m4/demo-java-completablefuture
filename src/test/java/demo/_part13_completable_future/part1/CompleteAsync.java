@@ -14,7 +14,9 @@ public class CompleteAsync extends Demo1 {
     public void testCompleteAsync() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future1 = new CompletableFuture<>();
         assertFalse(future1.isDone());
-        CompletableFuture<String> future2 = future1.completeAsync(() ->"value");
+
+        CompletableFuture<String> future2 = future1.completeAsync(() -> "value");
+        sleep(1);
         assertTrue(future2.isDone());
         assertEquals("value", future2.get());
     }

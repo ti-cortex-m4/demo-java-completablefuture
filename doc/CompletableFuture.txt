@@ -28,7 +28,7 @@
     java.lang.Object get(long,TimeUnit) throws java.lang.InterruptedException,ExecutionException,TimeoutException
     java.lang.Object getNow(java.lang.Object)
 
-int getNumberOfDependents()
+    int getNumberOfDependents()
 
     boolean isCancelled()
     boolean isCompletedExceptionally()
