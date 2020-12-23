@@ -4,8 +4,8 @@
     boolean cancel(boolean)
     boolean complete(java.lang.Object)
 
-CompletableFuture completeAsync(java.util.function.Supplier)
-CompletableFuture completeAsync(java.util.function.Supplier,Executor)
+    CompletableFuture completeAsync(java.util.function.Supplier)
+    CompletableFuture completeAsync(java.util.function.Supplier,Executor)
 
     boolean completeExceptionally(java.lang.Throwable)
 
@@ -14,8 +14,10 @@ CompletableFuture completeAsync(java.util.function.Supplier,Executor)
     static CompletableFuture completedFuture(java.lang.Object)
     static CompletionStage completedStage(java.lang.Object)
 
-CompletableFuture copy()
-Executor defaultExecutor()
+    CompletableFuture copy()
+
+    Executor defaultExecutor()
+
 static Executor delayedExecutor(long,TimeUnit,Executor)
 static Executor delayedExecutor(long,TimeUnit)
 
