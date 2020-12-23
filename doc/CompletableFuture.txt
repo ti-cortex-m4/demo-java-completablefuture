@@ -18,8 +18,8 @@
 
     Executor defaultExecutor()
 
-static Executor delayedExecutor(long,TimeUnit,Executor)
-static Executor delayedExecutor(long,TimeUnit)
+    static Executor delayedExecutor(long,TimeUnit,Executor)
+    static Executor delayedExecutor(long,TimeUnit)
 
     static CompletableFuture failedFuture(java.lang.Throwable)
     static CompletionStage failedStage(java.lang.Throwable)
