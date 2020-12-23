@@ -48,64 +48,38 @@ class java.util.concurrent.CompletableFuture {
 	{method} +obtrudeValue ( paramObject1 : Object ) : void
 	{method} +orTimeout ( paramlong1 : long , paramTimeUnit2 : java.util.concurrent.TimeUnit ) : java.util.concurrent.CompletableFuture
 	{method} +runAfterBoth ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramRunnable2 : Runnable ) : java.util.concurrent.CompletableFuture
-	{method} +runAfterBoth ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramRunnable2 : Runnable ) : java.util.concurrent.CompletionStage
 	{method} +runAfterBothAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramRunnable2 : Runnable ) : java.util.concurrent.CompletableFuture
-	{method} +runAfterBothAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramRunnable2 : Runnable ) : java.util.concurrent.CompletionStage
 	{method} +runAfterBothAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramRunnable2 : Runnable , paramExecutor3 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
-	{method} +runAfterBothAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramRunnable2 : Runnable , paramExecutor3 : java.util.concurrent.Executor ) : java.util.concurrent.CompletionStage
-	{method} +runAfterEither ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramRunnable2 : Runnable ) : java.util.concurrent.CompletionStage
 	{method} +runAfterEither ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramRunnable2 : Runnable ) : java.util.concurrent.CompletableFuture
-	{method} +runAfterEitherAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramRunnable2 : Runnable ) : java.util.concurrent.CompletionStage
 	{method} +runAfterEitherAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramRunnable2 : Runnable ) : java.util.concurrent.CompletableFuture
-	{method} +runAfterEitherAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramRunnable2 : Runnable , paramExecutor3 : java.util.concurrent.Executor ) : java.util.concurrent.CompletionStage
 	{method} +runAfterEitherAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramRunnable2 : Runnable , paramExecutor3 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
 	{method}  {static} +runAsync ( paramRunnable1 : Runnable ) : java.util.concurrent.CompletableFuture
 	{method}  {static} +runAsync ( paramRunnable1 : Runnable , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
 	{method}  {static} +supplyAsync ( paramSupplier1 : java.util.function.Supplier ) : java.util.concurrent.CompletableFuture
 	{method}  {static} +supplyAsync ( paramSupplier1 : java.util.function.Supplier , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
 	{method} +thenAccept ( paramConsumer1 : java.util.function.Consumer ) : java.util.concurrent.CompletableFuture
-	{method} +thenAccept ( paramConsumer1 : java.util.function.Consumer ) : java.util.concurrent.CompletionStage
-	{method} +thenAcceptAsync ( paramConsumer1 : java.util.function.Consumer ) : java.util.concurrent.CompletionStage
 	{method} +thenAcceptAsync ( paramConsumer1 : java.util.function.Consumer ) : java.util.concurrent.CompletableFuture
-	{method} +thenAcceptAsync ( paramConsumer1 : java.util.function.Consumer , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletionStage
 	{method} +thenAcceptAsync ( paramConsumer1 : java.util.function.Consumer , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
 	{method} +thenAcceptBoth ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramBiConsumer2 : java.util.function.BiConsumer ) : java.util.concurrent.CompletableFuture
-	{method} +thenAcceptBoth ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramBiConsumer2 : java.util.function.BiConsumer ) : java.util.concurrent.CompletionStage
 	{method} +thenAcceptBothAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramBiConsumer2 : java.util.function.BiConsumer ) : java.util.concurrent.CompletableFuture
-	{method} +thenAcceptBothAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramBiConsumer2 : java.util.function.BiConsumer ) : java.util.concurrent.CompletionStage
 	{method} +thenAcceptBothAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramBiConsumer2 : java.util.function.BiConsumer , paramExecutor3 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
-	{method} +thenAcceptBothAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramBiConsumer2 : java.util.function.BiConsumer , paramExecutor3 : java.util.concurrent.Executor ) : java.util.concurrent.CompletionStage
 	{method} +thenApply ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletableFuture
-	{method} +thenApply ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletionStage
 	{method} +thenApplyAsync ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletableFuture
-	{method} +thenApplyAsync ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletionStage
-	{method} +thenApplyAsync ( paramFunction1 : java.util.function.Function , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletionStage
 	{method} +thenApplyAsync ( paramFunction1 : java.util.function.Function , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
-	{method} +thenCombine ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramBiFunction2 : java.util.function.BiFunction ) : java.util.concurrent.CompletionStage
 	{method} +thenCombine ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramBiFunction2 : java.util.function.BiFunction ) : java.util.concurrent.CompletableFuture
 	{method} +thenCombineAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramBiFunction2 : java.util.function.BiFunction ) : java.util.concurrent.CompletableFuture
-	{method} +thenCombineAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramBiFunction2 : java.util.function.BiFunction ) : java.util.concurrent.CompletionStage
 	{method} +thenCombineAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramBiFunction2 : java.util.function.BiFunction , paramExecutor3 : java.util.concurrent.Executor ) : java.util.concurrent.CompletionStage
 	{method} +thenCombineAsync ( paramCompletionStage1 : java.util.concurrent.CompletionStage , paramBiFunction2 : java.util.function.BiFunction , paramExecutor3 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
 	{method} +thenCompose ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletableFuture
-	{method} +thenCompose ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletionStage
-	{method} +thenComposeAsync ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletionStage
 	{method} +thenComposeAsync ( paramFunction1 : java.util.function.Function ) : java.util.concurrent.CompletableFuture
-	{method} +thenComposeAsync ( paramFunction1 : java.util.function.Function , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletionStage
 	{method} +thenComposeAsync ( paramFunction1 : java.util.function.Function , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
-	{method} +thenRun ( paramRunnable1 : Runnable ) : java.util.concurrent.CompletionStage
 	{method} +thenRun ( paramRunnable1 : Runnable ) : java.util.concurrent.CompletableFuture
-	{method} +thenRunAsync ( paramRunnable1 : Runnable ) : java.util.concurrent.CompletionStage
 	{method} +thenRunAsync ( paramRunnable1 : Runnable ) : java.util.concurrent.CompletableFuture
-	{method} +thenRunAsync ( paramRunnable1 : Runnable , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletionStage
 	{method} +thenRunAsync ( paramRunnable1 : Runnable , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
 	{method} +toCompletableFuture () : java.util.concurrent.CompletableFuture
 	{method} +toString () : String
 	{method} +whenComplete ( paramBiConsumer1 : java.util.function.BiConsumer ) : java.util.concurrent.CompletableFuture
-	{method} +whenComplete ( paramBiConsumer1 : java.util.function.BiConsumer ) : java.util.concurrent.CompletionStage
 	{method} +whenCompleteAsync ( paramBiConsumer1 : java.util.function.BiConsumer ) : java.util.concurrent.CompletableFuture
-	{method} +whenCompleteAsync ( paramBiConsumer1 : java.util.function.BiConsumer ) : java.util.concurrent.CompletionStage
-	{method} +whenCompleteAsync ( paramBiConsumer1 : java.util.function.BiConsumer , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletionStage
 	{method} +whenCompleteAsync ( paramBiConsumer1 : java.util.function.BiConsumer , paramExecutor2 : java.util.concurrent.Executor ) : java.util.concurrent.CompletableFuture
 }
 
