@@ -16,3 +16,7 @@ https://en.wikipedia.org/wiki/Futures_and_promises
 https://www.youtube.com/watch?v=W7iK74YA5NM&ab_channel=JUGNsk
 https://www.youtube.com/watch?v=hqR41XVx3kM&ab_channel=JUG.ru
 https://www.youtube.com/watch?v=-MBPQ7NIL_Y&ab_channel=JUG.ru
+
+https://www.youtube.com/watch?v=x5akmCWgGY0&ab_channel=Java
+https://www.youtube.com/watch?v=IwJ-SCfXoAU&ab_channel=Devoxx
+https://www.youtube.com/watch?v=0hQvWIdwnw4&ab_channel=Devoxx
