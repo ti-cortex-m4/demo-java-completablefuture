@@ -19,4 +19,4 @@ https://www.youtube.com/watch?v=-MBPQ7NIL_Y&ab_channel=JUG.ru
 
 https://www.youtube.com/watch?v=x5akmCWgGY0&ab_channel=Java
 https://www.youtube.com/watch?v=IwJ-SCfXoAU&ab_channel=Devoxx
-https://www.youtube.com/watch?v=0hQvWIdwnw4&ab_channel=Devoxx
+https://www.youtube.com/watch?v=0hQvWIdwnw4&ab_channel=Devoxx   Parallel and Asynchronous Programming with Streams and CompletableFuture with Venkat Subramaniam
