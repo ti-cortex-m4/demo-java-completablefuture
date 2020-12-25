@@ -10,7 +10,7 @@ import java.util.concurrent.TimeoutException;
 
 import static org.junit.Assert.*;
 
-// The get method declares an ExecutionException, which is a checked exception
+// The get method declares an InterruptedException, ExecutionException, which is a checked exception
 // The join method is the same as get except that it throws an unchecked CompletionException if completed exceptionally, again with the underlying exception as its cause.
 public class Get extends Demo1 {
 

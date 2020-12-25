@@ -15,15 +15,18 @@ public class AllOf extends Demo1 {
 
     @Test
     public void testAllOf() throws InterruptedException, ExecutionException {
-        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1"));
-        CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() -> sleepAndGet(2, "parallel2"));
-        CompletableFuture<String> future3 = CompletableFuture.supplyAsync(() -> sleepAndGet(3, "parallel3"));
+        CompletableFuture<?>[] futures = new CompletableFuture<?>[] {
+                CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1")),
+                CompletableFuture.supplyAsync(() -> sleepAndGet(2, "parallel2")),
+                CompletableFuture.supplyAsync(() -> sleepAndGet(3, "parallel3"))
+        };
 
-        CompletableFuture<Void> future = CompletableFuture.allOf(future2, future1, future3);
+        CompletableFuture<Void> future = CompletableFuture.allOf(futures);
         future.get();
 
-        String result = Stream.of(future1, future2, future3)
+        String result = Stream.of(futures)
                 .map(CompletableFuture::join)
+                .map(Object::toString)
                 .collect(Collectors.joining(", "));
 
         assertEquals("parallel1, parallel2, parallel3", result);
