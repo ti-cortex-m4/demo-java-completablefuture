@@ -18,6 +18,7 @@ public class FutureVsCompletableFuture {
         ExecutorService executorService = Executors.newCachedThreadPool();
         Future<Integer> future = executorService.submit(() -> 1);
         assertEquals(1, future.get().intValue());
+        executorService.shutdown();
     }
 
     @Test
