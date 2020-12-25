@@ -4,8 +4,6 @@ https://www.deadcoderising.com/java8-writing-asynchronous-code-with-completablef
 https://www.baeldung.com/java-completablefuture
 https://www.baeldung.com/java-9-completablefuture
 https://www.callicoder.com/java-8-completablefuture-tutorial/
-https://theboreddev.com/a-new-java-concurrency-model/
-https://theboreddev.com/combining-multiple-api-calls-with-completablefuture/
 
 
 https://www.marccarre.com/2016/05/08/java-8-concurrency-completablefuture-in-practice.html
@@ -16,7 +14,6 @@ https://en.wikipedia.org/wiki/Futures_and_promises
 https://www.youtube.com/watch?v=W7iK74YA5NM&ab_channel=JUGNsk
 https://www.youtube.com/watch?v=hqR41XVx3kM&ab_channel=JUG.ru
 https://www.youtube.com/watch?v=-MBPQ7NIL_Y&ab_channel=JUG.ru
-
 https://www.youtube.com/watch?v=x5akmCWgGY0&ab_channel=Java
 https://www.youtube.com/watch?v=IwJ-SCfXoAU&ab_channel=Devoxx
 https://www.youtube.com/watch?v=0hQvWIdwnw4&ab_channel=Devoxx   Parallel and Asynchronous Programming with Streams and CompletableFuture with Venkat Subramaniam
