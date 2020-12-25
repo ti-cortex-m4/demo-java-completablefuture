@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.*;
 
+// The completedFuture method is a factory method that creates a CompletableFuture with an already-computed value
 public class CompletedFuture extends Demo1 {
 
     @Test

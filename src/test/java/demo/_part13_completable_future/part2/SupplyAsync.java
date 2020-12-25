@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertEquals;
 
-// complete future after returning value from Supplier asynchronously
+// The supplyAsync methods return an object using the given Supplier
 public class SupplyAsync extends Demo1 {
 
     @Test

@@ -6,9 +6,12 @@ import org.junit.Test;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-// complete future exceptionally, cause the Throwable
+// The completeExceptionally method completes the CompletableFuture with a given exception.
 public class CompleteExceptionally extends Demo1 {
 
     @Test
@@ -23,7 +26,9 @@ public class CompleteExceptionally extends Demo1 {
             future.get();
             fail();
         } catch (ExecutionException e) {
-            assertTrue(true);
+            Throwable cause = e.getCause();
+            assertEquals(RuntimeException.class, cause.getClass());
+            assertEquals("error", cause.getMessage());
         }
     }
 }
