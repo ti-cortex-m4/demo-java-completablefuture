@@ -1,4 +1,4 @@
-package demo._part13_completable_future.partA;
+package demo.part13_completable_future.part5;
 
 import demo.common.Demo1;
 import org.junit.Test;
@@ -8,35 +8,34 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.*;
 
-public class Handle extends Demo1 {
+public class WhenComplete extends Demo1 {
 
     @Test
-    public void testHandleSuccess() throws InterruptedException, ExecutionException {
+    public void testWhenCompleteSuccess() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.completedFuture("value")
-                .handle((value, t) -> {
+                .whenComplete((value, t) -> {
                     if (t == null) {
-                        return value.toUpperCase();
+                        logger.info("success: " + value);
                     } else {
-                        return t.getMessage();
+                        logger.info("error: " + t.getMessage());
                     }
                 });
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
-        assertEquals("VALUE", future.get());
+        assertEquals("value", future.get());
     }
 
     @Test
-    public void testHandleError() throws InterruptedException, ExecutionException {
+    public void testWhenCompleteError() {
         CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException("error"))
-                .handle((value, t) -> {
+                .whenComplete((value, t) -> {
                     if (t == null) {
-                        return value.toUpperCase();
+                        logger.info("success: " + value);
                     } else {
-                        return t.getMessage();
+                        logger.info("error: " + t.getMessage());
                     }
                 });
         assertTrue(future.isDone());
-        assertFalse(future.isCompletedExceptionally());
-        assertEquals("error", future.get());
+        assertTrue(future.isCompletedExceptionally());
     }
 }
