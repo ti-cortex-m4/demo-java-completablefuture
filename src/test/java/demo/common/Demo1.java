@@ -12,14 +12,14 @@ public class Demo1 extends Demo0 {
         }
     }
 
-    protected static String sleepAndGet(int seconds, String message) {
+    protected static <T> T sleepAndGet(int seconds, T message) {
         logger.info(message + " started");
         sleep(seconds);
         logger.info(message + " finished");
         return message;
     }
 
-    protected static String sleepAndGet(String message) {
+    protected static <T> T sleepAndGet(T message) {
         return sleepAndGet(1, message);
     }
 }
