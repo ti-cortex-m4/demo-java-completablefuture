@@ -19,7 +19,7 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        int y = (getVariable(1) + getVariable(2)) * getVariable(3);
+        int y = (get(1) * get(2)) + (get(3) * get(4));
 
         LocalDateTime finish = LocalDateTime.now();
         logger.info("finished: y={} after {} ms", y, Duration.between(start, finish).toMillis());
@@ -32,15 +32,16 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        Future<Integer> f1 = executorService.submit(() -> getVariable(1));
-        Future<Integer> f2 = executorService.submit(() -> getVariable(2));
-        Future<Integer> f3 = executorService.submit(() -> getVariable(3));
+        Future<Integer> f1 = executorService.submit(() -> get(1));
+        Future<Integer> f2 = executorService.submit(() -> get(2));
+        Future<Integer> f3 = executorService.submit(() -> get(3));
+        Future<Integer> f4 = executorService.submit(() -> get(4));
 
-        while (!f1.isDone() || !f2.isDone() || !f3.isDone()) {
+        while (!f1.isDone() || !f2.isDone() || !f3.isDone() || !f4.isDone()) {
             Thread.sleep(100);
         }
 
-        int y = (f1.get() + f2.get()) * f3.get();
+        int y = (f1.get() * f2.get()) + (f3.get() * f4.get()) ;
 
         LocalDateTime finish = LocalDateTime.now();
         logger.info("finished: y={} after {} ms", y, Duration.between(start, finish).toMillis());
@@ -54,19 +55,25 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> getVariable(1));
-        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> getVariable(2));
-        CompletableFuture<Integer> cf3 = CompletableFuture.supplyAsync(() -> getVariable(3));
-        int y = cf1
-                .thenCombine(cf2, (x1, x2) -> x1 + x2)
-                .thenCombine(cf3, (x1x2, x3) -> x1x2 * x3)
+        CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> get(1));
+        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> get(2));
+        CompletableFuture<Integer> cf3 = CompletableFuture.supplyAsync(() -> get(3));
+        CompletableFuture<Integer> cf4 = CompletableFuture.supplyAsync(() -> get(4));
+
+        CompletableFuture<Integer> x1x2 = cf1
+                .thenCombine(cf2, (x1, x2) -> x1 * x2);
+        CompletableFuture<Integer> x3x4 = cf3
+                .thenCombine(cf4, (x1, x2) -> x1 * x2);
+
+        int y = x1x2
+                .thenCombine(x3x4, (a, b) -> a + b)
                 .get();
 
         LocalDateTime finish = LocalDateTime.now();
         logger.info("finished: y={} after {} ms", y, Duration.between(start, finish).toMillis());
     }
 
-    private int getVariable(int i) {
+    private int get(int i) {
         return sleepAndGet(i);
     }
 }
