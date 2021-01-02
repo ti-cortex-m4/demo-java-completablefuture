@@ -1,4 +1,4 @@
-package demo._part13_completable_future.part24;
+package demo.part13_completable_future.part10;
 
 import demo.common.Demo1;
 import org.junit.Test;
