@@ -32,16 +32,16 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        Future<Integer> f1 = executorService.submit(() -> get(1));
-        Future<Integer> f2 = executorService.submit(() -> get(2));
-        Future<Integer> f3 = executorService.submit(() -> get(3));
-        Future<Integer> f4 = executorService.submit(() -> get(4));
+        Future<Integer> f1 = executorService.submit(() -> get(1)); // price in USD
+        Future<Integer> f2 = executorService.submit(() -> get(2)); // USD to X rate
+        Future<Integer> f3 = executorService.submit(() -> get(3)); // price in EUR
+        Future<Integer> f4 = executorService.submit(() -> get(4)); // EUR to X rate
 
         while (!f1.isDone() || !f2.isDone() || !f3.isDone() || !f4.isDone()) {
             Thread.sleep(100);
         }
 
-        int y = (f1.get() * f2.get()) + (f3.get() * f4.get()) ;
+        int y = (f1.get() * f2.get()) + (f3.get() * f4.get()) ; // sum in X
 
         LocalDateTime finish = LocalDateTime.now();
         logger.info("finished: y={} after {} ms", y, Duration.between(start, finish).toMillis());
