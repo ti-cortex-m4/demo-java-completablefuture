@@ -224,25 +224,25 @@ A completable future can be initialized to a value/constant
 failedFuture,failedStage
 
 ### methods to complete
-boolean complete(java.lang.Object)
+* boolean complete(java.lang.Object)
     Can be completed explicitly
     i.e., sets result returned by get()/join() to a given value
-boolean completeExceptionally(java.lang.Throwable)
-boolean cancel(boolean)
+* boolean completeExceptionally(java.lang.Throwable)
+* boolean cancel(boolean)
 
 * cancel() doesn’t interruptthe computation by default
     www.nurkiewicz.com/2015/03/completablefuture-cant-be-interrupted.html
 
 ### methods to verify
-isDone
-isCompletedExceptionally
-isCancelled
+* isDone
+* isCompletedExceptionally
+* isCancelled
 
 ### methods to get
-java.lang.Object get()
-java.lang.Object get(long,TimeUnit)
+* java.lang.Object get()
+* java.lang.Object get(long,TimeUnit)
 
-java.lang.Object join()     
+* java.lang.Object join()     
     Define a join() method Behaves like get() without using checked exceptions
     CompletableFuture::join can be used as a method reference in a Java stream
 
@@ -299,9 +299,9 @@ Greatly simplifies programming of asynchronous operations
 Java 9 provides enhancements to the Java 8 completable future framework
 
 Methods Params
-defaultExecutor     () Executor Returns default Executor used for   methods that don’t specify an Executor
-completeAsync       Supplier<T> CompletableFuture<T> Complete CompletableFuture asynchronously using value given by the Supplier
-orTimeout           long timeout,TimeUnit unit CompletableFuture<T> Resolves CompletableFuture exceptionally with TimeoutException, unless it is completed before the specified timeout
-completeOnTimeout   T value,long timeout,TimeUnit unit  CompletableFuture<T>    Completes this CompletableFuture with the given value if not otherwise completed before the given timeout    
+* defaultExecutor     () Executor Returns default Executor used for   methods that don’t specify an Executor
+* completeAsync       Supplier<T> CompletableFuture<T> Complete CompletableFuture asynchronously using value given by the Supplier
+* orTimeout           long timeout,TimeUnit unit CompletableFuture<T> Resolves CompletableFuture exceptionally with TimeoutException, unless it is completed before the specified timeout
+* completeOnTimeout   T value,long timeout,TimeUnit unit  CompletableFuture<T>    Completes this CompletableFuture with the given value if not otherwise completed before the given timeout    
         
             
