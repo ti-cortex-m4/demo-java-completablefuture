@@ -13,7 +13,7 @@ The `Future` interface represents the _result_ of an asynchronous computation. I
 *   to cancel the execution of this task
 *   to wait if necessary for the computation to complete, and then to retrieve its result
 
-The `FutureTask’ class implements both `Future` and `Runnable` interfaces. From the first interface, the class inherited the ’isDone’ method to check if the computation is complete, and the ’get’ method to retrieve the result of the computation. From the second interface, the class inherited the `run` method to execute a task (either ’Runnable’ or ’Callable’) in an ’ExecutorService’.
+The `FutureTask` class implements both `Future` and `Runnable` interfaces. From the first interface, the class inherited the ’isDone’ method to check if the computation is complete, and the ’get’ method to retrieve the result of the computation. From the second interface, the class inherited the `run` method to execute a task (either ’Runnable’ or ’Callable’) in an ’ExecutorService’.
 
 But the the `Future` interface has significant limitations:
 
@@ -30,8 +30,7 @@ To change this, in Java 8 was added the `CompletionStage` interface and its base
 
 ## The [CompletionStage](https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/util/concurrent/CompletionStage.html) interface
 
-
-## The `CompletionStage` interface represents a step in a multi-step computation that can be executed synchronously or asynchronously. A stage can either compute a value (returns a single result) or performs an action (returns no result). A stage can be initiated by finishing one or two previous stages and can initiate a subsequent stage.
+The `CompletionStage` interface represents a step in a multi-step computation that can be executed synchronously or asynchronously. A stage can either compute a value (returns a single result) or performs an action (returns no result). A stage can be initiated by finishing one or two previous stages and can initiate a subsequent stage.
 
 The CompletionStage interface was designed to overcome the limitations of the `Future` interface in implementing chained asynchronous computations. The Future interface has only the blocking `get` method that waits until for the computation to complete and the non-blocking `isDone` method that checks whether this future is completed.
 
@@ -79,7 +78,7 @@ vs.
 <p>
 computation type
    </td>
-   <td colspan="2" >takes argument(s) and returns result
+   <td colspan="2" >takes argument(s) and returns a result
    </td>
    <td colspan="2" >takes argument(s) and returns no result
    </td>
@@ -149,9 +148,9 @@ The _third_ naming pattern explains what thread executes the new stage:
 
 
 
-*   if a method has a structure like `_something(...)_` then the new stage is executed by the _default facility_ (that can be synchronous or asynchronous).
-*   if a method has a structure like `_somethingAsync(...)_` then the new stage is executed by the _default asynchronous facility._
-*   if a method has a structure like `_somethingAsync(..., Executor)_` then the new stage is executed by the supplied `Executor`.
+*   if a method has a structure like `something(...)` then the new stage is executed by the default facility (that can be synchronous or asynchronous).
+*   if a method has a structure like `somethingAsync(...)` then the new stage is executed by the default asynchronous facility.
+*   if a method has a structure like `somethingAsync(..., Executor)` then the new stage is executed by the supplied `Executor`.
 
 If stages are independent and so can be executed in parallel, the asynchronous execution can give a significant performance improvement (of course if you have enough processor cores). However, if tasks are short (hundreds of milliseconds), then context switching between threads can introduce significant overhead.
 
@@ -240,13 +239,13 @@ Summary of the methods
    </td>
    <td>Method name
    </td>
-   <td>Another stage parameter
+   <td>Other stage parameter
    </td>
    <td>Computation parameter
    </td>
   </tr>
   <tr>
-   <td rowspan="4" >takes argument(s) and returns result
+   <td rowspan="4" >takes argument(s) and returns a result
    </td>
    <td>CompletionStage&lt;U>
    </td>
@@ -363,7 +362,7 @@ Any blocking, synchronous computation can finish normally or throw an exception 
 
 >If a stage is completed exceptionally, then all other stages further in the computation chain will be completed exceptionally as well.
 
-The `whenComplete` method supplies the result of this stage _or_ exception of this stage the given `BiConsumer`. This method is executed whether the stage is completed either normally or exceptionally and allows only to consume the arguments, but not to change the result of the stage.
+The `whenComplete` method creates a new stage that upon completion supplies the result (or `null` if none) and the exception (or `null` if none) to the given `BiConsumer`. This method is executed whether the stage is completed either normally or exceptionally and preserves the result or the exception of the previous stage instead of computing a new one.
 
 The `handle` method applies the result of this stage _or_ the exception of this stage to the given `BiFunction`. This method is executed whether the stage is completed either normally or exceptionally and allows not only to consume the arguments, but also change the result of the stage (typically to recover from an exception to some default result).
 
