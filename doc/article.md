@@ -36,9 +36,8 @@ The CompletionStage interface was designed to overcome the limitations of the `F
 
 
 ```
-Synchronous chaining example
-Future chaining example
-CompletionStage chaining example
+// an example of synchronous multi-step computation
+int amountInUsd = (getPriceInGbp() * getExchangeRateGbpToUsd()) + (getPriceInEur() * getExchangeRateEurToUsd());
 ```
 
 
@@ -362,11 +361,49 @@ Any blocking, synchronous computation can finish normally or throw an exception 
 
 >If a stage is completed exceptionally, then all other stages further in the computation chain will be completed exceptionally as well.
 
-The `whenComplete` method creates a new stage that upon completion supplies the result (or `null` if none) and the exception (or `null` if none) to the given `BiConsumer`. This method is executed whether the stage is completed either normally or exceptionally and preserves the result or the exception of the previous stage instead of computing a new one.
+The `whenComplete` method registers a `BiConsumer` which will be called when this stage completes either normally or exceptionally. The consumer accepts the result (or `null` if none) and the exception (or `null` if none). This method can perform some action with either a successfult result or an exception, but it can’t change the result that is propagated to the next stage. This method preserves the result of the triggering stage instead of computing a new one (so an exception is not propagated to the next stage).
 
-The `handle` method applies the result of this stage _or_ the exception of this stage to the given `BiFunction`. This method is executed whether the stage is completed either normally or exceptionally and allows not only to consume the arguments, but also change the result of the stage (typically to recover from an exception to some default result).
 
-The `exceptionally` method applies the exception of this stage to the given `Function`. This method is executed whether the stage is completed exceptionally and allows to set the result of the stage.
+```
+CompletionStage<String> stage = ...
+       .whenComplete((result, throwable) -> {
+           if (throwable == null) {
+               logger.info("result: {}", result);
+           } else {
+               logger.error("exception: {}", throwable);
+           }
+       });
+```
+
+
+The `handle` method registers a `BiFunction` which will be called when this stage completes either normally or exceptionally. The function applies as arguments the result (or `null` if none) and the exception (or `null` if none) and returns some result. This method can convert a successfult result and can replace an exception with some fallback value (so an exception is not propagated to the next stage).
+
+
+```
+CompletionStage<String> stage = ...
+       .handle((result, throwable) -> {
+           if (throwable == null) {
+               return throwable == null ? null : value.toUpperCase();
+           } else {
+               logger.error("exception: {}", throwable);
+               return throwable.getMessage();
+           }
+       });
+```
+
+
+The `exceptionally` method registers a `Function` which will be called when this stage completes exceptionally. The function applies as arguments the exception and returns some result. This method can replace an exception with some fallback value (so an exception is not propagated to the next stage).
+
+
+```
+CompletionStage<String> stage = ...
+       .exceptionally(throwable -> {
+               logger.error("exception: {}", throwable);
+               return throwable.getMessage();
+           }
+       });
+```
+
 
 The `exceptionallyCompose` method applies the exception of this stage to the given Function that returns a subtype of CompletionStage. This method is executed whether the stage is completed exceptionally allows to set the result of the stage, when the recovery computation after exception is executed asynchronously
 
@@ -387,9 +424,9 @@ Summary of the methods
    </td>
   </tr>
   <tr>
-   <td>don’t allow to modify result
+   <td>can not to modify result
    </td>
-   <td rowspan="2" >called by result and by exception
+   <td rowspan="2" >called on success or exception
    </td>
    <td>CompletionStage&lt;T>
    </td>
@@ -399,7 +436,7 @@ Summary of the methods
    </td>
   </tr>
   <tr>
-   <td rowspan="3" >allow to modify result
+   <td rowspan="3" >can modify result
    </td>
    <td>CompletionStage&lt;U>
    </td>
@@ -409,7 +446,7 @@ Summary of the methods
    </td>
   </tr>
   <tr>
-   <td rowspan="2" >called by exception
+   <td rowspan="2" >called on exception
    </td>
    <td>CompletionStage&lt;T>
    </td>
@@ -427,3 +464,9 @@ Summary of the methods
    </td>
   </tr>
 </table>
+
+
+
+### The [CompletableFuture](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CompletableFuture.html) class
+
+The `CompletableFuture` class implements both the `CompletionStage` and `Future` interfaces. That means the class can represent the result of asycnhrounous computations (the whole) and a step in a multi-step computation (a part).
