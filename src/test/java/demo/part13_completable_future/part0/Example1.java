@@ -19,10 +19,10 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        int y = (get(1) * get(2)) + (get(3) * get(4));
+        int priceInUSD = (getPriceInGBP() * getExchangeRateGBPToUSD()) + (getPriceInEUR() * getExchangeRateEURToUSD());
 
         LocalDateTime finish = LocalDateTime.now();
-        logger.info("finished: y={} after {} ms", y, Duration.between(start, finish).toMillis());
+        logger.info("finished: y={} after {} ms", priceInUSD, Duration.between(start, finish).toMillis());
     }
 
     @Test
@@ -32,19 +32,19 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        Future<Integer> f1 = executorService.submit(() -> get(1)); // price in USD
-        Future<Integer> f2 = executorService.submit(() -> get(2)); // USD to X rate
-        Future<Integer> f3 = executorService.submit(() -> get(3)); // price in EUR
-        Future<Integer> f4 = executorService.submit(() -> get(4)); // EUR to X rate
+        Future<Integer> f1 = executorService.submit(() -> getPriceInGBP());
+        Future<Integer> f2 = executorService.submit(() -> getExchangeRateGBPToUSD());
+        Future<Integer> f3 = executorService.submit(() -> getPriceInEUR());
+        Future<Integer> f4 = executorService.submit(() -> getExchangeRateEURToUSD());
 
         while (!f1.isDone() || !f2.isDone() || !f3.isDone() || !f4.isDone()) {
             Thread.sleep(100);
         }
 
-        int y = (f1.get() * f2.get()) + (f3.get() * f4.get()) ; // sum in X
+        int priceInUSD = (f1.get() * f2.get()) + (f3.get() * f4.get()); // sum in X
 
         LocalDateTime finish = LocalDateTime.now();
-        logger.info("finished: y={} after {} ms", y, Duration.between(start, finish).toMillis());
+        logger.info("finished: y={} after {} ms", priceInUSD, Duration.between(start, finish).toMillis());
 
         executorService.shutdown();
         executorService.awaitTermination(60, TimeUnit.SECONDS);
@@ -55,25 +55,37 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> get(1));
-        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> get(2));
-        CompletableFuture<Integer> cf3 = CompletableFuture.supplyAsync(() -> get(3));
-        CompletableFuture<Integer> cf4 = CompletableFuture.supplyAsync(() -> get(4));
+        CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> getPriceInGBP());
+        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> getExchangeRateGBPToUSD());
+        CompletableFuture<Integer> cf3 = CompletableFuture.supplyAsync(() -> getPriceInEUR());
+        CompletableFuture<Integer> cf4 = CompletableFuture.supplyAsync(() -> getExchangeRateEURToUSD());
 
         CompletableFuture<Integer> x1x2 = cf1
                 .thenCombine(cf2, (x1, x2) -> x1 * x2);
         CompletableFuture<Integer> x3x4 = cf3
                 .thenCombine(cf4, (x1, x2) -> x1 * x2);
 
-        int y = x1x2
+        int priceInUSD = x1x2
                 .thenCombine(x3x4, (a, b) -> a + b)
                 .get();
 
         LocalDateTime finish = LocalDateTime.now();
-        logger.info("finished: y={} after {} ms", y, Duration.between(start, finish).toMillis());
+        logger.info("finished: y={} after {} ms", priceInUSD, Duration.between(start, finish).toMillis());
     }
 
-    private int get(int i) {
-        return sleepAndGet(i);
+    private int getPriceInGBP() {
+        return sleepAndGet(1);
+    }
+
+    private int getPriceInEUR() {
+        return sleepAndGet(2);
+    }
+
+    private int getExchangeRateGBPToUSD() {
+        return sleepAndGet(3);
+    }
+
+    private int getExchangeRateEURToUSD() {
+        return sleepAndGet(4);
     }
 }
