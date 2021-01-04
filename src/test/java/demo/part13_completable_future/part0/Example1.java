@@ -19,10 +19,10 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        int priceInUSD = (getPriceInGBP() * getExchangeRateGBPToUSD()) + (getPriceInEUR() * getExchangeRateEURToUSD());
+        int amountInUsd = (getPriceInGbp() * getExchangeRateGbpToUsd()) + (getPriceInEur() * getExchangeRateEurToUsd());
 
         LocalDateTime finish = LocalDateTime.now();
-        logger.info("finished: y={} after {} ms", priceInUSD, Duration.between(start, finish).toMillis());
+        logger.info("finished: y={} after {} ms", amountInUsd, Duration.between(start, finish).toMillis());
     }
 
     @Test
@@ -32,19 +32,19 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        Future<Integer> f1 = executorService.submit(() -> getPriceInGBP());
-        Future<Integer> f2 = executorService.submit(() -> getExchangeRateGBPToUSD());
-        Future<Integer> f3 = executorService.submit(() -> getPriceInEUR());
-        Future<Integer> f4 = executorService.submit(() -> getExchangeRateEURToUSD());
+        Future<Integer> f1 = executorService.submit(() -> getPriceInGbp());
+        Future<Integer> f2 = executorService.submit(() -> getExchangeRateGbpToUsd());
+        Future<Integer> f3 = executorService.submit(() -> getPriceInEur());
+        Future<Integer> f4 = executorService.submit(() -> getExchangeRateEurToUsd());
 
         while (!f1.isDone() || !f2.isDone() || !f3.isDone() || !f4.isDone()) {
             Thread.sleep(100);
         }
 
-        int priceInUSD = (f1.get() * f2.get()) + (f3.get() * f4.get()); // sum in X
+        int amountInUsd = (f1.get() * f2.get()) + (f3.get() * f4.get()); // sum in X
 
         LocalDateTime finish = LocalDateTime.now();
-        logger.info("finished: y={} after {} ms", priceInUSD, Duration.between(start, finish).toMillis());
+        logger.info("finished: y={} after {} ms", amountInUsd, Duration.between(start, finish).toMillis());
 
         executorService.shutdown();
         executorService.awaitTermination(60, TimeUnit.SECONDS);
@@ -55,37 +55,37 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> getPriceInGBP());
-        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> getExchangeRateGBPToUSD());
-        CompletableFuture<Integer> cf3 = CompletableFuture.supplyAsync(() -> getPriceInEUR());
-        CompletableFuture<Integer> cf4 = CompletableFuture.supplyAsync(() -> getExchangeRateEURToUSD());
+        CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> getPriceInGbp());
+        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> getExchangeRateGbpToUsd());
+        CompletableFuture<Integer> cf3 = CompletableFuture.supplyAsync(() -> getPriceInEur());
+        CompletableFuture<Integer> cf4 = CompletableFuture.supplyAsync(() -> getExchangeRateEurToUsd());
 
-        CompletableFuture<Integer> x1x2 = cf1
+        CompletableFuture<Integer> amountInUsdFuture1 = cf1
                 .thenCombine(cf2, (x1, x2) -> x1 * x2);
-        CompletableFuture<Integer> x3x4 = cf3
+        CompletableFuture<Integer> amountInUsdFuture2 = cf3
                 .thenCombine(cf4, (x1, x2) -> x1 * x2);
 
-        int priceInUSD = x1x2
-                .thenCombine(x3x4, (a, b) -> a + b)
+        int amountInUsd = amountInUsdFuture1
+                .thenCombine(amountInUsdFuture2, (a, b) -> a + b)
                 .get();
 
         LocalDateTime finish = LocalDateTime.now();
-        logger.info("finished: y={} after {} ms", priceInUSD, Duration.between(start, finish).toMillis());
+        logger.info("finished: y={} after {} ms", amountInUsd, Duration.between(start, finish).toMillis());
     }
 
-    private int getPriceInGBP() {
+    private int getPriceInGbp() {
         return sleepAndGet(1);
     }
 
-    private int getPriceInEUR() {
+    private int getPriceInEur() {
         return sleepAndGet(2);
     }
 
-    private int getExchangeRateGBPToUSD() {
+    private int getExchangeRateGbpToUsd() {
         return sleepAndGet(3);
     }
 
-    private int getExchangeRateEURToUSD() {
+    private int getExchangeRateEurToUsd() {
         return sleepAndGet(4);
     }
 }
