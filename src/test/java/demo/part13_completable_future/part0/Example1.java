@@ -5,12 +5,7 @@ import org.junit.Test;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class Example1 extends Demo1 {
 
@@ -32,16 +27,16 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        Future<Integer> f1 = executorService.submit(() -> getPriceInGbp());
-        Future<Integer> f2 = executorService.submit(() -> getExchangeRateGbpToUsd());
-        Future<Integer> f3 = executorService.submit(() -> getPriceInEur());
-        Future<Integer> f4 = executorService.submit(() -> getExchangeRateEurToUsd());
+        Future<Integer> priceInGbp = executorService.submit(this::getPriceInGbp);
+        Future<Integer> exchangeRateGbpToUsd = executorService.submit(this::getExchangeRateGbpToUsd);
+        Future<Integer> priceInEur = executorService.submit(this::getPriceInEur);
+        Future<Integer> exchangeRateEurToUsd = executorService.submit(this::getExchangeRateEurToUsd);
 
-        while (!f1.isDone() || !f2.isDone() || !f3.isDone() || !f4.isDone()) {
+        while (!priceInGbp.isDone() || !exchangeRateGbpToUsd.isDone() || !priceInEur.isDone() || !exchangeRateEurToUsd.isDone()) {
             Thread.sleep(100);
         }
 
-        int amountInUsd = (f1.get() * f2.get()) + (f3.get() * f4.get()); // sum in X
+        int amountInUsd = (priceInGbp.get() * exchangeRateGbpToUsd.get()) + (priceInEur.get() * exchangeRateEurToUsd.get()); // sum in X
 
         LocalDateTime finish = LocalDateTime.now();
         logger.info("finished: y={} after {} ms", amountInUsd, Duration.between(start, finish).toMillis());
@@ -55,18 +50,18 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        CompletableFuture<Integer> cf1 = CompletableFuture.supplyAsync(() -> getPriceInGbp());
-        CompletableFuture<Integer> cf2 = CompletableFuture.supplyAsync(() -> getExchangeRateGbpToUsd());
-        CompletableFuture<Integer> cf3 = CompletableFuture.supplyAsync(() -> getPriceInEur());
-        CompletableFuture<Integer> cf4 = CompletableFuture.supplyAsync(() -> getExchangeRateEurToUsd());
+        CompletableFuture<Integer> priceInGbp = CompletableFuture.supplyAsync(this::getPriceInGbp);
+        CompletableFuture<Integer> exchangeRateGbpToUsd = CompletableFuture.supplyAsync(this::getExchangeRateGbpToUsd);
+        CompletableFuture<Integer> priceInEur = CompletableFuture.supplyAsync(this::getPriceInEur);
+        CompletableFuture<Integer> exchangeRateEurToUsd = CompletableFuture.supplyAsync(this::getExchangeRateEurToUsd);
 
-        CompletableFuture<Integer> amountInUsdFuture1 = cf1
-                .thenCombine(cf2, (x1, x2) -> x1 * x2);
-        CompletableFuture<Integer> amountInUsdFuture2 = cf3
-                .thenCombine(cf4, (x1, x2) -> x1 * x2);
+        CompletableFuture<Integer> amountInUsd1 = priceInGbp
+                .thenCombine(exchangeRateGbpToUsd, (price, exchangeRate) -> price * exchangeRate);
+        CompletableFuture<Integer> amountInUsd2 = priceInEur
+                .thenCombine(exchangeRateEurToUsd, (price, exchangeRate) -> price * exchangeRate);
 
-        int amountInUsd = amountInUsdFuture1
-                .thenCombine(amountInUsdFuture2, (a, b) -> a + b)
+        int amountInUsd = amountInUsd1
+                .thenCombine(amountInUsd2, Integer::sum)
                 .get();
 
         LocalDateTime finish = LocalDateTime.now();
