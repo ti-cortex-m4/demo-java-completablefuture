@@ -15,9 +15,13 @@ class java.util.concurrent.FutureTask {
 interface java.util.concurrent.RunnableFuture {
 }
 
+interface java.lang.Runnable {
+}
+
 java.util.concurrent.CompletableFuture ..|>  java.util.concurrent.CompletionStage
 java.util.concurrent.CompletableFuture ..|>  java.util.concurrent.Future
 java.util.concurrent.FutureTask ..|>  java.util.concurrent.RunnableFuture
 java.util.concurrent.RunnableFuture ..|>  java.util.concurrent.Future
+java.util.concurrent.RunnableFuture ..|>  java.lang.Runnable
 
 @enduml
