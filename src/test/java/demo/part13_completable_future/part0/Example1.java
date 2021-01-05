@@ -61,7 +61,7 @@ public class Example1 extends Demo1 {
                 .thenCombine(exchangeRateEurToUsd, (price, exchangeRate) -> price * exchangeRate);
 
         int amountInUsd = amountInUsd1
-                .thenCombine(amountInUsd2, Integer::sum)
+                .thenCombine(amountInUsd2, (amount1, amount2) -> amount1 + amount2)
                 .get();
 
         LocalDateTime finish = LocalDateTime.now();
