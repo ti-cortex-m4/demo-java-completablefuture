@@ -1,0 +1,9538 @@
+all right good morning let's get started
+
+welcome to the session on parallel and
+
+asynchronous programming with streams
+
+and completable futures my name is
+
+Venkat Subramanyam let's talk a little
+
+bit about what we're gonna do here we're
+
+gonna divide this into about two ninety
+
+minutes sessions so the first part I'll
+
+talk about parallel streams and we'll
+
+look at several examples in the second
+
+part we'll talk about completable
+
+futures and between those two parts
+
+we'll take about 90 minutes break we got
+
+a lot of stuff I want to really look at
+
+in terms of parallel streams and also in
+
+terms of the completable futures so
+
+let's get started best time to ask
+
+questions or make comments as whenever
+
+you have it so please don't hesitate to
+
+ask questions make comments usually I
+
+just talk about stuff right live code so
+
+when you have questions I will write
+
+more examples so make it as interactive
+
+as you can I'll be delighted to listen
+
+to your questions or comments and then
+
+and then we'll move forward so let's get
+
+started we're gonna talk about just a
+
+little bit about payroll was this a
+
+asynchronous what does one mean where's
+
+the other then we'll jump into parallel
+
+streams talk about parallel streams look
+
+at some concerns how to use some of the
+
+variations what are some of the concerns
+
+when to use it when not to use it how to
+
+use it so we'll take a look at a lot of
+
+stuff around that and then we'll talk
+
+about so that's basically where we gonna
+
+talk about parallel streams and then
+
+once we finish that part will talk about
+
+completable futures and then we'll talk
+
+about when to use there how to use it
+
+what are some of the ways to approach
+
+using it and also we'll take a look at
+
+some of the api's I found some of them
+
+to be very confusing in the beginning
+
+but stepping back and looking at what
+
+they really mean can help us do you
+
+understand how to make really good use
+
+of it that's what we're going to do so
+
+and then you know give or take 15 more
+
+minutes we have on hand we can do Q&A or
+
+wrap it up depending on what we do so
+
+let's get started the very first thing I
+
+want to start about talking about is
+
+when do we really think about parallel
+
+versus asynchronous well I come from the
+
+world of programming in traditional
+
+languages like C++ and way back in time
+
+VB and then moving on to languages like
+
+Java and c-sharp so mostly I've been
+
+using - I've been used to sequential
+
+programming or synchronous programming
+
+and when it comes to parallelism it is
+
+something I got introduced a few decades
+
+ago and and generally speaking languages
+
+like C++ Java c-sharp we predominantly
+
+did a parallel programming the first
+
+time I really got exposed to asynchrony
+
+I would say is when I started
+
+programming on the node and when I
+
+started programming with JavaScript and
+
+and and I have to be honest about it it
+
+took actually a little bit of effort to
+
+really think a synchronously mainly
+
+because my mind is wired to think
+
+sequentially my mind is wired to think
+
+in parallel programming but asynchrony
+
+was something that really took a little
+
+while to catch on for me but I want to
+
+talk about you know what does it really
+
+mean to do something in parallel versus
+
+what does it really mean to do something
+
+in a synchrony and and it's not an easy
+
+answer in my opinion because you know we
+
+think of threads when we think of
+
+parallelism we think of threads when we
+
+think of asynchrony
+
+well if both of them have threads in it
+
+then what does it really mean to do
+
+things asynchronous versus what does it
+
+mean to do things in parallel so I'm
+
+trying to come up with a really silly
+
+example so we can actually maybe relate
+
+to it let's say we want to start a party
+
+and of course we can't have a party
+
+without pizza what kind of party would
+
+that be so we want to really have pizza
+
+we want to also have drink in the party
+
+but of course we can't start a party
+
+maybe without drinks and pizza well we
+
+could be a real sequential boring life
+
+where you go out and get pizza and then
+
+you go out to get the drink and most
+
+people have really left the party
+
+already because they're sitting there
+
+you know waiting for food so let's maybe
+
+think about this a little differently so
+
+when we can use parallelize you call two
+
+of your friends and say hey why don't
+
+you go get pizza why don't you go get
+
+drank and then of course you wait for
+
+the you know pizza and their drink to
+
+arrive the good news is if it takes so
+
+much amount of time to get the pizza and
+
+so much time to get the drink you're not
+
+going to wait for that much of duration
+
+doing it sequentially you're gonna do it
+
+in parallel well maybe it takes a little
+
+longer to get the pizza then to get the
+
+drink but as soon as both of them arrive
+
+you are ready to get your party started
+
+that's kind of like parallel so you fork
+
+and then you join and you continue so
+
+you're doing the two actions in parallel
+
+getting the pizza is going on while
+
+you're getting the drink and when both
+
+of them arrive you can start your party
+
+well that's kind of like parallelism
+
+where you do things in parallel or
+
+concurrently and then of course when the
+
+results arrive you are ready to want
+
+your next step which is to get going
+
+with the party but you could argue to
+
+say well party is not about pizza after
+
+all party's not about drink party is
+
+about getting together and having fun so
+
+why don't we think of a synchrony
+
+instant so you ask one of your buddies
+
+to go get beat so you ask one of your
+
+buddies to go get drank but you get the
+
+party started you're having good time
+
+chatting with people turn on the music
+
+and then maybe the drink arrives
+
+well when the drink arrives you don't
+
+have to wait for anything you can start
+
+drinking and then of course when pizza
+
+arrives you can start eating it as well
+
+and have more drinks along the way so in
+
+other words in the asynchronous
+
+programming you do set off things to run
+
+asynchronously meaning you're not
+
+waiting for it to start or to complete
+
+but when the result does arrive you move
+
+on to do other things with it there is
+
+no specific synchronization involved in
+
+asynchronous programming well then how
+
+do you really you know do certain tasks
+
+when that particular operation actually
+
+completes and the answer to that is
+
+typically use a callback to be able to
+
+receive the response when something is
+
+over and in the callback you go off to
+
+do other things
+
+but of course callbacks do have other
+
+problems and that's what we'll talk
+
+about completable future and see how
+
+that actually solves that particular
+
+problem so we'll talk about that little
+
+later on in the presentation so for the
+
+first 90 minutes that we have on our
+
+hand approximately we'll talk about
+
+parallel streams or dig into details of
+
+when to use it how to use it and talk
+
+about some of the variations with it I
+
+don't really have any examples for you
+
+to try right now because we got a lot of
+
+stuff to cover but I encourage you to
+
+take notes along the way and if you do
+
+have any questions I'll be more than
+
+happy to dive into or if you say hey
+
+let's explore some other aspects of it
+
+I'll be more than happy to go into that
+
+as well so we can do that accordingly so
+
+let's talk about in general about first
+
+of all streams to begin with I I don't
+
+have to say that this is one of the
+
+things that truly convinced me that Java
+
+is pretty exciting one more time if you
+
+have ever listened to one of my talks in
+
+the you know maybe about in the 2007
+
+timeframe 2008 timeframe I was one of
+
+those guys on the other sort of picker
+
+twine constantly complaining that Java
+
+sucks and
+
+or maybe even here today and talk about
+
+the praises of Java is because that made
+
+a difference in streams
+
+I wrote the very first book on Java 8
+
+the book was released the data of eight
+
+was released but one of the things I've
+
+wrote in the book my mother called me
+
+and said are a series you want to write
+
+something like this in technical book
+
+and I said look I live in Colorado I
+
+said and my editor said okay I'll give
+
+you that and hung up
+
+what I wrote in the book was I said that
+
+the lambdas are the gateway drug
+
+but streams are the real addiction not
+
+that I want to do anything about the
+
+drug culture in Colorado but the point
+
+really is I do really mean that it is
+
+that lambdas are the gateway drug but
+
+streams are the real addiction meaning
+
+you kind of get excited about lambdas
+
+you get excited about functional
+
+programming but the real power of
+
+programming in Java is really in streams
+
+and and that what really hooked me onto
+
+Java 8 and to Java itself in my opinion
+
+is because when I looked at streams on
+
+the behavior of streams I was absolutely
+
+convinced this is phenomenal so what is
+
+really offer well modern Fowler talks
+
+about it if you google for this you will
+
+find it and and modern Fowler talks
+
+about this as what he calls as the
+
+collection pipeline pattern and
+
+collection pipeline pattern is a very
+
+vibrant way of looking at how we're
+
+gonna start writing code moving into the
+
+future for example let's say for a
+
+minute we are interested in taking a
+
+list of numbers and we want to say find
+
+the double of let's say find the total
+
+of double of even numbers well in the
+
+imperative style of programming what we
+
+would do is we will start with let's say
+
+a total is equal to 0 we want to output
+
+the value of total when we are done but
+
+you would start with something like 4 in
+
+element coming from let's say numbers
+
+and then we were pretty much at this
+
+point say we are interested in if
+
+element Mar 2 is equal to 0 which is an
+
+even number then we would say total plus
+
+equal to the element times 2 and then we
+
+would loop through this and execute the
+
+results for what we are looking for so
+
+this is saying that loop through every
+
+element in the collection look for only
+
+the even numbers and when you find the
+
+even number double it and then add it to
+
+the total well that's the imperative
+
+style of programming
+
+and we've been using things like for
+
+loops and breaks and continues all along
+
+the lines but thankfully moving forward
+
+we can use the functional style of
+
+programming and and this is where what
+
+we are getting really is the so called
+
+the function functional composition and
+
+functional composition is probably one
+
+of the most exciting parts of functional
+
+programming were what we can say here as
+
+we can say given the numbers we have we
+
+can get a stream so what in the world is
+
+a stream a stream becomes what's called
+
+the internal iterator it's an internal
+
+iterator as in this being the external
+
+iterator you control the iteration with
+
+things like continue and break an
+
+internal iterator is on autopilot you
+
+simply say go iterate you focus on what
+
+to do per element not on the iteration
+
+itself and that goes on autopilot so
+
+here we say filter given an element
+
+element martu is equal to zero and then
+
+we map this value to the double of the
+
+value and then we can perform a sum
+
+operation on it to get the final result
+
+of this particular computation and this
+
+becomes the so-called the collection
+
+pipeline pattern as as Martin Fowler
+
+calls it so functional composition
+
+becomes the collection pipeline we can
+
+use so the collection pipeline has a
+
+clear benefit and that is one of the
+
+reasons I get excited about functional
+
+style of programming is well I spent
+
+decades programming in imperative style
+
+of programming I spent my youth
+
+programming an imperative style and it
+
+took me a long time to realize that
+
+imperative style of programming that
+
+we've been using so predominantly is so
+
+imperative style is a has accidental
+
+complexity and and this is something
+
+that took me a while to really know and
+
+believe but then I realized I've been
+
+using a fairly complex programming model
+
+all my life to program like I said I
+
+spend my youth programming an imperative
+
+style what I'm telling you is I had a
+
+terrible childhood all I had to do was
+
+programming this poor model and once I
+
+realized it I then realized that
+
+functional style has less complexity
+
+overall and there is one of the biggest
+
+benefits we get out of this
+
+and if you look at the code here this
+
+becomes really easy to follow and we can
+
+go through a single pass through this
+
+given a collection of numbers give me
+
+only the even numbers but double the
+
+values that are even and total them and
+
+the code begins to read like the problem
+
+statement that is one of the biggest
+
+benefits but for our purpose here the
+
+another big benefit of this is not only
+
+does it have less accidental complexity
+
+but it is all and is also easier to
+
+parallelize and this is another really
+
+big benefit of functional style of
+
+programming is it's easier to
+
+parallelize as well if you had written a
+
+code like this before where you had
+
+written code with imperative style of
+
+programming imagine you wrote these
+
+kinds of for loops all through your code
+
+and you have tons and tons of these for
+
+loops and everything is going really
+
+well in projects as usual but a month
+
+before the release somebody comes to you
+
+and says we got a problem our
+
+performance is really bad we need to
+
+improve it and you're struggling really
+
+hard night and day trying to improve the
+
+performance you don't know how to really
+
+improve it and then suddenly somebody
+
+tells you I've got a great idea why
+
+don't we use multiple threads and
+
+usually that's not a great idea because
+
+the minute somebody says that your past
+
+experience your past project comes to
+
+mind because you remember what happened
+
+on the previous project you worked on
+
+everybody came to work they smiled at
+
+each other they had a good time you went
+
+to lunch as a team and everything
+
+happened before you started using
+
+multiple threads and the minute you
+
+introduced multiple threads on the
+
+project nobody liked each other you
+
+stayed home a you stayed at work late in
+
+the night debugging code and one night
+
+you just lost it while you were
+
+debugging the code you applied for the
+
+other job that's called concurrency and
+
+you realize this is not the way you want
+
+to spend your life so anytime somebody
+
+suggests to use multiple threads you're
+
+not too happy with it well the reason
+
+for that is well well really clear and
+
+as a result I call that model as the
+
+synchronize are synchronized and suffer
+
+model and and that's what happens you
+
+start synchronizing and you start
+
+suffering after that because it's
+
+incredibly difficult to really maintain
+
+code with all these locks and things you
+
+have to do and that becomes a to no end
+
+a period of debugging and while you're
+
+trying to squeeze our performance it
+
+becomes enormous ly complex on the other
+
+hand the beauty of the functional style
+
+of programming is because you're
+
+honoring some good functional style of
+
+programming principles which is to write
+
+functions that are actually pure so
+
+because lambdas are expected to be pure
+
+functions we can paralyze this chord
+
+very effectively that's one of the
+
+biggest benefits we're gonna get out of
+
+this let's explore that art really
+
+quickly here for an example so to see
+
+how that's going to really help us to
+
+make that work so we talked about from
+
+imperative functional style of
+
+programming we talked about the benefits
+
+of the functional pipeline less
+
+complexity easy to paralyse among other
+
+things but I call this as parallel as a
+
+master switch I call it a master switch
+
+because the people created this are very
+
+smart they gave it they made it so easy
+
+to do and they just stopped - I of
+
+actually doing it often time people ask
+
+me if it is so easy to do why didn't
+
+they do it why didn't they make
+
+everything parallel well because they're
+
+very smart that's why because they know
+
+that not everything is parallelizable
+
+they know that opening making it
+
+parallel is opening a can of worms they
+
+don't want to really do that unless we
+
+know really that's what we should be
+
+doing so this is why I call it a master
+
+switch it's a master switch because it
+
+is something you can flip but the little
+
+fine print next to it is called the word
+
+think meaning make sure you really want
+
+to do this because it's easy to turn on
+
+the switch but you got to bear the
+
+consequences once you turn on that
+
+switch there is something for us to keep
+
+in mind so let's talk about execution
+
+sequence here the sequential versus the
+
+parallel execution using the streams and
+
+see how we can actually do this so going
+
+back to this little example right here
+
+let's talk about let's say a list of
+
+numbers one more time but this time I
+
+want to simply transform these numbers
+
+let's say so I'm going to say numbers
+
+start stream and then in this case I'm
+
+gonna say map and let's say this is
+
+going to be a transform method I'm going
+
+so given an element I'll call transform
+
+and in this case I'll just pass the
+
+element to transform and then for each
+
+will simply say system dot out print
+
+line and then we'll just print it now in
+
+this example though we are going to
+
+execute the transform method let's take
+
+a look at what the transform method is
+
+going to do I'm gonna keep it extremely
+
+trivial so that we don't spend too much
+
+time figuring out what the code is doing
+
+so we will simply return for really no
+
+good purpose the number time once it's
+
+really not doing much transformation at
+
+all except that I'm gonna call a sleep
+
+method right here off about a second
+
+delay so let's say this is
+
+computationally intensive it's gonna
+
+take a little bit of time to execute and
+
+I'm gonna have this a little sleep
+
+function that we're going to use to
+
+provide that little sleep along the way
+
+so I'm gonna run this little code and as
+
+you can see this is pretty sequential in
+
+execution so what is it going to take
+
+how much time is it gonna take to run
+
+let's go ahead and just run this we can
+
+easily see this you can see that it
+
+takes about a second to run every single
+
+value so clearly that sequential
+
+execution really not something hard to
+
+find out so at every single second we
+
+get an output value from this collection
+
+that's a sequential execution but if I
+
+want to run this parallel I said this is
+
+a master switch there are two different
+
+ways to make it really run in parallel
+
+the first approach is if you are the
+
+creator of the stream you can simply say
+
+parallel stream right here to execute it
+
+so in this case of course it's a
+
+parallel stream now notice I did not do
+
+anything different in the so this is one
+
+of the aha moments for me is when you
+
+take a imperative style code which is so
+
+beautiful easy to understand easy to
+
+follow mostly and then you make it
+
+concurrent that moment in time is when
+
+this innocent-looking code turned into a
+
+monster
+
+and nobody can identify and recognize it
+
+if you worked on a project you went away
+
+for a few months came back and you look
+
+at this and say what happened to this
+
+project like a tornado ripped through it
+
+because the code structure is extremely
+
+different this is one of the things to
+
+keep in mind as in imperative imperative
+
+style code so imperatives
+
+style the structure of sequential code
+
+is very different from the structure of
+
+concurrent code this is something we
+
+have suffered through a very long time
+
+in programming history the structure of
+
+code is very different between
+
+concurrent programming and sequential
+
+programming so much so that if you put
+
+your effort to really write the code and
+
+debug it and verify it and the minute to
+
+throw concurrency into it your clock
+
+resets you got to start over again
+
+because there's no guarantee that this
+
+code is exactly going to do the same
+
+thing because the code is so different
+
+than what we started with but the
+
+beautiful thing about these streams API
+
+is using streams one of the biggest
+
+benefits is the structure are the the
+
+structure of the sequential code is
+
+identical identical to the structure of
+
+concurrent code and this is a huge
+
+benefit when it comes to reasoning the
+
+code maintaining the code the ability to
+
+test the code as well those things make
+
+it make a huge difference I was working
+
+on a project where we we have an
+
+application that takes a very long time
+
+to run and when I say very long time I'm
+
+talking about days to run not minutes
+
+and hours it's a huge math problem we
+
+have to crunch you know literally
+
+millions of data and it takes couple of
+
+days to run when I got invited on the
+
+project the code was completely the
+
+imperative sequential style of
+
+programming and what my client did was
+
+they took a very small sample of the
+
+project which took only 12 minutes to
+
+run and said I've nailed it down to 12
+
+minutes we can't wait four days to see
+
+if our efforts really are working so we
+
+took a very small sample of the project
+
+it takes 12 minutes to run go for it
+
+it took us seven hours of rewriting that
+
+part of code to go from imperative style
+
+to functional style using streams and at
+
+the end of the seven hours we ran the
+
+code
+
+and what took 12 Minister on now talk
+
+exactly 12 minutes to run and and my
+
+client said good job banquette that was
+
+seven hours of effort and and the code
+
+is now functional in style and and and
+
+he was a very positive person he said
+
+I'm really glad he doesn't perform any
+
+poorly and and then I said well thanks
+
+for that feedback awesome and then I
+
+said take the word stream that we had
+
+and I said turn that into parallel and
+
+we just made it parallel we ran it what
+
+took 12 minutes to run took less than
+
+four minutes to run and and that is the
+
+beauty of it without almost no effort
+
+after all that effort we were able to
+
+take the sequential code and turn into
+
+parallel and then of course then we said
+
+okay that's a great proof-of-concept
+
+we're getting performance out of it
+
+let's go for it
+
+and then of course we spend the next
+
+year working on this big project to
+
+convert everything from imperative style
+
+to functional style because we are
+
+getting the benefit out of it the
+
+challenge really was where we had a lot
+
+of mutability in code because when you
+
+have mutability mutability and parallel
+
+don't go together you cannot mix them
+
+there are several days I would go to
+
+work and my my good colleague would look
+
+at me and say the code ran really fast
+
+and I would smile at him said and gave
+
+you the wrong results dinted and he's
+
+like yeah and I would spend the next two
+
+hours figuring out where the mutability
+
+was and remove it so we can get the
+
+performance and the correctness out of
+
+the code so that is the challenge we
+
+have to really work through so one of
+
+the biggest benefits like I said I
+
+cannot just underestimate this is truly
+
+this is phenomenal and that is when you
+
+use streams the structure of sequential
+
+code is identical to the structure of
+
+concurrent code and there's a huge merit
+
+for it because then truly the
+
+concurrency becomes the master switch
+
+where by a little in a toggle of a
+
+switch you can get concurrency out of it
+
+now this is one way to execute it as you
+
+can see in this particular example
+
+running it's sequential II you can see
+
+that it's running one at a time as we
+
+can see right there
+
+but on the other hand if I were to
+
+simply change it as a parallel stream
+
+then of course we are going to with
+
+almost no effort at all we are able to
+
+run that code in parallel as you can see
+
+it did not take the
+
+to run one at a time a one-second delay
+
+almost after we got the result right off
+
+the bat and that's exactly what we are
+
+seeing with the parallel string so that
+
+is one way to really do this on the
+
+other hand of course what if you don't
+
+have the ability to create the stream
+
+all by yourself as an example let's say
+
+you have a function something along
+
+these lines where you have a static void
+
+use and this takes a stream off let's
+
+say the integer will call it stream and
+
+in this case it's going to go through
+
+the stream and and do the printing of
+
+the data so in this case I'm gonna start
+
+with the stream dart stream so let's
+
+bring in the stream API right here and
+
+in this case of course the use method
+
+say stream and on the stream it is going
+
+to perform the map operation and the for
+
+each now in this example I'm gonna call
+
+you stream a use and then pass numbers
+
+start stream and I'm going to pass that
+
+over to that particular piece of code
+
+now clearly this is gonna run sequential
+
+e again like it did before one step at a
+
+time so that's really nothing you know
+
+unexpected on the other hand though in
+
+this case what if I were to want to make
+
+this run in parallel well clearly I am
+
+NOT the creator of the stream so what am
+
+I going to do to run this in parallel
+
+well then you can simply say dart
+
+parallel right here and as a result this
+
+is going to now run in parallel so
+
+rather than calling the parallel stream
+
+you can also call the parallel method to
+
+run the entire stream in parallel so if
+
+you are at the source of the stream use
+
+the word method parallel stream if
+
+you're not at the source of the stream
+
+but you're somewhere after the stream
+
+has been created you can use the
+
+parallel function to run it in parallel
+
+as you can see in this case when I run
+
+the code you can see that it's running
+
+in parallel again as you can see so
+
+that's another way to do this but a word
+
+of caution however this is a something
+
+we have to be very careful about you may
+
+wonder if there's a function called
+
+parallel if there's a function called
+
+sequential and it turns out
+
+unfortunately there is
+
+so you can also run it sequential like
+
+this so in this case when I run the
+
+court
+
+absolutely it runs sequentially as you
+
+would expect but if you go back over
+
+here and say parallel stream and then of
+
+course if you go back and run the code
+
+one more time even though we created a
+
+parallel stream notice it is running
+
+sequentially because you created a
+
+parallel stream but you're asking it to
+
+be run in sequential mode but what is
+
+even more important to keep in mind is
+
+if you had said parallel right here but
+
+on the other hand if you said sequential
+
+right here now it's a it's really hard
+
+to really imagine this because naively
+
+we may look at this code and say AHA
+
+this is wonderful this map will run in
+
+parallel but the far reach will run in
+
+sequential mode unfortunately that's not
+
+the case in this particular case the
+
+very last one wins so this is going to
+
+affect the behavior of the entire
+
+pipeline so in other words this is no
+
+app really because of because of the
+
+sequential below so in other words just
+
+because you make something parallel
+
+doesn't mean it runs parallel the very
+
+last one is gonna win so it doesn't
+
+matter whether you had sequential or
+
+parallel along the way so the question
+
+is what what is the last one really mean
+
+in this context the word last one means
+
+the one before the terminal operation so
+
+there are two kinds of operations that
+
+streams normally have those that are
+
+called intermediate operations and those
+
+that are called terminal operations
+
+intermediate operations are lazy they
+
+get postponed evaluation until you hit a
+
+terminal operation so the terminal
+
+operation is the decisive factor and
+
+anything you do before the terminal
+
+operation the last one take rules so if
+
+the last call was sequential before the
+
+terminal then that's going to be taking
+
+over if the last call before the
+
+terminal was a parallel that takes over
+
+so in other words you
+
+backward from the terminal operation and
+
+you look for sequential or parallel
+
+which our you hit first that's going to
+
+be the designing factor going backwards
+
+from the from the terminal operation
+
+that's what is going to take root so as
+
+you can see in here even though we said
+
+parallel and then we said sequential
+
+when you run the code it is all going to
+
+run sequential II of course in this case
+
+it wouldn't really make sense to see it
+
+unless we see when the the transform is
+
+called so let me go back to the
+
+transform and I'm going to simply say
+
+over here output let's say called far
+
+let's say number now notice in this case
+
+it's running in parallel so when I run
+
+this you can see it ran in parallel as
+
+you can see right there on the other
+
+hand if I said sequential even though
+
+that sandwich between parallel and
+
+sequential you can see that it's
+
+actually running sequentially and that
+
+is because of the sequential taking
+
+effect something you have to be very
+
+careful about the streams in Java eight
+
+do not have segments for parallel was a
+
+sequential if you will allow me to
+
+digress for just a minute I want to just
+
+compare this to something else as as it
+
+is pretty useful because a lot of us are
+
+beginning to explore that quite a bit
+
+these days so this is one of the
+
+differences there's a lot of differences
+
+but this is one of the differences
+
+between streams and also what is the
+
+reactive streams that we are getting
+
+really excited about moving forward in
+
+reactive programming and and one of the
+
+differences airstreams is sequential
+
+sequential versus parallel and and I
+
+again I'm digressing from the topic but
+
+I think it's pretty relevant to still
+
+keep that in mind whereas in the case of
+
+reactive streams it is a synchronous
+
+versus really asynchronous that we are
+
+really looking at in terms of the
+
+execution mode that reactive streams are
+
+for synchrony versus asynchronous but on
+
+the same note when you do sequential
+
+entire pipeline pipeline is a sequential
+
+are parallel in other words no segments
+
+so there is no segments between
+
+you were pipelining when it comes to
+
+your screams in Java eight you the
+
+entire pipeline is sequential or the
+
+entire pipeline is parallel on the other
+
+hand what is the reactive stream the
+
+reactive stream what does it do the
+
+answer for that is it depends it depends
+
+is the is the golden word of consultants
+
+isn't it we never give a Raider a
+
+straight answer we always say it depends
+
+depends is a very dangerous word don't
+
+use it all the time but but in this case
+
+it truly depends well okay well how does
+
+it really depend well if you use and
+
+again I'm not suggesting this is a great
+
+API took me a while to really figure
+
+this out but if in the reactive stream
+
+API if you called subscribe sorry
+
+subscribe on then this is going to be
+
+you know no segments so in other words
+
+if you use the word subscribe on in the
+
+case of reactive stream you are gonna
+
+provide a thread for it to run there are
+
+no segments this is very much like your
+
+peril where's a sequential the last one
+
+actually wins and the whole thing runs
+
+in that particular thread but it turns
+
+out there is also an observe on and the
+
+observe on gives you the segment's so if
+
+you were to call observe on instead of
+
+subscribe on then you can say I want
+
+this part to run sequentially this part
+
+on a different thread this part to run
+
+in a completely different thread and you
+
+can have segments in your reactive
+
+stream library whereas Java it doesn't
+
+quite give you that capability so those
+
+are some of the differences the point
+
+I'm trying to make here is we need to be
+
+really aware of the semantical
+
+differences and capabilities of the
+
+libraries we are dealing with otherwise
+
+we get misguided and then we are
+
+surprised at the behavior of the code
+
+and and that is one of the things I
+
+normally look at when I look at api's
+
+these days is to say hey semantically
+
+what do you treat do you treat your
+
+pipeline as segments or do you treat
+
+them entirely as the same flavor Java
+
+eight treats its entire segment in one
+
+flavor whereas reactive streams gives
+
+you the capability to alter it depending
+
+on which function you are using and it
+
+can go back and forth with their
+
+depending on
+
+your needs are so that is something to
+
+keep in mind is that as you can see here
+
+this dictated the entire streams
+
+behavior it is not that the transform
+
+worked in parallel and the far each
+
+worked in sequence it is entirely the
+
+entire sequence that worked in that
+
+particular mode that's basically what
+
+you are getting out of this well let's
+
+talk about observing that thread really
+
+quickly to see how this actually works
+
+so to understand how this this the
+
+segment works let's get rid of a few
+
+things and work through it so let's go
+
+back to this transform method in the
+
+transform method let's output right here
+
+a little D :
+
+let's put the number that we are working
+
+with and then let's go ahead and output
+
+let's say the thread information would
+
+say thread dart current thread so we can
+
+take a peek at the thread of execution
+
+of the transform method now in this case
+
+of course we have the transform method
+
+that's displaying this particular data
+
+now in the main of course let's go ahead
+
+and use this particular using the stream
+
+itself with a stream and then dart map
+
+and we will simply take the element and
+
+call transform and then we will pass
+
+that to the element then we'll say for
+
+each and and Whitin this will take an
+
+element will simply throw it away not do
+
+anything so this is a sequential
+
+execution as you see it but I'm gonna
+
+print the thread of execution that is
+
+going to run this period or piece of
+
+code so when it runs this little code
+
+right here I want you to take a look at
+
+the thread of execution a it's
+
+sequential no surprise but B it's also
+
+the main thread that's running it you
+
+can see main 5 main so the whole thing
+
+is running in the main thread so there
+
+are no surprises in there on the other
+
+hand if I were to run it as a parallel
+
+stream then you will notice that it
+
+actually runs in parallel but what
+
+thread is going to execute the parallel
+
+execution well in the case of Java there
+
+are a few things they did a little
+
+differently I'm of the opinion that
+
+life's lesson is this we solve we solve
+
+one set of problems only to create a new
+
+set of problem
+
+this has been my life's lesson we we
+
+solve the problem and the minute
+
+somebody solves a problem I ask them
+
+what did you create now and the answer
+
+usually is I don't know yet
+
+and that's a very reasonable answer in
+
+my opinion because we tend to do this
+
+quite often we solve a set of problems
+
+only to create a new set of problems and
+
+look back in time for a minute what did
+
+Java 1 really do for us we created
+
+threads and this was a beautiful time
+
+because you can do thread you can do
+
+concurrency isn't that wonderful
+
+one set of API to program you don't have
+
+to write different code for different
+
+operating systems this was awesome you
+
+know after some time in life you usually
+
+I don't want to be a pessimist in life
+
+but you should end up asking the words
+
+what's the catch well the catch is well
+
+we realize that threads are really not
+
+that lightweight it is not really a
+
+really good idea to create thread after
+
+thread after thread we realized that
+
+that's not what we want to do
+
+what did Java 5 do for us Java 5
+
+introduced executor services what a
+
+great idea
+
+absolutely that was a good API we really
+
+enjoyed it we had a pool of threads and
+
+eventually we realized it's a pool of
+
+problems well what is one of the
+
+problems it really hurts when you run
+
+into problems like this I remember one
+
+day as everybody says I had a cord that
+
+actually worked and it was working just
+
+fine and I'm a workaholic
+
+I usually code when I eat and I eat when
+
+I code so I took my little program to
+
+dinner with me as it was having meal I
+
+was you know running the program and
+
+this program actually took only about
+
+you know a few seconds to a minute to
+
+run most of the time and then as I was
+
+having my meal I sort of looked at the
+
+program and it felt like it's been
+
+running a little longer than I thought
+
+it would run so I kind of waited for
+
+maybe a few minutes and it never
+
+actually terminated so I was a little
+
+surprised I said to myself why with this
+
+program not terminate and that's when I
+
+discovered a problem which is called the
+
+pool a pool induced a deadlock so what
+
+is fuel pool and used deadlock let's
+
+think of a little example of what a pool
+
+and use deadlock is imagine
+
+that we have one pool and I apologize
+
+for elevating the gentleman in the front
+
+row as threads in a pool but let's
+
+assume we have two threads in the pool
+
+and and this thread only contains this
+
+pool only contains two threads and and
+
+the threads are going to solve the
+
+problem we're going to provide for them
+
+assume that the problem I'm going to
+
+give is a small problem which is this
+
+size and I throw this problem onto the
+
+pool and he says hey that's really small
+
+enough for me to handle he handles that
+
+and work is done but what if I provide a
+
+problem twice the size as reasonably can
+
+be handled
+
+he says gosh that's a bigger problem
+
+what does he do he breaks the problem in
+
+to do and throws it on the pool and sits
+
+back like a boss and says my job is done
+
+I took the problem I divided it threw it
+
+in the pool I will wait for the response
+
+to come back when the response comes
+
+back I'll combine the result and return
+
+back then he just sits there and you
+
+know it will systems waiting for the
+
+result to come back the next little man
+
+who is the throw down the pool says hey
+
+I can handle it
+
+looks there are two jobs on the pool
+
+picks one small enough to execute
+
+finishes it takes the next one finishes
+
+it and he's done with both of his job
+
+who did most of the work and then of
+
+course when the result was completed you
+
+collect the result and send it back well
+
+looks like things work really well now
+
+let's say we give a problem which is
+
+four sizes of the problem that we can
+
+handle what does he do he breaks the
+
+problem in to do and throws it on the
+
+pool a divide-and-conquer there are two
+
+problems now of bigger size the second
+
+thread in the pool says my job is to
+
+split this into half breaks and throws
+
+into the pool and says I'm gonna wait
+
+like a boss for somebody else to handle
+
+but unfortunately who is that somebody
+
+we are the pools in the threads in the
+
+pool and now we have pool induced
+
+deadlock because the two threads in the
+
+pool divided the work and waiting for
+
+some other thread to do the work but
+
+unfortunately there are no some other
+
+threads in the pool this can be really
+
+annoying because the problem is not
+
+induced by you your code doesn't have
+
+deadlock it is that the way the pool was
+
+implemented causes the deadlock in other
+
+words there are threads that divide the
+
+problem and take a break waiting for
+
+some other thread to do the
+
+kinda like the corporate world isn't it
+
+so somebody says my job here is done
+
+I just centered them and waiting for
+
+them to finish right well obviously
+
+that's not going to be really a fun way
+
+to do it and this is why we had what is
+
+called work stealing and this introduced
+
+what's called the fork/join pool and the
+
+four adjoin pool says this was
+
+introduced in Java 7 which is the four
+
+giant pool and now we are saying when
+
+you divide a problem you be part of the
+
+solution and not just dividing the
+
+problem itself so we are removing the
+
+pool induced deadlock issue in the code
+
+by saying I have a problem which is
+
+bigger than I can handle
+
+I broke the problem into two throw one
+
+part into the pool but the other part
+
+I'm going to be involved in solving it
+
+myself
+
+and so the thread that divides the
+
+problem also participates in solving the
+
+problem as well so it doesn't really end
+
+up wasting the thread waiting for
+
+something else to really execute that
+
+particular call and and that of course
+
+becomes the way to solve that particular
+
+issue so for this we use what's called
+
+the for join pool for doing the work so
+
+what I'm getting to with this is that
+
+Java eight uses the Java sevens for join
+
+pool for parallel streams but of course
+
+there is also what is called a common
+
+for join pool and and what is a common
+
+common for join pool is a pool that is
+
+maintained by your application and you
+
+can simply use that pool and and that's
+
+what the parallel stream uses it is
+
+something important for us to keep in
+
+mind because we're using that common for
+
+join pool anytime we use the parallel
+
+stream unless we have other
+
+configurations - you override it which
+
+we'll talk about just a little bit later
+
+so it's going to use the fork comment
+
+for join pool so to see this let's go
+
+ahead and run the code and see what we
+
+see as the output and notice right there
+
+is the common pool the for join pool
+
+common is being executing the the output
+
+but I also want you to note very
+
+carefully something else notice the
+
+number eight and two and one and nine
+
+those were all handled by the common
+
+pool worker for 11:15 and so on however
+
+did you notice that seven was executed
+
+by the main itself just keep that in
+
+your mind we'll come back and talk about
+
+this later on how Maine suddenly ended
+
+up being here
+
+but notice that the four join pool is
+
+actually executing this code with one of
+
+them being executed the Maine by the
+
+Maine there's no guarantee as to which
+
+one it would be it so happened that
+
+seven is being executed by it okay so it
+
+really likes seven but you know that's
+
+purely arbitrary right so in this case
+
+of course it's going to okay I give up
+
+at this point right so the Maine is
+
+messin with me it says let's mess with
+
+rancor today but the point is that it's
+
+going to execute one of them whatever
+
+that could be all right so we kind of
+
+know the observing the thread but what
+
+about the order of execution of the code
+
+as it runs through it this is something
+
+also we need to be careful about so
+
+going back to this code real quick let's
+
+go ahead and remove this print out for a
+
+second let's go ahead and perform the
+
+transform like we did but in here let's
+
+go ahead and say system dot out and and
+
+we will go ahead and say a print line to
+
+print it now in this example it's run
+
+this sequential e first of all and as
+
+you would expect when I run the code you
+
+can see that the output are exactly in
+
+the same sequence as the original
+
+collection was a list is an ordered
+
+collection because this is an ordered
+
+collection the iteration happens in the
+
+same order and you can see the values
+
+one two and all the way up to ten being
+
+printed but because a list is an ordered
+
+collection the question is what's going
+
+to happen if I do a parallel stream well
+
+when you do a parallel stream there is
+
+no guarantee to ordering at that point
+
+so as a result the map will run as fast
+
+as it can and when the map completes for
+
+that particular value the for each is
+
+ready to run so here's a good news and a
+
+bad news imagine you are doing a print
+
+job on this you call your client and say
+
+I've got a good news and bad news the
+
+results were really fast but the pages
+
+are jumbled up good luck by the way so
+
+that's not going to be really fun when
+
+the order of the output is completely
+
+jumbled up as you can see right here
+
+there's no guarantee on the
+
+order of execution it was one nine six
+
+and two but when I run this one more
+
+time notice it is five three ten
+
+who knows what this ordering is it could
+
+be just about anything every time you
+
+run it there's no way to tell well
+
+that's basically the consequence of
+
+running it in parallel well there are a
+
+couple of things we need to be aware of
+
+so we need to know that some methods are
+
+inherently ordered so by nature of what
+
+they are they are inherently ordered you
+
+never have to say order it because by
+
+definition they're going to be ordered
+
+some methods are unordered so unordered
+
+but may have an ordered counterpart so
+
+you may have an equivalent of it that
+
+you can use that you can use for that
+
+particular operation so it depends on
+
+the API you have to take the time to
+
+study it to know whether it imposes
+
+ordering naturally or maybe it doesn't
+
+and maybe there's a counterpart for
+
+imposing ordering it becomes a lot more
+
+easier when you think about the logical
+
+meaning of the methods if you will we'll
+
+look at some of these later on but for
+
+now if you look at this code right here
+
+the far each is unordered and and that
+
+is the nature of it when you run it
+
+there is no guarantee here on ordering
+
+on the other hand there's a counterpart
+
+to it called for each ordered and for
+
+each order tells you that I want to
+
+impose ordering in the terminal
+
+operation and and that can be really
+
+effective when I run this code notice it
+
+is imposing the ordering on the data and
+
+no matter how many times you run is
+
+going to be exactly in that particular
+
+order and that is the for each ordered
+
+now make no mistake for each order does
+
+not convert your execution pipeline into
+
+sequential this is concurrent execution
+
+except that it says I will not run until
+
+the one before me has completed so it
+
+imposes ordering but not sequential
+
+execution there is no threat guarantee
+
+at this point so to illustrate this
+
+point let's go
+
+to this code and put the printout on the
+
+to a transform method but we will also
+
+go ahead and call a method here where we
+
+call it as a print it and pass the e to
+
+it now in the printed method we will
+
+simply print it so let's go ahead and
+
+bring in the printed method so this
+
+becomes the Void print it and in this
+
+case of course we'll take the number and
+
+we'll put a p right here and we will
+
+print it right now and and that's all
+
+we're going to do so we put a P and the
+
+number we want to print and then the
+
+thread information are we going to
+
+provide right here now when we run the
+
+code in with the for each let's go back
+
+and run this and for each for a second
+
+notice that with the for each there is
+
+no guarantee at all as you solve from
+
+the output there is the T which is
+
+transforming the output right here all
+
+the transformation are happening but
+
+notice when the ten got finished that
+
+got printed when five got finished the
+
+five got printed so they're all just
+
+printing in different order the p10
+
+appeared before p5 showing that there is
+
+no guarantee of ordering of the printing
+
+they just went haywire depending on
+
+whatever order that things were
+
+finishing if I said for each ordered on
+
+the other hand if I execute this this
+
+time even though the transformation all
+
+happened in parallel notice that nine
+
+happened before two happened before five
+
+and I know four but on the other hand
+
+when it comes to the printing notice it
+
+follows the ordering one two three four
+
+and so on and that follows the ordering
+
+this is worker 15 as you can see this is
+
+worker for as you can see so there is no
+
+guarantee which thread may actually
+
+execute it except it says for says I
+
+will not execute before three has
+
+finished
+
+similarly seven says I will not execute
+
+until success finished but that doesn't
+
+mean they are actually sequential
+
+they're running in parallel except that
+
+it says I will not complete my job until
+
+the one ahead of me completes it keep in
+
+mind that for each ordered does not
+
+guarantee ordering unless the stream
+
+guarantees ordering there is something
+
+we need to
+
+keep in mind if a stream is on a list a
+
+list guarantees ordering the for each
+
+ordered guarantees ordering if your
+
+stream is on a set a set doesn't
+
+guarantee ordering for each cannot for
+
+each ordered cannot suddenly make us
+
+some ordering that didn't exist so for
+
+each ordered guarantees the imposed
+
+order doesn't make up its own order
+
+along the way so if the stream is
+
+unordered there is no guarantee of
+
+ordering but the stream was ordered then
+
+there is a guarantee of ordering is
+
+going to follow there is something we
+
+need to keep in mind in terms of how
+
+this ordering works so this can be
+
+really useful when you do want to
+
+execute things in parallel but you do
+
+want the terminal operation to have
+
+certain ordering imposed on it that
+
+doesn't mean you can take any terminal
+
+operation and throw an ordering on it
+
+that's not the intention there are some
+
+with no ordering there are some with
+
+ordering counterparts it depends on what
+
+APR you are dealing with and you have to
+
+really work through where depending on
+
+what you're working with so we saw how
+
+to control the ordering of execution now
+
+let's talk about parallel and what are
+
+some of the consequences of using
+
+parallel as well so when it comes to
+
+using a parallel what are the things
+
+that can't run in parallel let's go
+
+ahead and again discard the output over
+
+here let's only focus on the filter
+
+given a value I call a check method and
+
+pass the value to the check
+
+well the filter is going to run in a
+
+sequential mode right now
+
+let's take a look at what the check is
+
+going to do at this point so here is the
+
+check method so what does the check
+
+method do it returns a boolean and at
+
+this point given a number I'll say C and
+
+put the thread information and I would
+
+simply return a true to accept all the
+
+values given to me so the check is
+
+simply printing the thread information
+
+returning a true and the filter of
+
+course is simply calling the check to
+
+perform the job when it runs this code
+
+you will notice that they are appearing
+
+sequentially all in the main thread
+
+that's no surprise
+
+of course however if I were to go back
+
+here and say parallel and stream well
+
+that's
+
+the filter in parallel as you would
+
+expect so when I run this you can see
+
+all the check running in parallel and
+
+that's what we just saw here so the
+
+filter is happening in parallel
+
+similarly we also already saw that map
+
+is running in parallel also so that's no
+
+surprise but the question is what about
+
+reduce let's understand what reduces
+
+first then we will talk about whether it
+
+can be run in parallel or not so what
+
+does reduce really do so to understand
+
+this let's take this collection of
+
+numbers we have on our hand and we will
+
+say dot reduce and in the reduce I say 0
+
+comma and we will say total comma
+
+element in this example would simply
+
+return call it ad and say total comma
+
+element so all we are going to do here
+
+is simply add the values when we are
+
+totaling it that's what we are going to
+
+really do so all we are doing in this
+
+case is just doing the totaling of the
+
+operations and this ad is simply saying
+
+given the value total and E returned a
+
+total of those two let me come back and
+
+explain what this really means in just a
+
+second so little take an ad we will say
+
+this is a and B and what I'll do here is
+
+to say result is equal to a plus B I
+
+will return the result but before I do I
+
+will go ahead and print out right here
+
+let's go ahead and say output and we
+
+will output let's say a is equal to the
+
+given value a plus let's go ahead and
+
+say a B is equal to that given value B
+
+plus let's say a result is equal to the
+
+result over here and then plus and then
+
+we will go ahead and say right here plus
+
+thread dart current thread so I'm going
+
+to display the a value the B value and
+
+the result and and return it let's
+
+understand what really this means as an
+
+add value let's assume for a minute that
+
+I want to total the age of everyone in
+
+this room and we'll start with him he's
+
+not smiling at me at this point I'm not
+
+gonna ask for a real age so what I'm
+
+gonna do is I'm gonna give him a value
+
+of z
+
+and what does he do he takes the value
+
+zero adds to his own age and passes it
+
+down to the person next to him so what
+
+does he do he gets the age of portal of
+
+all the age for everyone to his right
+
+totals his own age to the value passes
+
+it down and what does he do he takes the
+
+value of age given to him
+
+totals his own age and you see where
+
+this is going so this is going to move
+
+through the room we can sit there and
+
+watch this trickle through and and let's
+
+like passing a post-it note everybody
+
+gets a post-it note they strike the
+
+number on it add their own age to it
+
+write the value on it passes down the
+
+post-it note and what am I going to get
+
+at the very end of the room either the
+
+age of everyone in this room our
+
+overflow right no just kidding
+
+but the point really is that we are
+
+going to get a value at the very end of
+
+the room we're going to get the total of
+
+everybody's age well that's kind of what
+
+the reduced method is doing reduce is a
+
+pretty iterative but it really has a
+
+feedback loop so the way this feedback
+
+loop works is you have some kind of an
+
+operation will call it as up and and
+
+what the app does is suppose you had
+
+elements let's say e 1 e 2 e 3 and so on
+
+and what it does is it takes an initial
+
+value and I'll come back and change that
+
+initial value a little later on for now
+
+allow me to use the word initial value
+
+soon I will tell you why this is a
+
+really bad idea use that name so we take
+
+the initial value we perform the
+
+operation with this value e 1 that
+
+produces a result for us we take that
+
+result and perform the operation once
+
+more but this time with the second value
+
+in the collection that produces a result
+
+again and we apply the operation this
+
+time but with the third value in the
+
+collection and then that produces the
+
+result and then we keep going until we
+
+get the final result out of this
+
+operation that becomes a result of the
+
+entire operation that we are working
+
+with so this is exactly how the reduce
+
+operation actually works that it starts
+
+with this value perform the operation
+
+with the first element takes the result
+
+of it feeds back so you put an
+
+outport which then comes back as an
+
+input to you but the second element you
+
+take that and you bring it back as an
+
+input for the third element and you keep
+
+moving forward and and this is why in
+
+some languages they called reduce as
+
+aggregate in other languages they call
+
+it as fold left so this is to give you
+
+an impression of your folding this left
+
+like you fold a mattress or a mat rather
+
+so you essentially are folding it
+
+through and that gives you an ability to
+
+just walk through this in one direction
+
+and and that is essentially what it's
+
+doing well if I look at it from that
+
+point of view because the output of one
+
+operation is needed as an input for the
+
+next and the output of that is needed as
+
+an input for the next one
+
+it appears though that this is going to
+
+be done sequentially but it turns out
+
+that's really not the case
+
+let's get back to this room again for a
+
+minute well this room has quite a number
+
+of people here we got several rows in
+
+here if I've got I'm gonna do the
+
+reduced sequential e that's a good time
+
+for me to go get a cup of coffee and
+
+come back because as you are going to
+
+prop past the post-it note around the
+
+room as it moves through every single
+
+row that's going to take several minutes
+
+for us to get this done because we're
+
+gonna go do the sequential e but we
+
+could do this quite differently though
+
+here's an idea I could simply say folks
+
+do me a favor every row do the totalling
+
+concurrently which means on the first
+
+row you will start with the zero and it
+
+starts trickling through from the from
+
+my left to the right second row the
+
+gentleman over there starts with the
+
+zero same way the third row the
+
+gentleman over there starts with the
+
+zero and so on and as it trickles
+
+through the lady over here is going to
+
+have the data for the first row the lady
+
+on the second row gets the data for the
+
+second row the lady on the third row
+
+gets a later for the third row and then
+
+we can go that way then what happens at
+
+the end of the sequence the data is all
+
+gathered to the edge of each of the rows
+
+then I can work with the people on the
+
+edge of the rows and say let's trickle
+
+through from the end of the room all
+
+lived at the beginning and she will
+
+eventually have the total of everyone
+
+aged in the room and so in this case how
+
+many steps did we take we take the
+
+number of rows in this room all that are
+
+done in parallel
+
+that's one chart and then we do this way
+
+that's two charts and we can get the
+
+result right after that so that gives us
+
+an idea about how we could possibly do
+
+this more concurrently well so that
+
+gives us hope that reduce can be done in
+
+parallel the question is nice Theory
+
+banquette but does it work that way is
+
+the question isn't it so let's see if
+
+that's actually true so I'm running the
+
+sequential e as you can see right here
+
+so let's go ahead and run this code and
+
+see what it tells us oops a compilation
+
+error ok we'll fix it so in this case of
+
+course I'm going to a is a B is B and
+
+the result is result and then of course
+
+anybody see the error all right so I'm
+
+sorry
+
+well 924 I see you all right what did i
+
+do 124 take away the plus over here all
+
+right sorry I'll walk through this
+
+here's a plus and I need this place
+
+right and then I need the place after
+
+the result all right
+
+so result and then plus here is what you
+
+wanted what a picky audience how are you
+
+happy now okay thank you
+
+all right let's go ahead and try this my
+
+faith in paper army just got restored
+
+thanks for that so when I run this code
+
+did you notice how the values being fed
+
+back into it so we take a 0 and a 1 the
+
+result is a 1 that feedback as 1 here 1
+
+plus 2 is 3 that feedback as 3 3 plus 3
+
+is 6 that feedback as 6 plus 4 is 10
+
+feedback as 10 plus 5 is 15 so every
+
+time it's a feedback plus the current
+
+element gives the next result all the
+
+way to the end so that seems to have
+
+work really well ok so far so good
+
+Oh what about the threads the threads
+
+are all main thread of course ok that
+
+worked really well let's give it a try
+
+again but this time around let's go
+
+ahead and say this is going to become a
+
+parallel stream and when I say this a
+
+parallel stream when I execute this
+
+notice that they
+
+all ran in parallel well they all ran in
+
+parallel as you can see that's all the
+
+four join pooled thread as you see in
+
+here but when you look at the result I'm
+
+gonna shorten this just a little bit so
+
+it's easier for us to see
+
+so I'll just simply say R is equal to
+
+rather than the result is equal to let's
+
+see if that comes into a line okay that
+
+a little bit better so if you notice
+
+over here this is running in parallel
+
+but did you notice multiple of these
+
+having the value 0 to begin with because
+
+that's what I mentioned earlier is many
+
+rows can start concurrently that's kind
+
+of the idea is that we are starting with
+
+all these values okay he pointed out
+
+that 7 is still in main right okay I
+
+surrender to main today main wins the
+
+end of the day I look at that here as
+
+well so I don't know what it is with
+
+main but as far as main is happy I'm
+
+happy okay so you can see in this case
+
+that you have the you know thread
+
+executing concurrently in the for
+
+joining pool as you can see in this
+
+example that brings up the question ok
+
+that's all great right should we should
+
+we just be happy about it that it's
+
+running concurrently almost let's go
+
+back to this one more time and run it
+
+sequentially as a stream notice the
+
+result is of 55 great now on the other
+
+hand I am going to say hey I want to add
+
+my own age to that everybody's age in
+
+this collection isn't it so let's go
+
+ahead and put my own age you don't
+
+believe it right so that's basically
+
+what I'm gonna put right there and then
+
+I'm gonna say run this concurrently to
+
+execute this right away
+
+well sequential either rather so 55 plus
+
+30 is going to be 85 the last time I
+
+checked run the code yes that's 85 that
+
+worked really well but I'm going to now
+
+change it to a parallel stream and this
+
+is called trouble and the reason this is
+
+trouble is this is not an initial value
+
+this is what I said earlier allow me to
+
+use the word initial but very soon I
+
+will tell you that's a really bad idea
+
+this is not an initial value so when I
+
+run this code now
+
+notice that result is not 85 its 355
+
+what really went wrong so we need to
+
+understand a couple of different ideas
+
+very clearly so what is this value that
+
+you pass right here so red so in other
+
+words we need to understand a few things
+
+reduce does not take an initial value it
+
+takes what is called an identity value
+
+so it's very important for us to
+
+understand what we are working with so
+
+this is called an identity value I don't
+
+have a clue what that means it depends
+
+on your model you are domain your
+
+application I know that for integers and
+
+for plus the identity is 0 so what is
+
+identity value it's a value it's a it's
+
+a value when performed with an operation
+
+will give this whatever value that you
+
+operated on for example X plus 0 is
+
+always X so that makes 0 as an identity
+
+value for some similarly for integer
+
+star or our multiplication identity is a
+
+1 because we know that x times 1 is
+
+always X so in other words we need to
+
+understand what an identity value is not
+
+intending to throw terms at you but then
+
+the next question is what we work with
+
+should be a moun ID so what does it
+
+really mean well a monoid really has a
+
+few requirements and the requirements
+
+are that a that when you give it there
+
+is an identity value and B that the
+
+operations you perform will result in a
+
+value which belongs to the original set
+
+as well so there are certain rules like
+
+this for an operation to be monolithic
+
+and if the operation you're performing
+
+is not monoi dick if the data where
+
+you're working collection you're working
+
+with is not monadic you cannot use
+
+reduce with it this is why it goes a
+
+little deeper than just dealing with the
+
+API we really have
+
+to understand what we are working with
+
+otherwise we will start throwing things
+
+around and the code doesn't behave the
+
+way we expect and then we kind of get
+
+worried and and and start debugging but
+
+stepping back and understanding the
+
+rules of engagement becomes a lot easier
+
+for us to work with so this is one of
+
+the reasons why we have to be very
+
+careful this is not an initial value
+
+it's an identity value so when you work
+
+on AI on your own domain your own
+
+application when you are trying to use
+
+reduce pass and ask the question what is
+
+an identity value and don't pass to
+
+reduce what is not an identity why
+
+because it may not really be a problem
+
+today when you're writing the code
+
+because you're writing it's sequential
+
+but four months from now one poor
+
+developer also known as victim modifies
+
+the code to run parallel and everything
+
+goes haywire and they are not sure why
+
+things don't work and they may not
+
+really realize at that point that the
+
+input given was not an identity value
+
+and things are really becoming you know
+
+poor in a correctness so we need to take
+
+the time to understand what we are
+
+passing to it that becomes very highly
+
+critical so that tells us about reduce
+
+good news reduce runs in parallel bad
+
+news we still have to understand what we
+
+are doing to make sure we're getting the
+
+right results with it that's very
+
+critical so when it comes to using
+
+streams and parallel what are the
+
+questions to ask is you know how many
+
+threads are we going to get how many
+
+threads are we going to use we have to
+
+understand the difference between IO
+
+intensive problems and computation
+
+intensive problems so the question I'm
+
+going to ask is how many threads to
+
+understand this I'm gonna post two
+
+questions here the question here is how
+
+many threads can I create this is a bad
+
+question
+
+this equalent of this question is how
+
+much food can I eat this is not a good
+
+question - as we know this because I can
+
+eat as much food I can hold but that's
+
+not really healthy the real question to
+
+ask is how much food should I eat that's
+
+the real better question in a similar
+
+way the question I should ask is how
+
+many thread
+
+should I create so often time the
+
+question difference between can and
+
+should makes a big difference so we
+
+should really ask the question how many
+
+threads should I create not how many
+
+threads can I create I was working on a
+
+project one day and we were running at a
+
+maximum performance at the point we were
+
+having as many threads as a number of
+
+course and what a my colleague said I
+
+want more I said no you don't want more
+
+he said no I do want more deep the
+
+sequential code took 20 minutes to run
+
+the parallel court took five minutes to
+
+run we increase the number of threads
+
+now we took one and a half hours to run
+
+so you have to be very careful because
+
+there's a tipping point after which
+
+you're not going to get better
+
+performance so the question really is
+
+how many threads should I create I'm
+
+going to use a very silly example for
+
+this there are two kinds of computations
+
+we perform one is computation intensive
+
+and the other is IO intensive when your
+
+operation is computation intensive you
+
+are constantly churning through doing
+
+your work so to understand this I'll
+
+give you a silly example of four monks
+
+you know how monks are the Politis of
+
+people on earth they always look out for
+
+other people's feelings other people's
+
+you know comfort and so the four monks
+
+go to a gym and they realize there are
+
+only true to treadmills so two monks get
+
+on the treadmill they turn it on and
+
+they look around and they realize there
+
+are two monks waiting for the treadmill
+
+they say how rude of me to be running on
+
+the treadmill when you are waiting so
+
+the two monks get out of the treadmill
+
+only for the other two months to get on
+
+and turn it on and they'll say oh you're
+
+waiting for the treadmill how rude of me
+
+to run on the treadmill and they get
+
+down so none of them actually workout
+
+that day because they're very polite to
+
+each other that's why it's good to be
+
+rude sometimes student life isn't it but
+
+now the point really is that this is
+
+exactly what's going to happen when you
+
+have computation intensive thread a
+
+thread with the past that you have is
+
+going to get on the CPU while the other
+
+tasks waiting says hey I want my turn
+
+you get off the CPU and so they end up
+
+trashing each other a lot so the model
+
+of the story is for a far
+
+computation intensive number of threads
+
+should be less than or equal to number
+
+of course so you should never ever ever
+
+give more threads than the number of
+
+course if you give more threads a number
+
+of course you will actually get poor
+
+performance in your application on the
+
+other hand for i/o intensive number of
+
+threads may be greater than number of
+
+course but how many we don't know yet
+
+we'll come back to that in just a few
+
+minutes so the point really here is that
+
+when you have a computation intensive
+
+job you can only give as many threads as
+
+a number of course if you try to give
+
+more threads than that you'll lose
+
+performance in a similar way for an i/o
+
+intensive you have a bit more leeway why
+
+because you have the number of threads
+
+but the tasks are really going to sleep
+
+well the tasks are sleeping you might as
+
+well use the cpu for other on another
+
+job that becomes really useful well that
+
+makes the question then how many are we
+
+really talking about well to answer that
+
+question let's draw a little formula and
+
+the formula is number of threads is less
+
+than or equal to keep in mind it is a
+
+less than or equal to not equal to less
+
+than or equal to and in this case we're
+
+going to say the numerator is number of
+
+course and the denominator is 1 minus
+
+the blocking factor so we're the
+
+blocking factor the the blocking factor
+
+is 0 less than blocking equal to the
+
+blocking factor less than 1 so this
+
+becomes the formula for the difference
+
+between the number of threads so the
+
+number of threads is less than or equal
+
+to number of cores divided by 1 minus
+
+the blocking factor where the blocking
+
+factor is a value 0 less than or equal
+
+to blocking factor but less than 1 if
+
+the blocking factor is equal to 1 you
+
+have a deadlock so definitely don't want
+
+that but less than 1 let's see if this
+
+math holds if the block
+
+factor is zero the denominator becomes a
+
+1 which means number of threads is less
+
+than or equal to number of cores divided
+
+by 1 which is number of cores which is
+
+what we said up here on the other hand
+
+if you're dealing with the i/o intensive
+
+I'm sleeping half the time then what
+
+happens
+
+well when I'm sleeping half the time
+
+another task and use the CPU which means
+
+two threads could use a single CPU which
+
+means you can have twice the number of
+
+threads as the number of CPUs is that of
+
+course is that really true
+
+well if the blocking factor is 0.5 then
+
+1 minus 0.5 is 0.5 number of course
+
+divided at point 5 is 2 times the number
+
+of cores so number of threads is less
+
+than or equal to 2 times the number of
+
+course if I'm sleeping most of the time
+
+90% of the time Oh point nine one minus
+
+point nine is point one number of core
+
+divided by point one ten times the
+
+number of course which is a very grim
+
+realization if I have 256 cores on my
+
+machine if my job is computation
+
+intensive I can have 256 threads not
+
+thousands if I'm doing io intensive and
+
+if I'm sleeping most of the time I could
+
+go up to 2500 threads not anymore so
+
+it's very naive to think the number of
+
+threads is equal to the amount of memory
+
+we have no not at all it is actually
+
+limited not by memory it's limited by
+
+the CPU number of course we have so we
+
+have to be very careful how many threads
+
+we actually create this brings the point
+
+to what we saw so far this is why I said
+
+they're very smart in what they do so we
+
+talked about the formula let's talk
+
+about the default number of threads for
+
+that reason so to understand this let's
+
+go back to the code right here let's get
+
+rid of all of these for a second let's
+
+now ask the question what do we have as
+
+number of threads so let's go ahead and
+
+bring in Java dot util dot concurrent
+
+dot star and then in the main we will
+
+say over here we will say output
+
+fork/join pool and then of course dot
+
+and we will go ahead and say
+
+a common pool so we'll ask for the
+
+common pool and and and query the common
+
+pool that we are getting now when we go
+
+back and run this little code let's see
+
+what it tells us it is giving us the
+
+details about the common pool in the
+
+system
+
+and remember common pool is what the
+
+parallel stream is using by default and
+
+if you look at the common pool did you
+
+notice parallelism is 7 what in the
+
+world does that mean let's come back to
+
+that in just a minute
+
+let's output right here runtime dart get
+
+runtime dart available processors I'm
+
+asking for how many cores I have on my
+
+machine and knowing how many cores I
+
+have on my machine we can relate to this
+
+idea so the first number is number of
+
+course the second is the details about
+
+the common pool I'm gonna take a look so
+
+when I run this code now it tells me I
+
+have 8 cores on this machine which is a
+
+lie by the way but we'll go with it so
+
+it says I have eight cores on this
+
+machine but it says parallelism is 7 do
+
+you feel cheated by one no it's not
+
+because this actually has an external
+
+member and you know which one that is
+
+it's the main that is so busy with seven
+
+so the point really is that main is also
+
+part of this pool it's an external
+
+member they've been very careful about
+
+it if you noticed if they had created
+
+seven threads eight threads rather then
+
+they have one more the number of course
+
+when you include main and that would
+
+violate the formula we talked about a
+
+few minutes ago because a formula did
+
+not say approximately it said your upper
+
+limit is number of cores
+
+don't go even one over red and that's
+
+why they were very careful selecting one
+
+less for the common pool because the
+
+main is actually participating in it as
+
+well so when your code executes the main
+
+has the the the work to do and it joins
+
+with the common pool which is also the
+
+member of it so that is the reason why
+
+you see a seven in there so the default
+
+number of threads is equal to the number
+
+of cores on your machine let's revisit
+
+the problem we've been working with
+
+really here just to see the example
+
+so if you notice that transform method
+
+if we go back to the main and in the
+
+main I'm going to say right here is
+
+number start stream and then let's go
+
+ahead and say map and we will call that
+
+transform method right here and and pass
+
+the element to it and then in the for
+
+each will simply throw away the result
+
+we get out of this now when we go back
+
+and run this excuse me in parallel
+
+stream so here is a parallel stream and
+
+execute this parallel stream right here
+
+you will notice that it's running but
+
+more important notice something else
+
+real quick I have these values one
+
+through ten right here but I'm gonna
+
+change it to another set of values let's
+
+say 11 12 13 and so on well I've got 20
+
+values on my hand right now so given the
+
+20 values remember I have 8 cores on my
+
+machine so how is it going to be split
+
+you would say it's going to be 3 batches
+
+the first 8 the second 8 that's a 16 and
+
+then a 4 coming through afterwards let's
+
+see if that's really true
+
+go ahead and run it first batch and
+
+here's a second batch and here's the
+
+third batch so you can see that it ran
+
+in 3 batches because it is based on a
+
+number of course that I have hey for the
+
+first time you can see main doesn't have
+
+7 be bet bet to it eventually
+
+so the point really is in this case it's
+
+the first batch you are seeing here and
+
+then when that's completed the second
+
+batch and then of course the third batch
+
+is running so that split across for
+
+these 3 different things that's how it's
+
+going to schedule it based on the common
+
+pool of threads then the question is how
+
+do we configure this to modify it good
+
+news and bad news
+
+let me give you the good news and I'll
+
+give you the bad news after that the
+
+good news is you can configure this add
+
+the JVM level by using this flag it's
+
+called the Java dot util dot concurrent
+
+dot for join pool dot-com and dart
+
+parallelism I love this flag finally
+
+something larger than my name so the
+
+point really is that's the configuration
+
+property you can specify to change the
+
+parallelism meaning you want to have
+
+more threads in your peril
+
+scream now I'll tell you why this is a
+
+terrible idea though so when I go back
+
+and run this code
+
+I'm gonna run config and I'm gonna ask
+
+it for a hundred thread run config is
+
+just a script I wrote where it runs the
+
+JVM but it runs it with that flag so I
+
+don't have to type that in here manually
+
+making my life a little easier I'm
+
+running with a hundred threads you can
+
+see it all finished in one burst right
+
+there because I gave it a hundred
+
+threads not just eight threads so you
+
+can see that all ran in parallel with
+
+that many number of threads as you can
+
+see but having said that though this may
+
+not be really such a smart thing to do
+
+why not well the reason is let's go
+
+ahead and take a slightly different
+
+example just to see why this may not be
+
+such a good idea well here's a little
+
+example I created where I am writing a
+
+compute method and all that it is doing
+
+is a two loops to perform the sum of
+
+square root of numbers just to make it
+
+computation intensive and I got a max of
+
+1500 and what I'm doing here is to
+
+create a zero to Max and I'm running it
+
+as a map to double and I'm performing
+
+the sum operation on it and this is
+
+running sequentially as you would expect
+
+in this case that's what this is doing
+
+let's go ahead and try this out so I'm
+
+going to go ahead and state time it and
+
+run dart SH and I'm gonna run this
+
+sequentially and this is gonna take some
+
+time produce some result of this
+
+computation it is just burning the CPU
+
+at this point to run the sequential e
+
+one thread is doing the work once CPU
+
+core is involved in it the other seven
+
+are sitting and watching it right so
+
+that's basically what's happening right
+
+now
+
+it took about 17 seconds to execute as
+
+you can see and the result is to point
+
+to four times e power 12 just keep that
+
+in mind
+
+two point two for e 12 and about 17
+
+seconds I want to make this run faster
+
+so I say dart parallel right here
+
+because absolutely because this is
+
+giving us a stream I can't do a parallel
+
+range but I can make it parallel by
+
+calling the parallel method so this is
+
+gonna run in parallel so I go back and
+
+run the code again but this time notice
+
+it only took about
+
+how much time of four seconds give or
+
+take and the result is still exactly the
+
+same as before so that tells us the code
+
+ran correctly but it definitely ran
+
+faster now the question is how can I get
+
+a faster result for this problem and the
+
+short answer is don't even try because
+
+on this machine this is the best you can
+
+do because that's how many cores you
+
+have because it's computation intensive
+
+this is why we have technology like
+
+spark because park says well sorry have
+
+run out of your capability that's how
+
+many cores you can have on the machine
+
+you cannot get more cores on your
+
+machine obviously you cannot put more
+
+threads than this
+
+you got a distribute it horizontally on
+
+a cluster and let's make it easier and
+
+that's why we have technology spark to
+
+make it happen but what if I get greedy
+
+and say I really want to increase it so
+
+in this case I'm gonna say run config
+
+I'm gonna give it a thousand threads at
+
+this point I remember how much time it
+
+took to run for point four eight seconds
+
+almost now I run it with a thousand
+
+threads on this machine how much
+
+performance am I gonna get out of it
+
+notice actually it took five seconds now
+
+and not four seconds by increasing
+
+number of threads we actually ended up
+
+running slowly like I mentioned earlier
+
+I worked on problems where the
+
+concurrent solution with as many courses
+
+the number of as many threads as the
+
+number of cores would give me a certain
+
+speed when I increase the number of
+
+threads I actually started slowing them
+
+very drastically so when you look at the
+
+number of thread of course and the
+
+performance you will get the peak
+
+performance when the number of cores
+
+equal to the number of threads rather a
+
+number of threads equal number of cores
+
+and then you keep increasing number of
+
+threads you actually get less
+
+performance out of your code because
+
+there's going to be more thrashing in
+
+your application you know and again
+
+you're not going to get benefit out of
+
+that that's a limit we need to really
+
+know with this the the other problem
+
+with using this approach is this is
+
+modifying the configuration for your
+
+entire pool of you know system which
+
+means what do we are running on it is
+
+going to compete with the common pool if
+
+you have a lot of computation intensive
+
+jobs and i/o intensive jobs mixed
+
+together that's going to be really
+
+terrible because they are going to be
+
+competing for the same pool you're not
+
+going to get really good performance out
+
+of it this are these are easy solutions
+
+to reach to get into trouble very
+
+quickly so that is one of the biggest
+
+problems with it
+
+one other thing you could do is to
+
+configure this programmatically well to
+
+configure it programmatically you have
+
+to still be careful what does it mean to
+
+configure it programmatically to
+
+understand what that really means let's
+
+go back to the previous example we saw
+
+earlier in this case what I want to do
+
+is know how this is gonna run and when
+
+it's going to run to understand this
+
+let's go ahead and create this numbers
+
+dart stream but we will send it to a
+
+method called process so the process
+
+method is going to process the stream so
+
+here is my public static void process
+
+which takes a stream of integer and in
+
+this case I'm going to say a stream in
+
+fact to make it blend Li clear notice
+
+what I'll do here I will take the stream
+
+and I will say dart map give an element
+
+called transform and then pass it to the
+
+element and then I will pass that stream
+
+over to process well within the process
+
+what I'll do here is simply a stream
+
+that for each and I will take the
+
+element and just discard the value when
+
+I run this code the string was mostly
+
+built in the main but the terminal
+
+operation is being called within the
+
+process method when I run this code this
+
+time around you will notice that the
+
+whole thing is running in the sequential
+
+thread no surprise over there however
+
+notice what I'll do here I'll say
+
+fork/join pool and I'll say pool is
+
+equal to new for join pool of let's say
+
+hundred and then I will say a pool dart
+
+sky over here submit and I'm going to
+
+submit to the pool and in this case I'm
+
+gonna provide a little lambda and and
+
+within the lambda I'm gonna execute that
+
+the point I'm really making here is
+
+that you are terminal operation is
+
+running within another pool so in other
+
+words in short the question is which
+
+pool execute you were a code it's not
+
+the pool a thread or the pool in which
+
+your stream is created it is the pool
+
+from which your terminal operation is
+
+executed so it doesn't matter where the
+
+stream was born it executes it matters
+
+where its terminal operation is executed
+
+because the kernel operation now is
+
+executing within the four giant pool we
+
+created this entire thing is going to
+
+run in parallel within that pool what
+
+was done before was the terminal
+
+operation was executing within the main
+
+but this time within the custom four
+
+giant pool that we are creating as a
+
+result
+
+let's see if that's actually true let's
+
+run this code and see and and well
+
+actually we want to wait for a
+
+termination we'll do that right here so
+
+pool dart a shutdown and then we will
+
+say pool dart
+
+await await termination and we'll give
+
+it about a ten seconds time unit dot
+
+seconds a lot of time than it needs
+
+that's going to require exception
+
+handling we'll just simply throw it away
+
+throws exception just to communicate
+
+that back over there and so given this
+
+what is it going to do it's going to
+
+wait for the pool to terminate before it
+
+completes and so we can actually see
+
+that well in this case it's still
+
+running it sequentially isn't it let's
+
+see why that's actually the case this is
+
+the thread flying pool the transform is
+
+happening right there so that should be
+
+running that within the submit within
+
+the four join pool we should be running
+
+it I'm not sure why that's I probably
+
+messed up something here so this is
+
+actually the for each executing the
+
+terminal operation within this pool
+
+let's make sure I'm doing this right so
+
+I created the pool right here
+
+I'm calling the sub bit on the pool and
+
+this is going to be called within the
+
+pool right here and then the shutdown
+
+has to happen right there let's make
+
+sure the process is being called the map
+
+transformation and then I'm calling that
+
+in here so I'm a little surprised why
+
+that's doing what it's showing but that
+
+should be running within that pool let
+
+me try this just one more time just to
+
+be sure it got compiled and it
+
+so I'm wrong here it is saying worker
+
+pool sorry said again did I do that
+
+sequentially yes thanks for the catch
+
+you are right I'm sleeping at the wheel
+
+or at least one of us is awake in the
+
+room that's awesome so that's parallel
+
+stream you are right thank you
+
+now you know why it did that's the right
+
+behavior that I'm glad it did the right
+
+thing now run it parallel thank you I
+
+just assumed that had made it parallel
+
+thanks for saving that there you go
+
+so that's basically the whole point is
+
+that it's running based on where the
+
+terminal operation is running not where
+
+the stream was actually created so that
+
+that makes the point as to how it
+
+executes that brings up one more
+
+question does it really mean it is
+
+faster well we saw this earlier it
+
+doesn't mean it's always faster it
+
+depends on various different factors
+
+I'll give you a really trivial example
+
+about this imagine you have two children
+
+at home you're running out of sugar you
+
+tell the kids hey why don't you go to
+
+the neighbor and get some sugar one
+
+child jumps the fence the other child
+
+goes to get the bike you know which
+
+child is going to get you the sugar
+
+first the one that jumps the fence
+
+because that's the easiest way to get to
+
+the neighbor isn't it so in that case
+
+you really don't want you know vendor
+
+performance you want really much more
+
+you know access through jumping the
+
+fence in this case just because you have
+
+parallel doesn't mean you'll get better
+
+performance on the other hand if you say
+
+go to the store about five kilometres
+
+away and get me something the kid that
+
+jumps several fences goes to jail you
+
+really want the kid that takes the bike
+
+and goes gets the stuff so it really
+
+comes to two questions how many objects
+
+you have on your hand to work with you
+
+have a lot of objects parallel may make
+
+sense if you don't have that many
+
+objects maybe parallel is not a right
+
+choice the other question to ask is how
+
+much time does your task take if a task
+
+are very fast executing you're not going
+
+to get performance out of parallel
+
+because you may really waste more
+
+resources creating threads than getting
+
+the work done on the other hand if your
+
+tasks are relatively quick you can you
+
+know not going to get performance if
+
+they are taking time-consuming
+
+maybe you'll get performance out of it I
+
+want to wrap this section with one other
+
+detail that is important to keep in mind
+
+as well
+
+and one of the very important things
+
+about parallel is that when it comes to
+
+streams we normally do what is called
+
+lazy evaluation and there are
+
+consequences due to this so I want to
+
+illustrate that with the last example
+
+we're gonna see here let's bring up a
+
+little example of a create person and
+
+the create person has a bunch of people
+
+let's make Jill a little older here for
+
+a second now you have Sarah and Sarah
+
+who are 20 and 22 Bob and Paula 20 and
+
+32 Paul is 32 like Paula is Jack and
+
+Jack - and 72 Jill is 42 let's say over
+
+here find the first you know a lady who
+
+is older than let's say 30 so how do we
+
+execute this code the first lady so I'm
+
+saying that you are talking about the
+
+order of execution in here so how do I
+
+do this so create people dart stream and
+
+then I'm going to say dart filter in
+
+this case given a person I'm gonna say
+
+person dot get age is greater than 30
+
+and then I'll say filter given a person
+
+I'll say person dot get gender is equal
+
+to gender dot female and then I will say
+
+find first and and once I find the first
+
+person I just want to print it so I'm
+
+gonna output the result out of it well I
+
+noticed that I'm doing it sequentially
+
+execute the code it says optional Paula
+
+well it's optional because an object may
+
+or may not exist I'll say R elves will
+
+say no one found so when I execute this
+
+code it's going to say that in this case
+
+the result I'm gonna get is whatever the
+
+result I'm going to expect let's
+
+actually convert this so a dart map
+
+given a person let's say get named and
+
+in this case of course it's Paula
+
+well that is sequential execution as we
+
+know now notice the function we are
+
+calling is find first what is the word
+
+find first actually mean there is an
+
+implicit ordering in there isn't it the
+
+word first means ordered so you don't
+
+have a fine first ordered it doesn't
+
+make any sense this is what I was
+
+talking about in the big
+
+there are some functions that are
+
+implicitly ordered it doesn't really
+
+matter so in this case as you know when
+
+I run the code you can see it says Paula
+
+it doesn't matter well of course I'm
+
+running sequentially but it doesn't
+
+matter how many times run it's going to
+
+be exactly the same result over and over
+
+and over but the question is what if I
+
+say parallel stream and run it in
+
+parallel if I run this in parallel
+
+though notice that at this point it
+
+doesn't matter how many times I run it
+
+still will always be Paula now we both
+
+know one thing you don't run a code a
+
+thousand times and prove it's correct
+
+but you get the point so the point
+
+really is that it is going to be exactly
+
+the same result no matter how many times
+
+you run it because you set fine first
+
+fine first is always ordered so in other
+
+words it doesn't matter you ran at
+
+parallel are sequential it's always the
+
+same result but then on the other hand
+
+let's take this back to sequential
+
+execution as a stream but I say find any
+
+I want any lady not the first lady any
+
+lady was older than 30 well it turns out
+
+in this example we got two people who
+
+are qualifying for that we got Paula we
+
+also have Jill
+
+well the question is who are we gonna
+
+get as a result well unfortunately
+
+because it's sequential execution and
+
+because the collection is sequential is
+
+ordered you will have a bias towards
+
+Paula all the time because find any is
+
+find first unfortunately when the
+
+execution is sequential
+
+there is no difference after all so when
+
+I run the scored it doesn't matter how
+
+many times I run it it is still Paula on
+
+the other hand though if I were to turn
+
+this into a parallel stream then well
+
+all bets are off isn't it because it's
+
+running in parallel it might be Paula it
+
+might be Joe I have no clue which 100 be
+
+so let's give it a try and see what the
+
+system wants to think so when I run this
+
+you notice it is it is Jill okay at
+
+least once okay so that's kind of where
+
+the parallelism actually kicks in so it
+
+could be just about a me
+
+if you will there is no guarantee as to
+
+which one it would be that's one of the
+
+differences but that brings up yet
+
+another important point let's go back to
+
+this example let's say find first one
+
+more time and this is the first one but
+
+let's go ahead and say this is going to
+
+be sequential and we will say stream
+
+again this time of course you know that
+
+it's going to be Paula one more time but
+
+let's look at something a little
+
+different let's go over to the person
+
+class in the person class in the gate
+
+age let's output h4 and then we will put
+
+the name of the person who are we are
+
+asking the age for we know one thing
+
+very well about streams they are lazy
+
+evaluation which means run sequentially
+
+in this example it's going to ask for
+
+age of Sarah and Sarah Bob and Paula but
+
+it will never ask for Paul Jack Jack and
+
+Jill in this example and the reason is
+
+the minute it finds Paula is going to
+
+get out is that really true
+
+well let's run the code and see if
+
+that's really true and notice it asks
+
+for the age of Sarah Sarah Bob and Paula
+
+but it never touched Paul Jack Jack and
+
+Jill because Paula is the result and the
+
+fine first bales out unfortunately
+
+though the minute you turned parallel
+
+what's going to happen the minute you
+
+turned parallel you actually notice you
+
+asked for age of a lot more objects well
+
+let's understand this with a little
+
+example here imagine just before this
+
+dark I was walking around and maybe I
+
+left my smartphone on the table maybe I
+
+left it right there
+
+with the third person who is sitting
+
+there well here's what I could do I
+
+could say could you please take up my
+
+phone is there he says no could you
+
+please take my phone is there he says no
+
+could you check my phone is there he
+
+says yes that took me three units of
+
+ever time and through units of effort I
+
+bother three people and I got the result
+
+in through units of time I could do
+
+something very different I could simply
+
+yell out in this room and say hey folks
+
+I don't know if I left my phone in some
+
+place could you please check well what's
+
+going
+
+happen now everybody is gonna check
+
+who's gonna find the result of course
+
+him well there's a good news and a bad
+
+news well what's the good news
+
+I got it in one unit of time what's the
+
+bad news I bothered everyone in the room
+
+what's the good news I don't care
+
+and that is exactly how parallel works
+
+parallel says I don't care that I'm
+
+wasting more resources with the hope of
+
+getting the results faster so which
+
+means when you run in parallel you may
+
+actually run more things than you would
+
+otherwise but with the hope of getting
+
+the results faster and that is something
+
+you have to be very careful about as
+
+well so that brings us to the end of the
+
+first part hope you found that useful
+
+when we come back after 15 minutes I'm
+
+going to start on completable future
+
+thank you
+
+alright let's get started we're going to
+
+talk about the completable futures in
+
+this part so what is what is completely
+
+future let's talk with that question
+
+we're interested in asynchronous
+
+execution so what does a synchrony
+
+really mean in that context well you
+
+want to set off a task to run and while
+
+the task is running what we really are
+
+after is non blocking so we want to do
+
+something without being blocked for
+
+execution of certain tasks so this is
+
+where the non-black blocking things come
+
+in we heard of things like non-blocking
+
+i/o and and so what does it really mean
+
+to be non blocking when non blocking
+
+simply means you make a method call but
+
+when you make a method call you don't
+
+wait for that method to complete you
+
+don't even wait for that method to
+
+really start for all practical purposes
+
+you're on the move and you continue
+
+executing right at that point so this is
+
+where the non-blocking comes in but on
+
+the other hand the question is if you're
+
+gonna do some non blocking how do you
+
+really get back the results from that
+
+particular call well one of the things
+
+we have done in the past is to use
+
+futures let's think about future for
+
+just a second well if you're calling a
+
+method and when you call the method that
+
+method is going to run and eventually
+
+it's going to get you back some results
+
+well immediately the method could give
+
+you back a future object on your hand
+
+well great so I have a future object on
+
+my hand after I made the call to this
+
+method now what am I going to do as soon
+
+as I get the future I could do other
+
+things which is a good thing but when I
+
+want the result I'm gonna say future
+
+Dart
+
+get and what happens when you call
+
+future get you get stuck there is no
+
+future at all isn't it
+
+so that is very bleak future in fact we
+
+don't want that kind of future so that
+
+doesn't work really well maybe there is
+
+a different approach we can take hey
+
+wait a minute let's see what JavaScript
+
+did back in time well back in time
+
+javascript code used asynchrony using
+
+callbacks well if you think callbacks
+
+are a good idea I've got a suggestion
+
+for you a walk next to a JavaScript
+
+programmer and utter the
+
+word called back and watch them begin to
+
+cry uncontrollably because they have
+
+learned the pain of callbacks over time
+
+it's just miserable one of the reasons
+
+is that callbacks lack consistency what
+
+I mean by that is when you receive a
+
+callback is the first parameter data are
+
+the first parameter error there is no
+
+universal consistency on this somebody
+
+may use a data versus error somebody may
+
+use an error versus data there's no way
+
+to tell it is really hard to compose
+
+callbacks what if I want to call a
+
+method and it's going to give me a data
+
+using a callback when the data comes in
+
+the callback I want to call another
+
+asynchronous method which will then send
+
+me data through another callback now I
+
+need a callbacks callbacks callbacks
+
+callbacks there's a very favorite name
+
+for it it's called a callback hell and
+
+that's not a very fun Hell to be in and
+
+also when it comes to callbacks there's
+
+no consistency of dealing with errors
+
+what I mean by that is different from
+
+what I said earlier when you call a
+
+method sometimes the error will be even
+
+before the method is ready to really
+
+fire the callback so sometimes the
+
+method may explode it an exception
+
+sometimes you may get the error through
+
+the callback again it's really hard to
+
+know which one it's going to do so in
+
+general this is really really terrible
+
+way to do so what is the JavaScript
+
+world do the JavaScript world move to
+
+using promises so in JavaScript we have
+
+what are called promises so what's the
+
+promise in JavaScript in JavaScript a
+
+promise may be in one of three states it
+
+may be in a resolved state it may be in
+
+a rejected State or it may be a pending
+
+state a pending state is where it's
+
+still going to decide whether to reject
+
+our result the result state is where it
+
+has decided to resolve the reject state
+
+is when it's rejected and it's giving
+
+you an error well the thing about these
+
+three states is two of those states are
+
+permanent
+
+once the promise gets to a result state
+
+a rejected state it will never ever
+
+change when it's in a pending state it
+
+might eventually go to a result state or
+
+to a rejected state well what is really
+
+beautiful about this really is our
+
+departure from what we
+
+seen in the streams API something I
+
+didn't quite talk about earlier and that
+
+is when you deal with the stream you
+
+have a data flow through the stream
+
+which is really nice isn't it so you
+
+have this flow of data and as you are
+
+processing the stream everything is
+
+going well but what if something goes
+
+wrong well the answer to this in the
+
+streams API can be summed up in two
+
+English words that's called good luck so
+
+essentially if the stream blows up
+
+you're out of luck so in other words
+
+exception handling and functional
+
+programming are mutually exclusive you
+
+don't do exceptions with functional
+
+programming this is really a bad idea so
+
+in other words you don't want to treat
+
+error as something different I think the
+
+worst thing we have done as programming
+
+community is calling exceptions as
+
+exceptions we should have called it
+
+normal because stuff happens and deal
+
+with it right and instead we said oh my
+
+god is an exception you're gonna blow up
+
+which is really not a good thing so what
+
+do we do well promises do something
+
+really well promises have two channels
+
+of communication they have what is
+
+called that data Channel and they have
+
+what is called an error channel and the
+
+data channel carries the data and the
+
+error channel carries the error think of
+
+this if you will like a train track if
+
+you want to so think of this as you have
+
+a left track and a right track or a top
+
+track and a bottom track depending on
+
+how you want to look at it so there are
+
+two tracks over here the way this works
+
+beautifully is if you are dealing with a
+
+function call let's say you are calling
+
+a function and and that function says
+
+everybody is happy things are going well
+
+you continue on the data track something
+
+when you call a function something goes
+
+wrong immediately you fall back to the
+
+error track and you are now on the error
+
+track the function you're calling here
+
+says things are not going well I'm gonna
+
+blow up you continue on the error track
+
+this function says I can recover for you
+
+and and we can get better
+
+you then can switch back into the dare
+
+track and then you can have a function
+
+right here which can then take you back
+
+to the data track and it can go so in
+
+other words when you have these
+
+functions imagine going from left to
+
+right you can be on the data track
+
+everything is going well you're in the
+
+data track something goes wrong you're
+
+on the error track something still goes
+
+wrong you're on the error track
+
+something is able to recover it you're
+
+back on the dirt track
+
+and you can continue so there is a very
+
+clear distinction as to whether you're
+
+on the error track or the data track and
+
+you can go back and forth and as a
+
+result in the end you're gonna get a
+
+result back based on whether you have an
+
+error or you have a data so it's a nice
+
+clear separation as a flow of logic and
+
+you're not blowing up things you are
+
+still propagating so in other words you
+
+treat error as another form of data
+
+that's what you're doing and errors or
+
+errors are first-class citizens so this
+
+is one of the beautiful things about
+
+this is you're able to treat them as
+
+first-class citizens when it comes to
+
+promises and and that is one of the
+
+distinctive behavioral promises is that
+
+you have the data tracking error track
+
+if you allow me just to deviate for a
+
+second again this is exactly what
+
+reactive streams do as well except in
+
+reactive streams you don't have two
+
+channels you have three channels you
+
+have the data channel the error channel
+
+but you also have a completed channel
+
+which is the third channel reactive
+
+streams offer that makes the question
+
+then what citizen tween a reactive
+
+stream and a promise the difference is a
+
+promise carries zero are one piece of
+
+data ever so through the promises chain
+
+there's only one transmission you start
+
+from the left and you end up in the
+
+right just once in a reactive stream
+
+it's a stream of data that goes through
+
+it that's the second difference between
+
+the two so promises for zero or one data
+
+stream for zero one or many piece of
+
+data that's a distinction between those
+
+two so given this data channel vs. error
+
+channel and failures are treated like
+
+their data and the beauty is they are
+
+extreme
+
+easy to compose here I know what you're
+
+thinking you're thinking alright Frank
+
+if you went that length talk about
+
+promises in JavaScript but I thought we
+
+are talking about completable futures
+
+here comes the real secret Java has
+
+promises but if they called it promise
+
+you would know it so they said we'll
+
+call it completable futures so
+
+completable future in java is nothing
+
+but promises in JavaScript so this is
+
+purely the same idea the same concept in
+
+fact completable futures are the
+
+promises in Java so the JavaScript
+
+promises are now available in Java which
+
+is the form of water called completable
+
+future so anytime I use the word
+
+completable future I often
+
+interchangeably use the word promise
+
+because they both are pretty much
+
+identical concepts to what they really
+
+do so completable futures are the
+
+promises of the java world that's what
+
+it really is
+
+so completable futures give us the
+
+ability to do what we have really
+
+learned from javascript I know what
+
+you're thinking that's kind of scary
+
+that we have learned something from
+
+JavaScript but absolutely we want to
+
+learn from everywhere we can and
+
+JavaScript has taken the pain over the
+
+years to really learn about things so
+
+you what you have are what are called
+
+stages so completable future has stages
+
+so what is the stage stage is just a
+
+pipeline of execution and you can go
+
+from one stage to another stage to
+
+another stage in a completely future
+
+what do every single stage do every
+
+single stage takes a completable future
+
+and returns another completable future
+
+there is one thing you need to be very
+
+aware of computable future completable
+
+futures are the villain in a bad movie
+
+it's like Tainos right it keeps on
+
+coming back there is no end to it so if
+
+you ever think you can kill completely
+
+future you're gonna live forever because
+
+you will never be able to do it so when
+
+you call a completable future what does
+
+it give you another completable future
+
+and then another one another one another
+
+one there is no end to it it's wise to
+
+give up at some point and walk away and
+
+do other things in life that's exactly
+
+how completely futures work so think of
+
+this as a very long running train there
+
+are times you get
+
+the Train at some point you get off at a
+
+certain station and you don't worry
+
+about where this train actually ends
+
+because it may never end
+
+it may keep on going in circles who
+
+knows that's exactly the whole point is
+
+complete if you just keep generating
+
+other completable futures there's no end
+
+to it now given this one stage completes
+
+for another stage to run and may run and
+
+so how do we really create a completely
+
+future how do we work with it so I'm
+
+going to talk about how to work with
+
+this I'm gonna take some silly examples
+
+but nevertheless it illustrates the
+
+point about how completable futures
+
+actually work and along the way we will
+
+learn about threads versus completable
+
+futures as well
+
+so the first thing I'm going to do here
+
+is to bring in Java dot util dot
+
+concurrent right here let's go ahead and
+
+bring up a completable future and play
+
+with it
+
+so we'll say over here let's create a
+
+method call to create so we'll say
+
+public static completable
+
+future and let's say off integer for
+
+like a better things let's say integer
+
+and we'll call it as create so a very
+
+simple little example to begin with so
+
+what am I going to do here I'll simply
+
+say return completable future dart
+
+supply async and in this case I'm gonna
+
+keep it extremely simple and trivial I'm
+
+just gonna return a value of two if you
+
+will that's all I'm gonna do nothing
+
+really exciting so what does this
+
+completable future do when you call it
+
+it returns a value of two doesn't really
+
+do much work obviously you could have
+
+returned the true directly but
+
+asynchronously it's gonna return the two
+
+we'll build upon this a little bit later
+
+and work with it so back over here what
+
+do I want to do I wanna say completable
+
+future of integer we'll call it as
+
+future our promise whatever you want to
+
+call it I'll just call it as future is
+
+equal to we'll call the create method
+
+right here so now that I've created the
+
+create method the question is how do I
+
+really get the data from this and I'm
+
+gonna use it well I can say future dot
+
+and we can do some work on the future
+
+well what am I going to do with the
+
+future well maybe all I want to do is to
+
+just print the result when I get to it
+
+before we do that let's step back for a
+
+minute and talk about some famous or a
+
+famous or popular you know functional
+
+interfaces so it
+
+really helpful to think about these
+
+interfaces in Java 8 and let's think
+
+about supplier well remember what
+
+supplier is supplier he has a method
+
+which is T get if you recollect then you
+
+have a predicate and what is a predicate
+
+really do a predicate of T actually says
+
+I'm going to have a method boolean tests
+
+of D if you recollect and then you have
+
+a function and what does a function do a
+
+function simply is going to be T comma R
+
+let's say and in this case it has a
+
+function that takes apply function that
+
+takes a T and returns a R and finally
+
+you have a consumer which is going to be
+
+avoid except which takes a type T these
+
+are the I would call as a most popular
+
+or famous functional interfaces in Java
+
+8 and let's talk about each of these a
+
+consumer is probably the one you see a
+
+lot a what do you see consumer you see
+
+consumer in pretty much a for each for
+
+each users consumer what is consumer do
+
+it takes a data and eats it right that's
+
+all it does it doesn't return any value
+
+as the comparison I say consumer is like
+
+my government it always takes my money I
+
+get nothing back from it that's how I
+
+feel about consumer on the other hand
+
+the polar extreme to this is supplier do
+
+you notice how kind supplier is it never
+
+takes anything but always gives you
+
+something back I say it's like the
+
+mother's love you always get something
+
+from mother but never does she want
+
+anything back from you so that is
+
+basically a supplier you see this in
+
+factories in general wherever you want
+
+to create an object you end up using the
+
+supplier that's where you use this a
+
+predicate on the other hand is going to
+
+return a boolean value all the time so
+
+this is used in the filter so anytime
+
+you call the filter method you're
+
+passing the predicate to the filter and
+
+similarly in the case of a functional a
+
+function use this in map now clearly
+
+these are candidates from the
+
+REME api so the question is why talk
+
+about them here well it turns out
+
+completely future also uses the same
+
+interfaces as well so it's a good idea
+
+to really relate them because it becomes
+
+easier for us to use the API once we
+
+understand the purpose of these
+
+interfaces a consumer is going to simply
+
+take away the stuff you give it and
+
+return nothing back supplier on the
+
+other hand provides something now you
+
+know why they called it supply async the
+
+reason they call it supply async is
+
+notice that is a supplier right there it
+
+didn't take any input but it's returning
+
+some value to you
+
+so supply async actually takes a
+
+supplier as its input that's what you're
+
+dealing with but obviously the question
+
+is what do I want to do here with the
+
+future
+
+I say future Dart and I want to really
+
+print the result I'm getting which means
+
+I'm going to consume the result given to
+
+me when you start thinking this way they
+
+into it API becomes very intuitive I
+
+want to consume now obviously what kind
+
+of method am I going to use well a for
+
+each method doesn't make any sense
+
+because remember a promise only deals
+
+with zero or one element whereas a
+
+stream deals with zero one or many
+
+elements so the for each makes sense
+
+because when you have many you say for
+
+each when you have only one it's it's
+
+for one not for each well okay for one
+
+doesn't really sound really nicely why
+
+not simply use the word accept because
+
+that is the method of the consumer after
+
+all so we could pretty much use these
+
+kinds of methods if you will for the
+
+consumption of this and so we can say
+
+then accept now why did they use the
+
+word then accept well the reason is in
+
+JavaScript promises are called as
+
+bendable so a tenable object simply is
+
+an object where on which you can call it
+
+then method so they called ennoble so
+
+you can see the historic reasons that it
+
+kind of kicking in so it's a den accept
+
+meaning I have a future object when the
+
+future resolves then accept the result
+
+given by it so what do I want to do here
+
+given the day
+
+I wanna output the data that I have
+
+received from this then and that's
+
+basically what we are trying to do here
+
+and notice it printed the result - I
+
+know this is a really lousy example all
+
+it did was it print the value do from
+
+there but nevertheless helps us to
+
+really see the reasoning behind these
+
+api's and interfaces so we can get a
+
+really good grip of what these methods
+
+really mean so now you know why it's
+
+called then except it is a Dem except
+
+because the word except because it's a
+
+consumer the word then because after the
+
+future results
+
+then you want to accept it it's a
+
+tenable that's why you have the word
+
+then once you get a grip of this it
+
+becomes easy to see if you have a 10
+
+except most likely you're gonna have
+
+then apply as well
+
+because there are times you want to
+
+transform the data and move forward now
+
+keep in mind what is the result of then
+
+accept the result of then accept he is
+
+going to be a guest take a wild guess
+
+what it is a completable future remember
+
+there is no completing futures are
+
+immortal it will never die it keeps on
+
+giving so as a result this is future -
+
+that you're gonna get from it but in
+
+this case this is a void and not an
+
+integer and the reason it's a void is
+
+you are then accept is not returning any
+
+data it's a consumer so that becomes a
+
+completable future of void and you can
+
+do something else with it if you really
+
+want to do we'll see this in just a few
+
+minutes you saw that it's a to being
+
+printed a few minutes ago
+
+let's go back and rework this a little
+
+bit so I can go to the create method and
+
+say dot then accept and what am I going
+
+to do given a data I can say output the
+
+data that I have received at this time
+
+and I can just print it out as you can
+
+see right here let's start with that
+
+really quickly now that you can see that
+
+it printed a value of two
+
+now you said just a minute ago that
+
+returns a completable future well you
+
+can then continue further but obviously
+
+here I cannot say then except guess what
+
+there is nothing to accept because this
+
+completable future it returns is one of
+
+void
+
+so I can't take a void and do anything
+
+with it
+
+whom wonder what I can do with nothing
+
+given to me is that an interface in Java
+
+that takes nothing and gives nothing
+
+it's called a runnable isn't it that
+
+that's a rudest of all interfaces it
+
+says I will not listen to you and I will
+
+tell you nothing
+
+it's like some stubborn people at work
+
+isn't it you can't talk to them you
+
+can't get anything out of them either
+
+right
+
+that's runnable well kind of you gives
+
+you a clue then the method is going to
+
+be called ass then run and what am I
+
+going to do here I'm going to say this
+
+this never never if I know how to take
+
+that dice right so this is going to be
+
+the call following it this never ties
+
+and if you're not really sure about that
+
+you can just go further and say really
+
+this never dies right and it keeps on
+
+going and this is a good day at work you
+
+want to continue this you can say I'm
+
+busy coding right and you can continue
+
+with this and really really this never
+
+dies and that's what I meant is there is
+
+no end to it
+
+so you never wait for this to finish
+
+because completely futures are immortal
+
+right it is just going to go on at some
+
+point you say I'm out of here so that's
+
+basically you just tap onto this train
+
+and you get the data and you're out of
+
+it
+
+so this is exactly what it is now you
+
+know why it's called then except why
+
+this is call then run because it's a
+
+runnable you're gonna pass to it this is
+
+a runnable interface it becomes really
+
+intuitive once you really think about
+
+the reasons why these things exist it
+
+becomes really easy intuitive and then
+
+you're able to code it very fluently
+
+from the point onwards so that's
+
+basically what we just saw here is the
+
+completely future well that picks the
+
+question then what about threading how
+
+do these things actually work so to
+
+understand this let me talk about yet
+
+another beautiful feature here so we
+
+created this how do we get the data from
+
+the collection I actually showed you a
+
+better way to get the data but there is
+
+also some bad ways to get the data also
+
+so what you can do here is you can go to
+
+the
+
+future and you can call the get method
+
+now there is also another name for the
+
+get method it is also formally called as
+
+bad idea so this is not a good method to
+
+use why is it not a good method to use
+
+well if you notice over here I'm gonna
+
+output over here as get right here and
+
+I'm gonna output the result of the get
+
+method what is it going to tell us first
+
+of all it tells us you should handle
+
+exceptions well we are mature Java
+
+programmers we know exactly how to take
+
+care of those things
+
+we'll simply throws exception and be
+
+done with it right that's how we you
+
+know tell the compiler how we feel about
+
+it right so in this case of course I run
+
+the code it said - now why is this such
+
+a terrible idea
+
+the reason it's a terrible idea is that
+
+the get is a blocking call so that means
+
+for example if I go up here out here and
+
+say here as an output now let's go back
+
+to this code right here and we could say
+
+let's call it as compute and what is the
+
+compute method do let's say the compute
+
+method is going to take nothing of
+
+course but it's going to return the
+
+value of do let's say return - and in
+
+this case I'm gonna say sleep for about
+
+a second so I'm gonna take a little nap
+
+here for about two so one second and and
+
+so let's provide the sleep method right
+
+here so this is going to call the
+
+compute method which is going to take a
+
+little nap and return or - and what does
+
+the get method actually do well remember
+
+this is going to run asynchronously but
+
+the gap is gonna block on us so if I go
+
+back and run the code this time and see
+
+what the output looks like notice we are
+
+waiting and then it said here so that is
+
+an example of where we are actually
+
+being blocked in fact let me go ahead
+
+and write this a little differently
+
+compute future integer future is equal
+
+to create and then I'm going to say over
+
+here got it and then I'm going to call
+
+the future dot yet and then of course as
+
+you can see here when I run this code it
+
+says got it but you're blocked until the
+
+result - and then you go here this is
+
+why I get is a really bad idea
+
+so have only one recommendation about
+
+get the best thing to do
+
+get is to forget so don't even bother
+
+right
+
+a really bad idea don't use this method
+
+I would encourage you to use the then
+
+except rather than using get don't even
+
+bother using get so this is not a very
+
+smart call to make because it is a
+
+blocking call and you don't want to do
+
+blocking because it kind of defeats the
+
+whole purpose of asynchrony when you
+
+block on stuff and wait for it so that's
+
+one of the things there is an
+
+alternative to this which is called the
+
+get now again now is an impatient call
+
+so a get now over here says I'm going to
+
+specify your zero if you will so what
+
+does the get now do a get now says if
+
+the completable future has resolved get
+
+me the result of the completable future
+
+if it's not resolved yet I don't care to
+
+wait on it just give me a zero so this
+
+is going to be in a hurry and it just
+
+wants to keep moving so when I run this
+
+code notice you got a zero right away
+
+because a completed future is not done
+
+yet and if it's not done give me a zero
+
+so it's non-blocking but unfortunately
+
+of course it's impatient as well it's
+
+gonna give you the result right away
+
+rather than blop in a waiting on it if I
+
+remove the sleep on the other hand and
+
+run the same exact code you can see that
+
+well actually it doesn't because it's
+
+still taking a little while to run but
+
+on the other hand if I were to delay
+
+this just a little bit asleep for about
+
+100 milliseconds with the hope that
+
+it'll be done by then maybe we will get
+
+that value too right there
+
+absolutely so again I'm not a big fan of
+
+get now maybe there's a some special
+
+situations where it might be useful but
+
+in general I would say don't bother with
+
+it well that brings up the question what
+
+about threads of execution where are
+
+things going to run to answer that
+
+question let's look at this a little
+
+differently notice I don't have a sleep
+
+right now and I come back over here in
+
+the main method I'm gonna say in main
+
+and I'm going to say thread dart current
+
+thread so obvious that's going to be in
+
+the main thread then I call the create
+
+method then I say dot run so then except
+
+and in this case I
+
+data and I call it a sprint it and
+
+passed the data to it to print it so
+
+that is my code at the moment now the
+
+question is if I go to the over here and
+
+say public static void and let's call it
+
+as print print it and what am i doing in
+
+the printed method I'm gonna get a value
+
+and I'm going to simply print the value
+
+let's take baby steps and run this so
+
+when I execute this little code now you
+
+will notice that it said main thread is
+
+running it the value of 2 no big deal
+
+but the question really is what is your
+
+thread of execution I don't have to say
+
+this is something I really love what
+
+they have done um the the point here is
+
+you don't want to do 4 more threads for
+
+no good reason
+
+so here's the beauty the question really
+
+is is completable future running in a
+
+different thread all the time is the
+
+print running in a different thread all
+
+the time if you have done c-sharp
+
+programming c-sharp had a synchrony for
+
+a while now and this is exactly how C
+
+char behaves as well which is really
+
+nice when the implementation is
+
+sensitive to and not having to switch
+
+threads unnecessarily so to understand
+
+this let's go back to this example and
+
+let's print out the thread of execution
+
+in the compute method so in the compute
+
+method I'm gonna say compute and then I
+
+will say thread dart current thread to
+
+show what thread is executing the
+
+compute method similarly I am going to
+
+come down to the print method and I'm
+
+going to print the value but at the
+
+after printing the value I will also
+
+print here thread dart current thread
+
+before we go further let's make a quick
+
+observation notice that we got the
+
+completel future on our hand here so
+
+we'll say completable future of integer
+
+over here so integer and let's say
+
+future is equal to and I want to make
+
+this extremely clear so we don't have
+
+any confusion about it so let's go ahead
+
+and say sleep of hundred milliseconds
+
+and then I called it then except let's
+
+understand a few details now notice that
+
+I first called a create method when I
+
+call the create method we step into
+
+create it runs this piece of code it
+
+returns the value of two and and once it
+
+returns the value of 2 that's going to
+
+run asynchronously sure then immediately
+
+it returns a value of 2 which means by
+
+the time you get out of the sleep the
+
+completable future has already completed
+
+now you go to the completable future
+
+which has completed and you say then
+
+accept and the completable future says
+
+you know what I am done I'm not going to
+
+wait for you because I'm already
+
+completed and as a result I will let you
+
+do the work so this execution is going
+
+to be in the main thread because the
+
+data is ready and available by the time
+
+you call this method in other words when
+
+you call that then accepted the main
+
+says hey look the data is already
+
+available I don't have to switch to
+
+another thread I might as well execute
+
+this in the main thread is that really
+
+true let's find out right here so when I
+
+run this code
+
+the main prints main that compute prints
+
+the thread in which it ran which isn't
+
+the common pool threat but you do notice
+
+the print actually isn't the main thread
+
+and the reason the print is in the main
+
+thread is because when the main is
+
+calling then except the future has
+
+already completed the completed future
+
+has only completed and it doesn't have
+
+to switch to another thread
+
+unnecessarily it immediately runs it in
+
+the main thread on the other hand let's
+
+go back to this code right here and
+
+introduce a thousand now asleep of a
+
+thousand now you know that by the time I
+
+finished the sleep the completed future
+
+is not completed yet so when I come and
+
+call the den accept what is the main say
+
+the main says well I'm not going to wait
+
+around for you to finish I don't know
+
+when you will finish you may never
+
+finish who knows so I'm gonna be
+
+non-blocking and the main goes away so
+
+in this case if I said here right here
+
+one more time apologize let's go ahead
+
+and comment this out as you would expect
+
+in this case when I
+
+run this code you will see the here
+
+being printed after the - absolutely but
+
+when I put the sleep in place by the
+
+time I get in here the completely future
+
+is not completed so the main says hey
+
+you take care of this I'm not gonna
+
+block and prints out here and walks away
+
+what about the other thread that
+
+eventually finishes it work returns the
+
+value of two and when it finishes that
+
+it says oh look I actually have some
+
+more work to do in my pipeline my
+
+completable future is piping with
+
+another completable future and I might
+
+as well run the train so this print they
+
+printed now is no longer gonna run in
+
+Maine because at this point it can run
+
+in the other thread when the computation
+
+is gonna finish is that really true
+
+let's run the code and take a look at it
+
+and notice at this time the compute was
+
+called well okay maybe I should really
+
+put a little sleep here to prove the
+
+point let's go ahead and sleep for about
+
+a second right here now when I go back
+
+and run the code this time you notice
+
+right there notice the thread that's
+
+running the printed is different from
+
+the thread that ran it here so the moral
+
+of the story here is just because you're
+
+looking at this execution
+
+there's doesn't mean you know exactly
+
+the thread that's executing in other
+
+words think of the thread as an
+
+implement implementation detail it
+
+shouldn't be your concern so in other
+
+words this code that you are calling
+
+right here in the den ax that may run in
+
+the main thread if all the execution is
+
+already done by the time you get to that
+
+point or it may run in a completely
+
+different thread if that execution is
+
+not done and as a result you're not
+
+blocking so the point really is
+
+you're not going to block on it and wait
+
+on it you're just going to continue with
+
+that and keep processing it depending on
+
+the state of the complete future at that
+
+particular time and that's exactly what
+
+we just saw here is how the thread of
+
+execution actually defers now that picks
+
+the question we saw this executing in
+
+the four giant pool the common pool as
+
+you just saw here again going back to
+
+this example let's remove the sleep for
+
+a second and if we run the code we just
+
+saw here you will notice that in this
+
+case
+
+that the execution of compute isn't the
+
+common pool that's where it's executing
+
+oh wait a minute what if I don't want
+
+this to run in a common pool what do I
+
+do in that case well then what you could
+
+do here is when you are creating this
+
+you can say for example for join pool
+
+and you could create a for join pool
+
+right here and we'll call it as pool is
+
+equal to new for join pool and and once
+
+I create a pool I can specify the pool
+
+as a second argument to the supply async
+
+and this says run this asynchronous job
+
+in a thread from that pool and not from
+
+the common pool so he can specify that
+
+as well if that is something you want to
+
+do and control you can certainly do that
+
+as well so you can vary the pool in
+
+which the code is going to execute I
+
+also talked about async versus non
+
+asynchronous you have versions to go
+
+back and forth depending how you want to
+
+do that brings up to the methods that we
+
+really want to talk about so the methods
+
+I want to talk about here is the den
+
+accept method so what is the den accept
+
+method do the den accept method is
+
+really a consumer it accepts the data
+
+and what does it return it runs a
+
+completel future of void to continue
+
+with your work why would you want to
+
+really deal with the completable future
+
+of void imagine you are trying to
+
+perform our database operation maybe you
+
+want to perform a commit
+
+maybe you want to write to a log file
+
+well when you are done with the
+
+operation you want to send a message
+
+saying I've committed to the database or
+
+you want to display an error if
+
+something went wrong in committing or
+
+maybe you're logging something and you
+
+want to display a message saying you're
+
+logged in or maybe you want to send that
+
+data to a remote server and when you're
+
+done with sending the data if there was
+
+no error you want to celebrate that and
+
+report that everything went well all if
+
+there was an error maybe you want to
+
+report that there was an error so in
+
+other words the the one that has it then
+
+accept returns a completable future of
+
+void but that contains information about
+
+success or failure and you can decide
+
+what to do with it and this
+
+one of the reasons why you really have
+
+that ability to continue further so
+
+jokes aside there's a really good reason
+
+for why this is a good idea so create
+
+and then then accept and then in this
+
+case of course given a piece of data I
+
+want to output the data well in this
+
+case of course it's going to print the
+
+data as you expect it printed the data
+
+let's get rid of the thread information
+
+right now and this time of course let's
+
+go ahead and remove this thread
+
+information also so you would notice
+
+that in this case it printed the data
+
+right there the value two at the very
+
+end when we printed it but if this was
+
+committing to a database or sending the
+
+data to a remote server you want to say
+
+that yep that really went well then you
+
+say then run and at this point a point
+
+you can simply say out port and you can
+
+say that went well and then you can
+
+print that result or do whatever you
+
+want to do to celebrate the success of
+
+that operation that is the reason why
+
+you have this continue further is
+
+because you want to make sure that the
+
+operation you performed here like
+
+writing to a database or sending to a
+
+remote server was actually actually
+
+successful and you want to report that
+
+maybe that's the reason for the then
+
+accept and and and that really is useful
+
+to continue further with the processing
+
+to say that last step I did a terminal
+
+operation I did was actually successful
+
+that is the then accept that then so I
+
+also talked about that then run which is
+
+the purpose of that is to kind of say
+
+yep that previous operation actually
+
+worked really well what about then apply
+
+so here's a way for us to think about it
+
+if you want to think about this a little
+
+differently let's do a little map of
+
+this right here between stream and let's
+
+say a completable completable future now
+
+first of all remember this is zero one
+
+or more data this is zero or one alone
+
+right that's one of the differences
+
+between the two the second is only data
+
+channel this contains two things you
+
+have a data channel and an error channel
+
+right so you have two channels of up
+
+raishin between these two guys that's
+
+another difference however you have a
+
+function called map over here well for
+
+each over here what is kind of the
+
+equivalent of that we saw this already
+
+and that is the then it's called the
+
+then accept so the word accept comes
+
+from the consumer interfaces then accept
+
+that's what we are using really at this
+
+point similarly you have a function
+
+called a map in the case of stream now
+
+what is the equivalent of remember what
+
+map does map performs transformation map
+
+transforms one stream to an of the
+
+stream well you know what they could
+
+have called it map here as well but if
+
+they did then we would understand it
+
+very quickly so like no no no we should
+
+really give a different name for it so
+
+this is called then what is it called
+
+this is going to be apply so then apply
+
+is like your mat if you will so what is
+
+it then apply do it performs
+
+transformation it transforms the data
+
+you get from one completable future you
+
+need to enter the completable future so
+
+they're pretty equal and so in my mind
+
+every time I think of then apply I think
+
+of a map because it's a transformation
+
+I'm really doing that's my intention
+
+here so just like they used map in
+
+optional they could have used a map here
+
+as well because all you're doing is
+
+performing the mapping operation right
+
+that's what it really is but once you
+
+get a hang of it it becomes easier to
+
+work with it that's the then applied so
+
+what am I going to do here let's go back
+
+to this example now and notice right
+
+here remember my little example is
+
+returning a value of 2 that's what it's
+
+returning then I say dart den over here
+
+accept and what am I going to do give it
+
+a piece of data send me there times 10
+
+we know the 2 times 10 is 20 so when I
+
+execute the code this time what is it
+
+going to do oh this is complaining bad
+
+return type for the lambda expression a
+
+missing returned value let's see what I
+
+did wrong here then apply I said apply
+
+but I typed except a little error on my
+
+part so then apply and the
+
+lambda that's going to return the result
+
+for us when I run this notice it said 20
+
+because 2 times 10 is 20 so we perform
+
+the transformation on line number 20
+
+that's what we just did
+
+so line 20 says I'm going to perform a
+
+mapping operation where I'm receiving
+
+this data I'm converting it to a times
+
+20 keep in mind this is returning a
+
+completable future of integer this is
+
+returning a completable future of
+
+integer as well this is returning a
+
+completing future of void on the other
+
+hand if I set 10 point O then this is
+
+returning a completable future of double
+
+and this is taking completable future of
+
+double as well and as a consumer of
+
+double and it becomes a twenty point O
+
+so so because we are not using type the
+
+type inference is your friend here had I
+
+written the code like this if I had said
+
+over here integer right here and integer
+
+and if I had written the code like this
+
+you can see at 20 if I said 10 point O
+
+right now I get a compilation error
+
+because this returns a completable
+
+future of double this wants an integer
+
+we have a type incompatibility problem
+
+because they did not use that because I
+
+use type inference it rolled over to the
+
+right type properly for us in this case
+
+type inference actually helped us but if
+
+you were to really provide the type in
+
+your code you would have to really deal
+
+with their depending on what you're
+
+trying to do with this operation or if
+
+this was specific to one type versus the
+
+other so this gives you a nice pipeline
+
+oh that's another point is both of them
+
+have a pipeline right so both of them
+
+are going to provide the pipeline for
+
+you the stream provides a pipeline the
+
+completable future also provides a
+
+pipeline for you that's a nice little
+
+pipeline in both of those cases you can
+
+also say the stream is lazy and so is
+
+this guy right here it is not gonna
+
+eagerly evaluate all of them right away
+
+they both are going to be lazy as time
+
+goes on you are going to execute when
+
+things are available so there is a
+
+similarities between them as well and
+
+differences also as we can see right
+
+here so that is basically what we are
+
+look
+
+in terms of how these two are relating
+
+to each other so we saw this pipeline
+
+but what about creating a pipeline and
+
+then completing well in the examples I
+
+created it so far it's a little bit of
+
+an unfortunate example because this guy
+
+is actually completing it but there are
+
+times when you want to create a pipeline
+
+but you don't want to complete the
+
+pipeline until much later you want to
+
+come back and complete the pipeline
+
+where you build a pipeline and then you
+
+perform the computation elsewhere and
+
+then you push the data through the
+
+pipeline that would be really nice in
+
+this example the mouth of the
+
+completable future is the data source
+
+but I don't want that all the time I
+
+want to create a complete different
+
+pipeline and then come back and push
+
+your data through the pipeline that
+
+would be really nice how do we do that
+
+and that's what I'm going to do now is
+
+to create an example where we can create
+
+a pipeline first and then we want to
+
+push the data through the pipeline so
+
+what are we going to do now so what I
+
+want to do here is completable
+
+completable future of integer we'll
+
+create a little integer right here
+
+integer will call it as future is equal
+
+to new completable future so we'll
+
+create a completable future object right
+
+here so we created a completable future
+
+what's our next step right now
+
+well once we created this completable
+
+future let's go ahead and say dart then
+
+apply and give it a data I want to say
+
+data times 2 so I am asking it to
+
+continue with this pipeline where I am
+
+going to then build a pipeline of a
+
+transformation then I say then act apply
+
+given a piece of data I want to
+
+increment the data so I could go through
+
+the pipeline and do various pardon me
+
+various operations for example this
+
+might be calling one function in your
+
+library which is going to return a
+
+result and then you could do another
+
+function based on that result and you
+
+can draw this pipeline of
+
+transformations in your code the way you
+
+really want to do this so you could go
+
+ahead and build this up as much as you
+
+want to depending on what you're trying
+
+to really do at this point
+
+say that's all I want to do with this
+
+pipeline then what am I going to do I'll
+
+simply say built the pipeline so this is
+
+my very first step I just built the
+
+pipeline that's all I'm doing at this
+
+point nothing really exciting beyond
+
+that let's see what I'm doing here this
+
+is going to be of integer because the
+
+type is going to be a complete feature
+
+of integer what what happened there is
+
+you're having a little issue with the
+
+type inference type inference works most
+
+of the time except when it doesn't so
+
+when it doesn't work I usually throw the
+
+type at the time and I keep moving
+
+forward so in this case of course when
+
+you don't provide the type it says I
+
+don't know what the type is I got to
+
+look at my surrounding to find it and
+
+this guy is not very helpful it says my
+
+type is the exact one as you give me
+
+like that's very helpful thank you so
+
+I'll just go ahead and put the type in
+
+this that's where the type inference
+
+really doesn't work really because it's
+
+not enough context to determine that so
+
+now we said it's an integer and it says
+
+built a pipeline or we built the
+
+pipeline but are we running through the
+
+pipeline not yet so what am I gonna do
+
+then I'm gonna say future Dart then
+
+except and what am I gonna do take the
+
+data and I'm going to output the data
+
+right here so this is going to output
+
+the data so we will say prepared let's
+
+say prepare to prepare to print again
+
+you will notice that in this case we
+
+don't have the pipeline active yet it
+
+doesn't matter how long we going to wait
+
+right now if I wait for a second it just
+
+got to wait for a second and print that
+
+result it's print the resulting wait for
+
+a second it's not gonna do anything why
+
+because we built the pipeline but no
+
+data was actually passed through this
+
+pipeline this is like some places where
+
+I've seen railway tracks laid down but
+
+they lost the funding so no train ever
+
+went through that for our tracks that's
+
+kind of like the place here right so we
+
+build the pipeline but nothing really
+
+went through it so what am I going to do
+
+then well after a second delay I'm gonna
+
+say future Dart and what am I going to
+
+say now complete and I'm going to pass
+
+the data through this complete I could
+
+take my sweet time to go do this
+
+operation elsewhere it doesn't have to
+
+be in the main it could be somewhere
+
+else I could put it in a complete
+
+and thread whatever that could be are
+
+more important you could be building a
+
+pipeline and pass it to somebody else
+
+and they could be holding on to the
+
+pipeline and sending it up back to you
+
+and when the data arrives to you you can
+
+do other operations with it let's send
+
+it to as a complete right now so what
+
+does that really do when you send a
+
+complete - well let's think about it I
+
+take the value to double it two times
+
+two is four I increment it becomes a
+
+five and I want to print the value of
+
+five when everything is said and done on
+
+the complete so let's see if that's
+
+actually going to work so I run this
+
+code now notice it says build the
+
+pipeline oh wait a minute it said - a
+
+little glitch here we have to be very
+
+careful about notice that I connected
+
+this to the future well this future is
+
+taking this pipeline of data and it's
+
+going to transform this let's be a bit
+
+careful about it let's save that away
+
+let's build a pipeline right here with
+
+the future so I want to transform this
+
+so future dot and then we will put this
+
+last call to that one so let's go ahead
+
+and apply this and we will say dot then
+
+accept and in this case let's make sure
+
+we are putting it the right place so
+
+this is the pipeline we drew at this
+
+point so we build up we created the
+
+pipeline lesson built it will say create
+
+the future we prepared to print or built
+
+the pipeline's put it that right here so
+
+we build the pipeline but we take a
+
+little nap right here and then we call
+
+the complete on this particular future
+
+and and pass the data let's see what's
+
+going to happen this time around so we
+
+want the research to have a five to be
+
+printed isn't it
+
+so right there it says five so what's
+
+going on here so we took the future that
+
+got created right here on on that
+
+initial future we are completing the
+
+call to it and then this pipeline
+
+applies the transformation and prints it
+
+you got to be careful where you connect
+
+to because the result of this you're
+
+appending to that and you are printing
+
+this out and then of course we complete
+
+the future pushing the data through the
+
+pipeline so where this is really useful
+
+as you can draw the pipeline send the
+
+pipeline off and say you know hey go
+
+ahead and you know you know complete
+
+this work when you are done push the
+
+data to me I'll receive it and cross
+
+so this is an example of where you can
+
+create in the compiler pipeline and
+
+completing it on the other hand how do I
+
+tell that something really went wrong
+
+now this is where we need to step back
+
+and ask how this is going to be
+
+processed now remember when it comes to
+
+exceptions
+
+what about exception the short answer
+
+for that is oops right so we don't
+
+really deal with it this is not going to
+
+work really well with streams we don't
+
+want to ever talk about exceptions when
+
+it comes to streams it doesn't really
+
+handle it very well
+
+what about completable future well this
+
+one he is going to handle that fairly
+
+well by having the error channel so the
+
+error channel is saying when something
+
+were to go wrong I will deal with it in
+
+my error channel but the way this works
+
+actually is by having these two
+
+different parallel channels if you will
+
+if things are going well you're on the
+
+right path if things are not going well
+
+you're on the left path let's say and
+
+then you cross over depending on you
+
+have an error or you recover from the
+
+error and you can go back and forth and
+
+you keep progressing in your pipeline
+
+and that is something that we need to
+
+really get comfortable with when it
+
+comes to dealing with how we are going
+
+to work with it so to understand this
+
+let's step back and take a look at
+
+another example and we'll come back and
+
+work with this current example after
+
+that so I'll save this away let's go
+
+back to a previous example we just
+
+created and just to fall back on how
+
+this is going to work and then I'll come
+
+back to this example right after that so
+
+let's say over here I have a compute
+
+method which is going to take no input
+
+of course and all it's doing is
+
+returning a two so we'll just start with
+
+the same example as we did before but
+
+then I'm gonna start with a static
+
+method will call it as completable
+
+future and in this case we will say
+
+create and what does a create method
+
+really do right here the create method
+
+says I'm gonna return a completable
+
+future dot supply async async' and in
+
+this case we will say just call the
+
+compute method okay so that's going to
+
+simply return the result of whatever the
+
+computers
+
+turning but back over here I'm gonna
+
+call create and simply say dart then
+
+accept and in this case given the data
+
+I want to output the data well let's
+
+start with baby steps right now so all
+
+this is going to be doing is simply
+
+print out the value that this is going
+
+to return and so as a result it printed
+
+a value of 2 we can even transform like
+
+we did before we could say dot then
+
+apply and we can say given a piece of
+
+data we can say return data times 2 okay
+
+so that's really giving us a four
+
+however what we can then do is to ask it
+
+to deal with errors when that happens so
+
+what do we do about exceptions what if
+
+something were to blow up what are we
+
+going to do about it well this is where
+
+we need to get comfortable with the way
+
+this API works when you have a
+
+completable future if things are going
+
+well it is going to find out for you the
+
+very immediate let's go to the
+
+completable future real quick
+
+so we'll say completable a completable
+
+future let's say Java and we'll ask for
+
+the completel future now if everything
+
+is going well you are going to be
+
+working with the den methods so in other
+
+words think of the den methods right
+
+here so that then methods let's ask for
+
+then so the den methods really are
+
+useful when things are really going well
+
+let's say then except so all these guys
+
+that then accept and then accept then
+
+apply all of these our success methods
+
+if everything is going well you stay
+
+with this then method so in other words
+
+when a completely future succeeds our
+
+results you go to the nearest den method
+
+that you are that's your idea right now
+
+but on the other hand what if something
+
+did not go really well what are you
+
+going to do about it
+
+well then you are gonna hit a method
+
+called exceptionally and exceptionally I
+
+really don't like this word you know
+
+exceptionally some
+
+is a catch that's what you're really
+
+doing so this says if something were to
+
+go wrong I will you know get to the
+
+exceptionally method and I will deal
+
+with that at that particular point so
+
+that is basically what the exceptionally
+
+method is interested in doing used to
+
+handle the error but the way this works
+
+is something we need to be careful about
+
+so I'm gonna go back over here and say
+
+dart exceptionally and what are we gonna
+
+do with this exceptionally if you look
+
+at the exceptionally notice that it
+
+takes a function that takes a throwable
+
+as an input and in this case it takes a
+
+throwable as an input and it is an
+
+extensive type T whatever that is going
+
+to return that's up to you what you want
+
+to return from that but all I'm gonna do
+
+is simply say throwable right now so a
+
+throwable and what do we want to do
+
+within here I'm gonna first of all let's
+
+call it as handle exception and I will
+
+pass the throwable to it so what am I
+
+going to do with the handle exception
+
+well in the handle exception let's try
+
+this
+
+so public static let's say void handle
+
+exception this is going to be a
+
+throwable so throwable and in this
+
+example all I'm gonna do is output the
+
+throwable maybe play a sad music say
+
+that something really went wrong then
+
+what am I going to do I'm gonna say a
+
+throw new runtime exception and I'm
+
+going to simply say it is beyond any
+
+recovery right so it's you know it's
+
+it's beyond hope let's just put it that
+
+way so beyond all hope so essentially
+
+we're going to just blow up at this
+
+point with exception at this point and
+
+say I'm going to throw this out as an
+
+exception we'll see why that's being
+
+done here in a little bit and that's
+
+what this is going to do is to just blow
+
+up at this point and we'll do this all
+
+through the compiler errors if we get
+
+any one right there it says bad return
+
+type for the lambda what are you gonna
+
+return really okay I'll say integer for
+
+now and and see if if it's happy with it
+
+says wants a void fine will give a void
+
+right now and and and run through it
+
+okay
+
+so it printed up for well what is this
+
+really heading towards notice in this
+
+example our compute method under true
+
+that resolved the completable future and
+
+because of the solve the complete the
+
+future we came to the nearest den which
+
+is transforming it two to four and the
+
+next Arace then is printing the four and
+
+that's the result we got however if I go
+
+back over here and say throw new runtime
+
+exception and we will say just like we
+
+get on real projects we get an exception
+
+called
+
+something went wrong right very useful
+
+messages that we normally get so it says
+
+something went wrong and blows up now
+
+what's going to happen well remember our
+
+completable future did not finish
+
+successfully it didn't resolve it
+
+rejected and because it rejected what is
+
+this completable future going to do it
+
+is going to seek the nearest
+
+exceptionally and bypass all that then
+
+apply and making sense so when you look
+
+at this pipeline in front of you there
+
+are two candidates in front of you there
+
+are the den functions in front of you
+
+there are exceptionally functions in
+
+front of you and when something is good
+
+you find the nearest then if something
+
+failed you find the nearest
+
+exceptionally so that is how it's going
+
+to jump over in terms of where it's
+
+going to go so if everything is good you
+
+are in the den apply if something is not
+
+good you skip the den apply and then
+
+accept and you're gonna hit the
+
+exceptionally because that's the nearest
+
+path you can jump over to to complain
+
+about it well in this case of course I
+
+could specify where to go based on what
+
+really happened well this is saying
+
+unreachable on return to let's see where
+
+the return to is of course I couldn't
+
+put it return to right there
+
+that doesn't really make sense to have
+
+it so what just happened over here let's
+
+go ahead and run the code and see what
+
+the results says notice it says
+
+completable future exception runtime
+
+exception something went wrong well
+
+actually in this case let's because this
+
+is an exception we're gonna handle let's
+
+put that right here as well well in this
+
+case this guy is saying okay so it's a
+
+little
+
+here because this guy what is the
+
+returning in the exceptionally block let
+
+me see where the exceptionally is handle
+
+exception this guy wants to return a
+
+void yeah let's let's see how this is
+
+going to go so this is going to return
+
+whatever the type is I'm gonna just say
+
+a type T for now so that I can make it
+
+very generic so this is a static type T
+
+whatever the type T is going to return I
+
+don't really care about it and then
+
+that's going to be the handle exception
+
+for it
+
+oh let's see how do I write this one so
+
+this is going to be public is it before
+
+P so T static it doesn't have a type so
+
+that's a T whatever it's gonna throw as
+
+a result back to the caller so that's
+
+going to be alright T over here not on
+
+the other side so that's going to be the
+
+return type of T as well so what
+
+happened illegal stay a start up
+
+expression then except this guy is not
+
+too happy why because this is supposed
+
+to return a T value so he's not too
+
+happy all right let me step back here so
+
+let's take baby steps on this one so
+
+let's go back to this guy let him return
+
+an integer because that's a chain we are
+
+dealing with exceptionally let's see
+
+what it's going to do so this is
+
+exceptionally this is going to return of
+
+course the integer value and I'm still
+
+struggling to get the exception out of
+
+this when it fails that should have
+
+really hit the exception block right
+
+here let's see why that did not hit to
+
+the exception block so what am i doing
+
+here oh I'm printing the throwable sorry
+
+this is going to be my fault I should
+
+say oops and then or let's say error
+
+maybe that'll give us a little bit more
+
+context as to where we are getting that
+
+maybe that's why I was getting confused
+
+right there let's give it a try again so
+
+run this oh there we go
+
+so that's a it's error so let's revert
+
+back to what I had a minute ago let's
+
+simply say let's move this to down here
+
+for a second so let's then say that is
+
+going to be exceptionally and let's make
+
+this avoid method for now let's see if
+
+that gives us the result we are looking
+
+for there we go apologize that's what it
+
+was doing the correct thing but I was
+
+getting confused because I didn't see
+
+the display of the error from this
+
+method so notice it says
+
+ever and then it says throwable which is
+
+the error we got over here from the
+
+other call but that one is the error
+
+that we are displaying so what's going
+
+on like I mentioned earlier it finds the
+
+nearest except for a block to go to but
+
+you can also recover from these kinds of
+
+exceptions as well so let's give this a
+
+try again let's say in here I am going
+
+to provide an exceptionally right here
+
+and in this case we will say handle
+
+exception - so what does handle
+
+exception to do for us now in the handle
+
+exception - I am going to say handle
+
+exception - but I print out the error
+
+but I return a -1 for whatever reason
+
+well now what's going to happen well
+
+let's follow through this again
+
+we are calling the create the create
+
+says I'm gonna blow up oh let's find the
+
+nearest exceptionally well what does
+
+that do it says I'm gonna print the
+
+message over here but I will recover
+
+from this and I've handled the exception
+
+I want to return a minus 1 now you were
+
+in the right track you went to the left
+
+track the left track says I've recovered
+
+back and you're back on the right track
+
+as the result when you come out of this
+
+exceptionally you're going to go to the
+
+nearest then except at that point
+
+because you have recovered from the
+
+error so that should print out a minus 1
+
+as an output if everything were to go
+
+well let's see if that's actually true
+
+so when I go back and execute this code
+
+oh wait a minute the semicolon let's
+
+remove that semicolon right there so
+
+when I go back to the code and execute
+
+it alright this is going to be an INT
+
+isn't it a type type type tip so where's
+
+the exit handle - that's going to be an
+
+int which is what I want to return so
+
+fire away now notice it printed a minus
+
+1 and the reason for that is it printed
+
+an error something went wrong but it
+
+still printed a minus 1 why because this
+
+guy recovered from the error and because
+
+it recovered from the error at this time
+
+it says I am going to go to the nearest
+
+n because this guy recovered from
+
+so the model of the story is in your
+
+exception handler if you don't blow up
+
+that means you are recovering from the
+
+exception if you blow up you're saying
+
+continue on the error path because this
+
+is beyond repair if you don't return an
+
+exception if you don't throw an
+
+exception but it'll turn a normal value
+
+then you switch back to the data path
+
+and then you're gonna continue on the
+
+data chain so that that diagram I drew a
+
+drew a while ago where I showed you how
+
+these things are going to behave so you
+
+have a function it returns the data you
+
+keep going on the on this path but any
+
+time something goes wrong then you are
+
+going to jump over to the error track
+
+and now on this one you're going to go
+
+through a function again if this blows
+
+up you stay on the error track if this
+
+returns back a good result then you are
+
+back on the data track and you go this
+
+way so it depends on these are your
+
+exceptional so this is exceptional and
+
+then this is of course the dense right
+
+so it depends on whether you have the
+
+data being returned or you have the
+
+error being returned and you go back and
+
+forth depending on how you process the
+
+chain but if something got to get
+
+comfortable width so think of this is a
+
+two tracks and you go back and forth
+
+within the tracks depending on what you
+
+are doing if you're recovering you go
+
+back to the top track if you're failing
+
+you go back to the bottom track so this
+
+is of course exceptional and of course
+
+in this case you're saying a blow up
+
+right so this is blow up if you don't
+
+blow up you will go up right this is
+
+where you are returning a result this is
+
+where you are blowing up so this is
+
+where you are returning so it depends on
+
+where you are in the chain so this is
+
+returning so you continue on the path
+
+this is blowing up so you come down this
+
+is blowing up you continue you return
+
+you go up and then of course here you
+
+return as well and then you continue
+
+right after that so that's basically how
+
+this works dupes let me put a return
+
+right here so this is returned and then
+
+you
+
+you on that path of execution so this
+
+returns you are on the track this
+
+returns on the track this blows up
+
+you're down here this blows up you're
+
+down here it returns you go up and then
+
+everybody is happy you keep going that
+
+so it depends on which path you are
+
+going through so when you build your
+
+pipeline you're going to build them with
+
+a pair of functions that then functions
+
+versus exception functions and then you
+
+carry through so far so good
+
+well let's then switch over to our
+
+previous example so the one I had
+
+created earlier where we created a
+
+pipeline and we are working through it
+
+so what am i doing in this example well
+
+what I'm doing here is we created a
+
+pipeline right here so we create a
+
+future and then we said then apply then
+
+apply then accept and then of course we
+
+built the pipeline and then we can
+
+compare and say complete with the two
+
+now what about exception handling in
+
+here so what I'm gonna do here is to say
+
+dart exceptionally and exceptionally
+
+what I'm gonna say a throwable and
+
+throwable and I will call this as handle
+
+exception and what am I gonna do now
+
+well in this case I'll pass the
+
+throwable to it what does this handle
+
+exception do for me well I'll say public
+
+static this is going to be in a handle
+
+exception this is going to become the
+
+throwable and that becomes a throwable
+
+that I'm gonna pass to it and all I'm
+
+gonna do here is to simply say output
+
+error colon will print the throwable but
+
+then we'll return let's say zero so I'm
+
+just going to say I recovered from it
+
+I'm gonna turn to zero I'm gonna move on
+
+so that is going to return a zero when
+
+something went wrong zero plus one is
+
+going to be one and that's going to
+
+print a 1 if exception were to happen
+
+when I when I run this code what's it
+
+going to do well there's no error right
+
+now so as a result this guy here
+
+completed with the two so we went to the
+
+nearest then two times two is four
+
+we went to an errors then four plus one
+
+is five
+
+while we print five the nearest n so the
+
+result is a five as you would expect
+
+however how do I blow up how do I say
+
+something really
+
+went wrong how do I communicate an error
+
+well for that you use another function
+
+I'm not happy with this function name at
+
+all
+
+it's called completed well this is
+
+called complete exceptionally now this
+
+is a really ugly name in my opinion so
+
+you can use this on your projects the
+
+boss comes to you and says how's the
+
+project going I complete exceptionally
+
+right which means we totally failed well
+
+that's what complete exceptionally is
+
+isn't it so I always say this among
+
+programmers because they know what I'm
+
+talking about the boss doesn't know this
+
+it's always fun hi how's it going
+
+complete exceptionally right so that's a
+
+nice way to say it all the programmers
+
+know what you're talking about
+
+so the point really is complete
+
+exceptionally and I'm going to blow up
+
+at this point so what am I going to
+
+communicate to complete exceptionally
+
+well I'm gonna pass a throwable to it so
+
+in this case I'm gonna say new runtime
+
+exception and at this point I'm gonna
+
+say don't tell the boss right so so this
+
+is a basically the exception that we're
+
+going to blow up and and send a complete
+
+exceptionally what what is it going to
+
+do now well in this case we are passing
+
+through the pipe line complete
+
+exceptionally this will not be executed
+
+it goes to the exceptionally block which
+
+prints that result don't tell the boss
+
+and then returns a zero and of course 0
+
+plus 1 is 1 and then of course we're
+
+gonna print the 1 value when everything
+
+is said and done so let's go back and
+
+see if that actually is true let's make
+
+sure we save this and run the code and
+
+what does it do now build the pipeline
+
+and notice it says error don't tell the
+
+boss and returns a 1 instead of a 5 so
+
+we can see how we could you know work
+
+through this for example if let's say
+
+Matt dot random is greater than 0.5 we
+
+could send that over there otherwise we
+
+could say else future dot complete and
+
+in this case we'll send a value of 2 so
+
+we could go either way depending on
+
+execution depending on the context we
+
+wouldn't know so you can see that it
+
+failed and over here it failed as well
+
+let's try this one more time okay so
+
+that's not
+
+working really well so it wants to keep
+
+failing for more reasons than succeeding
+
+I'll try one more time otherwise we'll
+
+we'll move on to do something else well
+
+let's try this let's give it a less
+
+chance to fail 0.25% well actually no
+
+seven five percent right so less chance
+
+to fail let's try this one more time
+
+okay I give up okay so so it's bent on
+
+failing alright there you go
+
+so that's an example of how you could
+
+decide to you know handle failures
+
+where's the success and you can either
+
+complete it or you can complete
+
+exceptionally and and send the data
+
+through your pipeline so so again coming
+
+back to this the way this works really
+
+is through this pipeline of operations
+
+where you can trigger this evaluation
+
+and go through the den or the other
+
+exception block and then we can recover
+
+from this and move forward so that
+
+becomes a really nice way to do this and
+
+we saw the chaining of this however
+
+there is one other problem unfortunately
+
+when we in Java
+
+eight this is more or less what we had
+
+in Java
+
+eight but there's one problem in this
+
+code and that is let's go back to this
+
+code for a second if we were to run this
+
+code without this last part and what's
+
+gonna happen now well notice we have a
+
+pipeline in front of us we execute the
+
+code we build the pipeline but as time
+
+goes on what's going to happen at the
+
+very end well I'm gonna say done over
+
+here well but the problem is nobody
+
+really triggered the pipeline and as a
+
+result in this example when you run
+
+through this if the pipeline was never
+
+evaluated well how do you know how long
+
+you want to wait for a result to be
+
+received well the problem really is this
+
+pipeline is never evaluated because the
+
+completed future is in a state of
+
+pending well remember there are three
+
+states for a completable future what are
+
+the three states a pending state is one
+
+state then a resolved the state and then
+
+a third is a rejected state now if you
+
+were to create a completed future
+
+the source you can reject it right away
+
+or you can resolve it right away or you
+
+could put in a completely different
+
+thread and say I'll come back and
+
+resolve or reject later but the biggest
+
+problem with this is how long are you
+
+going to be in the pending State well
+
+that's really an answer you have to ask
+
+there is one thing I recommend very very
+
+you know thoroughly for people and that
+
+is both in life and programming never do
+
+something without timeout this is what I
+
+tell everyone especially young people if
+
+you're gonna look for love never look
+
+for indefinitely that's the easiest way
+
+to die old and alone so you time out
+
+right you say I'm gonna work for a
+
+little while but I'm gonna settle down
+
+after that that's just my recommendation
+
+personal recommendation so both in life
+
+and programming never do something
+
+without a timeout just for healthy
+
+living right so you always timeout
+
+especially in programming that's even
+
+more important than life so always do
+
+with the timer well unfortunately there
+
+was no timeout in Java 8 well they cured
+
+the problem in Java 9
+
+so in Java 9 we have two methods that
+
+are available for us so going back to
+
+this example clearly I am NOT really
+
+resolving this it's gonna end up in a
+
+pending State for a very long time so
+
+what do you do about it
+
+well in this case what I'm gonna do is
+
+after a second delay I am going to then
+
+say well over here I'm gonna say in this
+
+example well we will say future dart and
+
+I'm going to say complete on time out so
+
+this is a method where I'm gonna ask it
+
+to complete successfully but if it is on
+
+time mode real quick I'm in the Java 8
+
+API right here and if I look for time
+
+out notice that's really no method with
+
+time out the get with time out but you
+
+know get is really ugly we don't want to
+
+do this so let me switch over to Java 9
+
+right here in the API and now I look for
+
+the word timeout right now and notice at
+
+this time I have a complete on timeout
+
+that's the API added in Java 9 you
+
+didn't see this a second ago in Java 8
+
+that's a complete on timeout so I'm
+
+going to say complete on timeout
+
+and what are we gonna return at this
+
+point I'm gonna send a minus 1 but but
+
+how long am I going to wait for timeout
+
+you can specify your time and a time
+
+unit for it so you can specify here I'm
+
+gonna give a 1 second a time unit dart
+
+seconds and I'm gonna give you a second
+
+to finish if you don't finish in a
+
+second I'm gonna then resolve it with
+
+the minus one that's what I'm saying
+
+here right and I'm not suggesting that's
+
+the right thing to do or the wrong thing
+
+to do
+
+that's what the API gives you depends on
+
+your problem at hand you can say I'm
+
+gonna wait for this task to finish for a
+
+while if it doesn't finish I'm gonna use
+
+this response and move forward because
+
+it makes sense in my application so this
+
+is basically saying timeout with the
+
+minus 1 at that point and resolve it
+
+with that result
+
+so what is it going to do then well
+
+notice I said a one-second delay well
+
+okay let's actually say a two-second
+
+delay if you will so in this case I'm
+
+giving it a 2 seconds of delay so I'm
+
+waiting for a second and another 2
+
+seconds before I finish it let's see how
+
+this is going to work so I come run this
+
+code notice a little time goes away it
+
+gave you a minus 1 because 1 second
+
+later nothing was resolved it gave us
+
+that minus 1 when it gave minus 1 what
+
+happened - one came through here let it
+
+actually did it work properly while
+
+complete on timeout with the minus 1 and
+
+the minus 1 should have actually come
+
+through here and minus 1 times 2 is
+
+minus 2 plus 1 is minus 1 tricky example
+
+that's why it was a minus 1 isn't it ok
+
+so I was losing faith in my own code
+
+right now but you know exactly why it
+
+did that
+
+ok let's just put it as a zero blatantly
+
+2 so we can know that's gonna be 0 times
+
+2 is 0 0 plus 1 is 1 ok that should
+
+really come back as a 1 because we
+
+didn't resolve it ok great so that's
+
+basically the response we saw how
+
+well we notice that at the end of a 1
+
+second delay I go to the future and I
+
+say complete with the value of 2 now
+
+this time even though I said complete on
+
+time out
+
+remember one thing important to keep in
+
+mind about completing future is that a
+
+completable future is in a pending state
+
+or isn't a resolved state or it's in a
+
+rejected state but remember these are
+
+final States once you resolve or you
+
+reject you can never change it so which
+
+means if you completed successfully then
+
+you're not going to really have this
+
+becomes a no op you cannot resolve the
+
+result a completely future you cannot
+
+resolve the rejected future and
+
+vice-versa
+
+so so because it's been resolved right
+
+here this will have no effect on it
+
+which is a good news so if I run this
+
+code now we're passing the two at the
+
+end of the time oops complete not
+
+compute so this is complete so as a
+
+result if you notice over here when the
+
+twos a one second is over notice that we
+
+got a five as a value not the minus one
+
+but of course if this does not complete
+
+in that duration of time then of course
+
+we get a zero or a one rather as an
+
+output so that's basically where it
+
+steps in if it would not really finish
+
+in a similar way what you can also do is
+
+you can tell him hey if the result it
+
+did not resolve on time I don't want to
+
+give you a substituted value I do want
+
+to blow up and and that is something you
+
+can do by simply saying our time out so
+
+our time out what does that do it simply
+
+says if you did not finish on time I
+
+want to blow up to tell you that you did
+
+not finish on time and I want you to do
+
+the error processing at that point so in
+
+this case we are saying our time out no
+
+data obviously because I want to fail at
+
+this point and you're giving it a two
+
+seconds delay with the our timeout now
+
+when I go back and execute the code a
+
+second later I'm completing it as a
+
+result you guarded
+
+you a five it resolved it so you will
+
+never reject it at that point on the
+
+other hand if I do not complete in that
+
+duration of time in the two seconds
+
+period then when I run this code this
+
+time notice that it blows up and it says
+
+error and concurrent time out exception
+
+and then it says that I had an exception
+
+remember when you had a timeout it
+
+returns a zero as a result you got a 1
+
+we recovered from that at the point but
+
+the essential point here is we are
+
+blowing up
+
+so those are two new methods added in
+
+Java 9 and Java 9 introduced the timeout
+
+complete on timeout and our timeout I
+
+they didn't say exceptionally on timeout
+
+but in this case it says there are
+
+timeout so complete on timeout lets you
+
+resolve at the end of timeout our time
+
+out lets you blow up on timeout and then
+
+afterwards it goes to the same chain of
+
+evaluation through either handling
+
+errors are going to the then the same
+
+rules apply that we talked about earlier
+
+so we start about succeed on timeout we
+
+talked about fail on timeout so far so
+
+good
+
+then comes two methods and at least when
+
+I looked at them I got pretty confused
+
+combine and compose what does it really
+
+mean combine and compose well keep in
+
+mind Java is statically typed javascript
+
+is dynamically typed well there are
+
+things you can do in JavaScript that you
+
+cannot quite easily do in Java because a
+
+type checking is going to intervene with
+
+what you're doing let me step back and
+
+talk about that real quick and then
+
+we'll talk about why these differences
+
+exist let's for a minute talk about
+
+JavaScript just a little bit in
+
+JavaScript when you say it then and
+
+you're providing a function will call
+
+this as let's say you take a data and
+
+you call a funk and on the data well
+
+what can the funk do funk may return
+
+data or return a promise this is the
+
+capability in JavaScript in JavaScript
+
+the function you pass do then may return
+
+data or it may return a promise why
+
+would you want to do this if you return
+
+piece of data well then this always
+
+returns a promise well if you return a
+
+data that data is wrapped into a promise
+
+that you're returning if you return a
+
+promise on the other hand the promise
+
+that you return is returned it directly
+
+so in other words if data is returned
+
+returned then of course it is wrapped
+
+into a promise if promise is returned
+
+then that is returned from the been so
+
+in other words this is exactly what
+
+javascript does but notice how
+
+javascript is flexible here because of
+
+dynamic typing in JavaScript it doesn't
+
+matter what the type is you can return
+
+whatever you want to return from a
+
+function if this function returns a data
+
+it's a data if it's a promise is a
+
+promise and JavaScript deals with it you
+
+can't do this in Java why because the
+
+return type matters but then except says
+
+the return type has to be a type T well
+
+if it's a completel future feature that
+
+you're returning then that's going to be
+
+a little bit of a trouble so we'll see
+
+what the trouble is and we'll understand
+
+how to deal with it in just a few
+
+minutes so to understand this let's step
+
+back and talk about combined versus
+
+compose so what does combined really do
+
+so the combined method really is taking
+
+one completable future and combining
+
+with the result of another completable
+
+future so to understand this let's take
+
+a little example and play with it so I'm
+
+gonna say over here a public let's say a
+
+static will call this as a completable
+
+future so this is going to take an
+
+integer value will call it as create and
+
+and what does this method really do it's
+
+going to simply say return a completely
+
+future dart supply async and let's
+
+simply return a value of two we keep it
+
+extremely simple again so this is going
+
+to be just returning a value of do from
+
+this particular example so so this is
+
+basically returning
+
+a completely future great now what I
+
+want to do here is I want to say create
+
+but then I say combine well I'm gonna
+
+take two things and combine them let's
+
+make this a little bit more interesting
+
+there's a silly example I pass a number
+
+here it's going to simply return that
+
+number I know that's a little silly
+
+example but it's gonna run that kind of
+
+synchronously surpass it too then I say
+
+create and pass a three to it so what
+
+does this really do the combined method
+
+well this is gonna be then combined
+
+between those two operations so oh let's
+
+see what it says then combined method
+
+and command class cannot be applied to
+
+the given types
+
+it needs a bi function that you are
+
+going to provide in this case all right
+
+let's see what this is saying a requires
+
+completed stage and then a bi function
+
+after that great so I'm gonna say then
+
+combined and in this case I'm gonna say
+
+I got a data on my hand and what are we
+
+going to do with the data that I'm
+
+receiving from the den combined let's
+
+quickly look up this API here so here's
+
+the den combined so notice that then
+
+combined says I get a completable stage
+
+and a function after that so this is
+
+going to become a create of three comma
+
+now what does this do really do for me
+
+notice a second argument is actually a
+
+bi function which means let's call it as
+
+a result one account a result one comma
+
+result two and then I'm going to take
+
+those two and return result 1 plus
+
+result 2 so that's what I'm going to
+
+return from this call of the two so what
+
+is this combine do combine says I have a
+
+complete inferi have another completable
+
+future here so this could be two
+
+different asynchronous tasks you are
+
+sending off to execute when both of them
+
+finish think of the combine like a join
+
+function you're saying when both of them
+
+I asked for pizza and I ask for drink
+
+and when I get the pizza and the drink I
+
+want to do something with it
+
+what's a result of then combined it's
+
+yet
+
+another completable future is ended so
+
+then I say dot then and I can say accept
+
+and given a piece of data I want to
+
+output the data at this time
+
+now notice create - is going to return
+
+- as it's a really simple trivial
+
+example create three is going to return
+
+three but pardon me create two returns a
+
+completely future that will yield or to
+
+create three returns a complete future
+
+that is a three but when both of them
+
+resolve this method will be executed and
+
+when this method is executed that will
+
+create another completable future with
+
+the value of five and that complete
+
+future when it finishes it will then
+
+come to the then accept and the data fi
+
+will print out for us and that's exactly
+
+what you saw here so what is combined
+
+really do so combined is something that
+
+we're not quite used to in Java there is
+
+no equivalent of that really in the case
+
+of a stream well maybe you could look at
+
+concat if you will so if you go to the
+
+streams API a concat of two streams but
+
+you are waiting for one steam to finish
+
+and the other stream is going to
+
+continue so it's really saying take that
+
+value and move it through ma in my
+
+opinion what may becomes really close to
+
+it is something we don't have in Java
+
+unfortunately right now so I'll put it
+
+in a in a parenthesis this is like the
+
+zip method so you are really zipping
+
+through multiple streams together we
+
+quite don't have that capability in Java
+
+but this is really where you're getting
+
+this really nice combined method on the
+
+other hand what you really are looking
+
+at with the composed method is something
+
+a little bit different so the word
+
+composed little through threw me off a
+
+little bit
+
+what does compose really mean well to
+
+understand compose let's take a little
+
+slight detour and come back to this in
+
+just a minute
+
+so here's the detour I want you to think
+
+about something a little different
+
+let's think about streams API for a
+
+minute I got a list of numbers 1 to 10
+
+and I want to say numbers start stream
+
+and in this case I'm gonna say dot map
+
+and what am I
+
+to do with the map method I'm gonna say
+
+take an element and we will call a
+
+function will call it func one and pass
+
+the element to it then I say for each
+
+system dot out and we will simply print
+
+it print 'ln so what is func one do well
+
+let's make it extremely simple
+
+so public let's say static in a funk one
+
+takes a number and what it does is
+
+simply return number plus one a very
+
+simple example in here
+
+well a printed value let's put it times
+
+two it's a little easier to see it so 1
+
+times 2 2 times 2 and so on
+
+what about func itself well the func one
+
+is one to one one to one mapping
+
+function what does that mean if you give
+
+me one object it returns one object for
+
+example we got wonderful people in the
+
+room for every one of you I can ask you
+
+what's your first name and every one of
+
+us has one first name that's a
+
+one-to-one operation one person one
+
+first name right that's as simple as
+
+that
+
+on the other hand I can ask you a
+
+slightly different question and that
+
+question is I can ask you for all your
+
+email addresses some of some of us may
+
+have one email address some of us may
+
+have - some of us may have three some of
+
+us may have seven but I want all your
+
+email addresses why because it's more
+
+fun to spam all the email addresses than
+
+one so this is a one-to-many operation
+
+so I say Matt given an element
+
+funk - and what is fun to do funk - is
+
+going to return to me not one object but
+
+multiple objects so in this case I get
+
+an into square bracket there's gonna be
+
+funk - and what am I going to do here
+
+I'm gonna return number minus one and
+
+number plus one now here's the problem
+
+when I run through the map what is it
+
+going to do when I run the code this is
+
+going to return a number minus one so
+
+sorry new int new int square bracket and
+
+then of course
+
+number minus one and then of course
+
+number plus one a little syntax over
+
+here and what does it return
+
+that's nasty isn't it what what just
+
+went wrong here
+
+well the problem here is funk do is a
+
+one-to-many mapping function so in other
+
+words if you are doing a map operation
+
+with the one-to-one you go from a stream
+
+of P to a stream of Y but if you do a
+
+map with one two one two many operation
+
+so if you do a map with the one-to-many
+
+you go from a stream of B to two stream
+
+off I don't know just call it a list for
+
+now of Y which is probably not what you
+
+really wanted whether it's a list or an
+
+array doesn't really matter so what if
+
+you really wanted a map of one to many
+
+and but what you really want to do is to
+
+start with the stream of T but you
+
+really want to end with the stream of Y
+
+how do you really do this well this is
+
+exactly where you use what is called
+
+flat map so a flat map is useful to go
+
+from a stream to a stream when you have
+
+a one-to-many operation so when do you
+
+use a Mac versus a plat flat map very
+
+easy you have a one to one use a map
+
+when you have a one-to-many use a flat
+
+map so this is a operation of flat map
+
+when you're returning the stream you end
+
+up using a flat map operation in fact
+
+I'll convert this code to use a flat map
+
+in just a second to show you how that
+
+actually is going to work so notice what
+
+I'll do here I'll go ahead and say flat
+
+map give an element
+
+stream of func do and then I'm going to
+
+pass the element E remember that's
+
+returning an array now I'm going to call
+
+a stream on it and ask it to give us a
+
+stream from this operation so when I
+
+execute this code what is it going to
+
+return for us with the flat map let's
+
+make sure we do this right so I'm
+
+calling the stream off and then the func
+
+to you is returning
+
+in the stream and on that stream I want
+
+to return a stream of objects so let's
+
+see why that's not working at this point
+
+this is going to be an array of data
+
+that we want to return looks like an
+
+inch stream is not cooperating with me
+
+really well here arrays start as arrays
+
+let's try that dart stream let's try
+
+that sorry say that again
+
+a radar stream arrays Oh a stream yes
+
+thank you
+
+arrays dot a stream not know it's not
+
+happy there's a stress array starts
+
+stream is a function but that's not
+
+compatible with this for encamping
+
+incompatibility of t okay let's try
+
+something a little different here let's
+
+go back to this code right here and say
+
+return stream that off and in this case
+
+I'm gonna say I want to return an array
+
+of values what am I going to return as
+
+an array of values well let's say in
+
+this case new objects are not here new
+
+object square bracket let's say in this
+
+case a comma B just a silly example just
+
+to get through this to illustrate the
+
+point about what this is really doing so
+
+let's go ahead and close this here as
+
+object so there you go so the point I
+
+was trying to make here really is let me
+
+try this really quickly with the
+
+function so we can say func two of E and
+
+maybe maybe maybe it just wants an
+
+object right here woods it's an
+
+in-stream yeah probably so but I'll
+
+convert this to a stream object for just
+
+a minute there we go so so that's the
+
+whole point is you really wanted to get
+
+a collection of objects one stream of
+
+data not a stream of dreamed there was a
+
+type issue there so basically in this
+
+case that's the goal of a map flatmap
+
+why am I even talking about flat map
+
+what's the what's the problem here the
+
+problem I wanted to really mention here
+
+is when a function returns so think
+
+about it this way we talked about flat
+
+map real quick so when a function
+
+returns data
+
+we use map when a function returns a
+
+collection we use flat map well okay in
+
+a similar way when a function returns
+
+data we use then except to transform
+
+when a function returns a completable
+
+future well this is kind of like
+
+returning as stream isn't it so if you
+
+returned our data use map if it returned
+
+a stream you use a flat map if you
+
+return a data you use then except which
+
+we saw up here
+
+raw or then apply right then accept or
+
+then apply but on the other hand if it
+
+returns a completely future what are you
+
+going to do well now you know the rest
+
+of the story this becomes then compose
+
+so in other words the then compose is
+
+much like you were a flat map equalent
+
+of it so that was a little lightbulb in
+
+my head to realize the reason why you
+
+have it then compose really is when a
+
+function is returning a completable
+
+future you want to continue passing the
+
+computer future down the chain and you
+
+are doing it then compose for that
+
+reason let's look at this as a last
+
+example before we call this done so what
+
+are we going to do with the completable
+
+future
+
+well the dem compose is going to compose
+
+that and forward it so in other words
+
+what we want is a function that in turn
+
+is going to return a completable future
+
+to illustrate this point let's do it the
+
+wrong way and then we will make it
+
+better in this example so let's let's
+
+give it a try with with an example right
+
+here so let's go back to this code this
+
+guy is returning a completable future as
+
+you can see so let's go to the main
+
+function and in the main function let's
+
+say we have another function public
+
+static let's say we'll call it as
+
+completable future integer we'll call it
+
+Inc this takes a number and what it's
+
+doing is returns a completable future
+
+dollar supply async but it's returning
+
+the given number plus one so start with
+
+this for a minute so we know what Inc is
+
+doing ok great now I go back over here
+
+and call the create method
+
+and what does create do takes a - and
+
+returns a completable future well ok
+
+it's gonna return just the two back to
+
+us then I say then apply and I take the
+
+data and I'm going to say now return
+
+increment of data well then I say it
+
+then accept and I'm going to say given
+
+the result go ahead and print out the
+
+result now this is pretty ugly isn't it
+
+what's wrong with this if you really
+
+think about it you'll be probably
+
+surprised about this this returns a
+
+completel future then this takes the
+
+result from that future called ink ink
+
+is not returning a result but it turns
+
+in another completel future to say that
+
+you know i might take time and work on
+
+this and get you the result later on No
+
+thank you don't install it right now so
+
+in this case that's for the future so as
+
+you can see right here it says I'm gonna
+
+turn this to you in the future now what
+
+did I do
+
+I returned the completable future from
+
+here what does that then accept I
+
+receive result now unfortunately is a
+
+completable future isn't it so what is
+
+going to be the output of this call when
+
+I run this code
+
+that's the completable future mmm maybe
+
+not what I really wanted so in other
+
+words I'm saying I want to wait for the
+
+other completel future to be finished
+
+not for this one so what am I going to
+
+do I go back to this code and say dart
+
+then compose and then compose given the
+
+data increment on the data so I'm not
+
+using the den apply right now because
+
+the function doesn't return data it
+
+returns a completable future so now when
+
+I execute this code over here you can
+
+see the result is 3 so you need to know
+
+why you want to use then apply vs. you
+
+want to use then compose is when you
+
+return a data versus when you return a
+
+completable future you want to wait on
+
+the completable future not on just
+
+was returned from this function so you
+
+know in other words you want to go one
+
+level below to the computable futures
+
+complete future not at the top level so
+
+that is basically the reason to use a
+
+complete able future in there so so that
+
+becomes the reason why this is kind of
+
+like your flat map where you are using
+
+that then composed to really extract
+
+this into a flatter net and work with
+
+the inner completel future rather than
+
+the external one that's what you are
+
+trying to do with this and so that gives
+
+you the composed method that you're able
+
+to use so to summarize what we talked
+
+about we talked about the asynchrony we
+
+talked about how threading actually is
+
+given to the a stimulus operation we
+
+talked about why callbacks are nasty
+
+but completable futures are really the
+
+promises in JavaScript that has been
+
+brought over to Java it gives you the
+
+two channels the data channel the error
+
+channel the data channel carries the
+
+then parts the the error channel is the
+
+exceptionally part you can go back and
+
+forth between them and it's a single
+
+pipeline one set of data that carries
+
+through for you to work with the result
+
+if you are interested in working with
+
+the code examples I wrote here and you
+
+want to download and play with it you
+
+can find them on the downloads link on
+
+my website you can either write it down
+
+or take a photo of it and I'll leave
+
+this here a little bit and you can
+
+download the code and play with it if
+
+you have any questions I'd be delighted
+
+to answer now or at a later time if you
+
+want to drop an email my email address
+
+is on line number four as well hope that
+
+was useful thank you
+
+[Applause]
+
