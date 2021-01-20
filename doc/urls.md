@@ -20,3 +20,7 @@ https://www.youtube.com/watch?v=0hQvWIdwnw4&ab_channel=Devoxx   Parallel and Asy
 https://www.youtube.com/watch?v=Q_0_1mKTlnY&ab_channel=GOTOConferences  GOTO 2014 • New Concurrency Utilities in Java 8 • Angelika Langer
 
 https://plantuml.com/class-diagram
+
+
+https://www.anuragkapur.com/blog/devoxx-uk-2018#completablefutures
+https://blog.qfotografie.de/2018/05/15/devoxx-uk-deep-dive-streams-and-completablefutures/
