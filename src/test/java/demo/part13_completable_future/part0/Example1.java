@@ -5,7 +5,12 @@ import org.junit.Test;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 public class Example1 extends Demo1 {
 
@@ -15,6 +20,7 @@ public class Example1 extends Demo1 {
         logger.info("started");
 
         int amountInUsd = (getPriceInGbp() * getExchangeRateGbpToUsd()) + (getPriceInEur() * getExchangeRateEurToUsd());
+        // TODO add tax
 
         LocalDateTime finish = LocalDateTime.now();
         logger.info("finished: y={} after {} ms", amountInUsd, Duration.between(start, finish).toMillis());
@@ -37,6 +43,7 @@ public class Example1 extends Demo1 {
         }
 
         int amountInUsd = (priceInGbp.get() * exchangeRateGbpToUsd.get()) + (priceInEur.get() * exchangeRateEurToUsd.get()); // sum in X
+        // TODO add tax
 
         LocalDateTime finish = LocalDateTime.now();
         logger.info("finished: y={} after {} ms", amountInUsd, Duration.between(start, finish).toMillis());
@@ -63,6 +70,7 @@ public class Example1 extends Demo1 {
         int amountInUsd = amountInUsd1
                 .thenCombine(amountInUsd2, (amount1, amount2) -> amount1 + amount2)
                 .get();
+        // TODO add tax
 
         LocalDateTime finish = LocalDateTime.now();
         logger.info("finished: y={} after {} ms", amountInUsd, Duration.between(start, finish).toMillis());
