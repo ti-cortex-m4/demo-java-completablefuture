@@ -8,13 +8,14 @@ skinparam sequenceMessageAlign center
 activate consumer
 consumer->producer: submit\ntask
 activate producer
-producer->>consumer: create promise\nreturn future
+producer->producer: create promise
+producer->>consumer: return future
 Note right of producer: execute task
 consumer->consumer: wait for\ntask completion
-Note right of producer: write promise
+producer->producer: write promise
 producer->consumer: complete future
 deactivate producer
-Note left of consumer: read future
+consumer->consumer: read future
 
 ||14||
 producer -[#white]->]
