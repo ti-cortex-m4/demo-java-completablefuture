@@ -1,0 +1,19 @@
+@startuml
+scale 1.1
+hide footbox
+skinparam monochrome true
+skinparam defaultFontName Source Sans Pro
+skinparam titleFontSize 15
+skinparam sequenceMessageAlign center
+
+activate consumer
+consumer->producer: submit\ntask
+activate producer
+producer->>consumer: create promise\nreturn future
+Note right of producer: execute task
+producer->consumer: complete future
+deactivate producer
+
+||14||
+producer -[#white]->]
+@enduml
