@@ -14,7 +14,7 @@ consumer->consumer: wait for\ntask completion
 Note right of producer: write promise
 producer->consumer: complete future
 deactivate producer
-Note right of consumer: read future
+Note left of consumer: read future
 
 ||14||
 producer -[#white]->]
