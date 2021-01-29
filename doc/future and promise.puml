@@ -1,5 +1,4 @@
 @startuml
-scale 1.1
 hide footbox
 skinparam monochrome true
 skinparam defaultFontName Source Sans Pro
@@ -11,8 +10,11 @@ consumer->producer: submit\ntask
 activate producer
 producer->>consumer: create promise\nreturn future
 Note right of producer: execute task
+consumer->consumer: wait for\ntask completion
+Note right of producer: write promise
 producer->consumer: complete future
 deactivate producer
+Note right of consumer: read future
 
 ||14||
 producer -[#white]->]
