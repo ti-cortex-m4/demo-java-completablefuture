@@ -7,7 +7,7 @@ split
    :get the price in GBP;
 split again
    -[hidden]->
-   :get the exchange rate\nfrom the GBP to the USD;
+   :get the GBP/USD\nexchange rate;
 end split
 :get the price in USD;
 split again
@@ -17,7 +17,7 @@ split
    :get the price in EUR;
 split again
    -[hidden]->
-   :get the exchange rate\nfrom the EUR to the USD;
+   :get the EUR/USD\nexchange rate;
 end split
 :get the price in USD;
 end split
@@ -25,6 +25,6 @@ end split
 
 :get tax;
 
-:get total price in USD after tax;
+:get total price in USD\nafter tax;
 
 @enduml
