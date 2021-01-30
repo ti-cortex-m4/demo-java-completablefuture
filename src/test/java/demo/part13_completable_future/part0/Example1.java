@@ -5,12 +5,15 @@ import org.junit.Test;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 public class Example1 extends Demo1 {
 
@@ -41,13 +44,25 @@ public class Example1 extends Demo1 {
         Future<Integer> exchangeRateEurToUsd = executorService.submit(this::getExchangeRateEurToUsd);
 
         while (!priceInGbp.isDone() || !exchangeRateGbpToUsd.isDone() || !priceInEur.isDone() || !exchangeRateEurToUsd.isDone()) {
-            Thread.sleep(100);
+            Thread.sleep(100); // busy-waiting
         }
 
-        int amountInUsd1 = priceInGbp.get() * exchangeRateGbpToUsd.get(); //blocking
-        int amountInUsd2 = priceInEur.get() * exchangeRateEurToUsd.get(); //blocking
+        int amountInUsd1 = priceInGbp.get() * exchangeRateGbpToUsd.get();
+        int amountInUsd2 = priceInEur.get() * exchangeRateEurToUsd.get();
         int amountInUsd = amountInUsd1 + amountInUsd2;
-        float amountInUsdAfterTax = amountInUsd * (1 + getTax(amountInUsd)); //blocking
+
+        Future<Float> tax = executorService.submit(new Callable<Float>() {
+            @Override
+            public Float call() throws Exception {
+                return getTax(amountInUsd);
+            }
+        });
+
+        while (!tax.isDone()) {
+            Thread.sleep(100); // busy-waiting
+        }
+
+        float amountInUsdAfterTax = amountInUsd * (1 + tax.get());
 
         LocalDateTime finish = LocalDateTime.now();
         logger.info("finished: result2={} after {} ms", amountInUsdAfterTax, Duration.between(start, finish).toMillis());
