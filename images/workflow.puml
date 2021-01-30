@@ -1,0 +1,30 @@
+@startuml
+
+split
+   -[hidden]->
+split
+   -[hidden]->
+   :get the price in GBP;
+split again
+   -[hidden]->
+   :get the exchange rate\nfrom the GBP to the USD;
+end split
+:get the price in USD;
+split again
+   -[hidden]->
+split
+   -[hidden]->
+   :get the price in EUR;
+split again
+   -[hidden]->
+   :get the exchange rate\nfrom the EUR to the USD;
+end split
+:get the price in USD;
+end split
+:get total price in USD;
+
+:get tax;
+
+:get total price in USD after tax;
+
+@enduml
