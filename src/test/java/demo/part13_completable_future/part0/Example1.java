@@ -71,20 +71,20 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        CompletableFuture<Integer> priceInGbp = CompletableFuture.supplyAsync(this::getPriceInGbp);
-        CompletableFuture<Integer> exchangeRateGbpToUsd = CompletableFuture.supplyAsync(this::getExchangeRateGbpToUsd);
-        CompletableFuture<Integer> priceInEur = CompletableFuture.supplyAsync(this::getPriceInEur);
-        CompletableFuture<Integer> exchangeRateEurToUsd = CompletableFuture.supplyAsync(this::getExchangeRateEurToUsd);
+        CompletableFuture<Integer> priceInGbp = supplyAsync(this::getPriceInGbp); // lazy
+        CompletableFuture<Integer> exchangeRateGbpToUsd = supplyAsync(this::getExchangeRateGbpToUsd); // lazy
+        CompletableFuture<Integer> priceInEur = supplyAsync(this::getPriceInEur); // lazy
+        CompletableFuture<Integer> exchangeRateEurToUsd = supplyAsync(this::getExchangeRateEurToUsd); // lazy
 
         CompletableFuture<Integer> amountInUsd1 = priceInGbp
-                .thenCombine(exchangeRateGbpToUsd, (price, exchangeRate) -> price * exchangeRate);
+                .thenCombine(exchangeRateGbpToUsd, (price, exchangeRate) -> price * exchangeRate); // lazy
         CompletableFuture<Integer> amountInUsd2 = priceInEur
-                .thenCombine(exchangeRateEurToUsd, (price, exchangeRate) -> price * exchangeRate);
+                .thenCombine(exchangeRateEurToUsd, (price, exchangeRate) -> price * exchangeRate); // lazy
 
         float amountInUsdAfterTax = amountInUsd1
                 .thenCombine(amountInUsd2, (amount1, amount2) -> amount1 + amount2)
-                .thenCompose(amountInUsd -> CompletableFuture.supplyAsync(() -> amountInUsd * (1 + getTax(amountInUsd))))
-                .get(); //blocking
+                .thenCompose(amountInUsd -> supplyAsync(() -> amountInUsd * (1 + getTax(amountInUsd))))
+                .get(); // blocking
 
         LocalDateTime finish = LocalDateTime.now();
         logger.info("finished: result3={} after {} ms", amountInUsdAfterTax, Duration.between(start, finish).toMillis());
