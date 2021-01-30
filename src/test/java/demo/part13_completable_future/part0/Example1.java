@@ -22,8 +22,8 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        int amountInUsd1 = getPriceInGbp() * getExchangeRateGbpToUsd(); //blocking
-        int amountInUsd2 = getPriceInEur() * getExchangeRateEurToUsd(); //blocking
+        int amountInUsd1 = getPriceInGbp() * getExchangeRateGbpToUsd(); //blocking and blocking
+        int amountInUsd2 = getPriceInEur() * getExchangeRateEurToUsd(); //blocking and blocking
         int amountInUsd = amountInUsd1 + amountInUsd2;
         float amountInUsdAfterTax = amountInUsd * (1 + getTax(amountInUsd)); //blocking
 
@@ -51,12 +51,7 @@ public class Example1 extends Demo1 {
         int amountInUsd2 = priceInEur.get() * exchangeRateEurToUsd.get();
         int amountInUsd = amountInUsd1 + amountInUsd2;
 
-        Future<Float> tax = executorService.submit(new Callable<Float>() {
-            @Override
-            public Float call() throws Exception {
-                return getTax(amountInUsd);
-            }
-        });
+        Future<Float> tax = executorService.submit(() -> getTax(amountInUsd));
 
         while (!tax.isDone()) {
             Thread.sleep(100); // busy-waiting
