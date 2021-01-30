@@ -1,5 +1,6 @@
 @startuml
 
+start
 split
    -[hidden]->
 split
@@ -26,5 +27,6 @@ end split
 :get tax;
 
 :get total price in USD\nafter tax;
+end
 
 @enduml
