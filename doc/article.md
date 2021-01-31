@@ -3,7 +3,7 @@
 
 ## Introduction
 
-The `CompletionStage` and `CompletableFuture`classes are high-level parallel Java API that was added in Java 8 to pipeline multiple asynchronous tasks into a single result without the mess of nested callbacks (‘callback hell’).
+The `CompletionStage` and `CompletableFuture`classes are high-level parallel Java API that was added in Java 8 to pipeline multiple asynchronous tasks into a single result without the mess of nested callbacks (‘callback hell’). These classes are implementations of the Future/Promise design pattern in Java.
 
 Before adding these classes Java already had much simpler classes to manage asynchronous tasks - in Java 5 were added the `Future` interface and its base implementation the `FutureTaks` class.
 
@@ -38,7 +38,7 @@ In a broader sense, the terms _future_ and _promise_ are used interchangeably, a
 
 In a narrower sense, a _future_ is a read-only placeholder view of a result (that is yet unavailable), while a _promise_ is a writable, single-assignment object that sets the value of the _future_.
 
-The following example can help you to understand the idea of future/promise. A consumer sends a long-running task to a producer to be executed asynchronously. The producer creates a promise when it starts that task and sends a future to a consumer. The consumer receives the future that isn’t completed yet and waits for its completion. During waiting, the consumer isn’t blocked and can execute other tasks. When the producer completes the task, it fulfills the promise and thereby provides the future's value. Essentially the promise represents the producing end of the future/promise relationship, while the future represents the consuming end. This explains why promises are single write-only and futures are multiple read-only.
+The following workflow example can help you to understand the idea of future/promise. A consumer sends a long-running task to a producer to be executed asynchronously. The producer creates a promise when it starts that task and sends a future to a consumer. The consumer receives the future that isn’t completed yet and waits for its completion. During waiting, the consumer isn’t blocked and can execute other tasks. When the producer completes the task, it fulfills the promise and thereby provides the future's value. Essentially the promise represents the producing end of the future/promise relationship, while the future represents the consuming end. This explains why promises are single write-only and futures are multiple read-only.
 
 ![Future and Promise](/images/future_and_promise.png)
 
@@ -49,25 +49,25 @@ In Java, the `Future` interface represents a _future_: it has methods to check i
 
 ## Example
 
-The following example is provided to better understand the idea of the `CompletableFuture` class as an implementation of future/promise in Java. In the given method it’s necessary to calculate the total price in the USD of two products (the first is priced in the GBP and the second is priced in the EUR), including tax. To do this, it’s necessary to execute the following tasks:
+The following code example can help you to understand the usage of the `CompletableFuture` class as an implementation of future/promise in Java. In the given workflow it’s necessary to calculate the total price in the USD of two products (the first is priced in the GBP and the second is priced in the EUR), including tax. To do this, it’s necessary to execute the following tasks:
 
 
 
 1. to get the price of the first product in the GBP (a long-running call)
 2. to get the GBP/USD exchange rate (a long-running call)
-3. to get the price of the first product in the USD (depends on tasks 1, 2)
+3. to calculate the price of the first product in the USD (depends on tasks 1, 2)
 4. to get the price of the second product in the EUR (a long-running call)
 5. to get the EUR/USD exchange rate (a long-running call)
-6. to get the price of the second product in the USD (depends on tasks 4, 5)
-7. to get the price of both product in the USD before tax (depends on tasks 3, 6)
+6. to calculate the price of the second product in the USD (depends on tasks 4, 5)
+7. to calculate the price of both product in the USD before tax (depends on tasks 3, 6)
 8. to get the value of the tax (a long-running call, depends on tasks 7)
-9. to get the price of both product in the USD after tax (depends on tasks 7, 8)
+9. to calculate the price of both product in the USD after tax (depends on tasks 7, 8)
 
-Notice that some tasks are long-running (for example, they make remote calls), so it’s worth executing them asynchronously. Also, some tasks here depend on other tasks (they must be executed sequentially) but some not (they can be executed parallelly).
+Notice that some tasks are long-running (for example, they make remote calls), so it’s worth executing them asynchronously. Also, some tasks here depend on other tasks (they must be executed sequentially) but some are mutually independent (they can be executed parallelly).
 
 The proposed workflow is implemented below in three styles: synchronous, asynchronous `Future`-based, and asynchronous `CompletableFuture`-based.
 
-The advantage of the synchronous solution is the simplest code. The disadvantage of this solution is that all tasks are performed sequentially and take the most time, although some of them are independent and can be performed in parallel.
+1) The advantage of the synchronous solution is the simplest code. The disadvantage of this solution is that all tasks are performed sequentially and take the most time, although some of them are independent and can be performed in parallel.
 
 
 ```
@@ -78,7 +78,7 @@ float amountInUsdAfterTax = amountInUsd * (1 + getTax(amountInUsd)); //blocking
 ```
 
 
-The advantage of an asynchronous `Future`-based solution is that some tasks run in parallel, which saves time. The disadvantage of this solution is that the `Future` interface does not have methods for pipelining tasks - passing the results of some tasks as parameters to other tasks without blocking.
+2) The advantage of an asynchronous `Future`-based solution is that some tasks run in parallel, which saves time. The disadvantage of this solution is that the `Future` interface does not have methods for pipelining tasks - passing the results of some tasks as parameters to other tasks without blocking. As a result, the code of dissolution is the most complicated.
 
 
 ```
@@ -106,7 +106,7 @@ float amountInUsdAfterTax = amountInUsd * (1 + tax.get());
 ```
 
 
-The advantage of the asynchronous `CompletableFuture`-based solution is that some of the independent tasks are executed in parallel, and the dependent tasks are pipelined using a fluent interface. The disadvantage of this solution is that the `CompletableFuture class` has a rather complex API (35 public methods in the `CompletableFuture class`, 42 methods in the `CompletionStage’ interface), a problem this article is trying to explain.
+3) The advantage of the asynchronous `CompletableFuture`-based solution is that the independent tasks are executed in parallel, and the dependent tasks are pipelined using a fluent interface. The disadvantage of this solution is that the `CompletableFuture` class has a rather complex API (35 public methods in the `CompletableFuture class` and 42 inherited methods from the `CompletionStage’ interface) - a problem this article is trying to explain.
 
 
 ```
@@ -132,7 +132,7 @@ float amountInUsdAfterTax = amountInUsd1
 
 ## The [CompletionStage](https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/util/concurrent/CompletionStage.html) interface
 
-The `CompletionStage` interface represents a step in a multi-step computation. The design of this class has three considerations:
+The `CompletionStage` interface represents a step in a multi-step future/promise computation. The design of this class has three considerations _how_ stages can be pipelined:
 
 
 
@@ -140,7 +140,7 @@ The `CompletionStage` interface represents a step in a multi-step computation. T
 *   a stage can either compute a value (returns a single result) or performs an action (returns no result)
 *   a stage can be initiated by finishing one or two previous stages and can initiate a subsequent stage
 
-Most of the methods of the `CompletionStage` return another `CompletionStage` object that allows chaining of steps. Note that during chaining, methods are not immediately executed, but are lazily registered for further executions like callbacks. The methods are actually executed when the given promise completes.
+The absolute majority of the methods (except one) of the `CompletionStage` return another `CompletionStage` object that allows steps pipelining. Note that during chaining, methods are not immediately executed, but are lazily registered for further executions like callbacks. The methods are actually executed when the given future/promise completes.
 
 Methods of the `CompletionStage` interface can be divided into two groups by their purpose:
 
@@ -149,99 +149,101 @@ Methods of the `CompletionStage` interface can be divided into two groups by the
 *   methods to perform computations
 *   methods to handle exceptions
 
->The `CompletionStage` interface doesn’t contain methods for stage creation nor stage status checking nor stage completion. This functionality is delegated to `CompletionStage` implementations.
+The `CompletionStage` interface doesn’t contain methods for stage creation nor stage status checking nor stage completion. This functionality is delegated to `CompletionStage` implementations - mainly to the `CompletableFuture` class.
 
 
 ### Naming convention
 
-The `CompletionStage` interface has 43 methods (14 groups of 3 similarly overloaded methods in each plus 1 method) which at first glance may seem confusing, but in fact, the methods have three distinguished naming patterns.
+The `CompletionStage` interface has 43 methods (14 groups of 3 similarly overloaded methods in each plus 1 method) which at first glance may seem confusing. In fact, the methods have three distinguished naming patterns.
 
 The _first_ naming pattern explains how a new stage is initiated:
 
 
 
-*   if a method’s name has the prefix `then`, then the new stage is initiated after completion of a single previous stage.
-*   if a method’s name has the prefix `either`, then the new stage is initiated after completion of the first of two previous stages.
-*   if a method’s name has the prefix `both`, then the new stage is initiated after completion of both previous stages.
+*   if a method’s name has the `then` prefix, then the new stage is initiated after completion of a single previous stage
+*   if a method’s name has the `either` prefix, then the new stage is initiated after completion of the first of two previous stages
+*   if a method’s name has the `both` prefix, then the new stage is initiated after completion of both previous stages
 
 The _second_ naming pattern explains what computations perform the new stage:
 
 
 
-*   if a method’s name has the `apply` fragment, then the new stage applies an argument by a `Function` (takes argument(s) and returns one result).
-*   if a method’s name has the `accept` fragment, then the new stage accepts an argument by a `Consumer` (takes argument(s) and returns no result).
-*   if a method’s name has the `run` fragment, then the new stage runs an action by a `Runnable` (takes no argument and returns no result).
+*   if a method’s name has the `apply` fragment, then the new stage applies an argument by a `Function` (takes argument(s) and returns one result)
+*   if a method’s name has the `accept` fragment, then the new stage accepts an argument by a `Consumer` (takes argument(s) and returns no result)
+*   if a method’s name has the `run` fragment, then the new stage runs an action by a `Runnable` (takes no argument and returns no result)
 
 >If the new stage depends on both previous stages (has two arguments), it uses `BiFunction` instead of `Function` and `BiConsumer` instead of `Consumer`.
 
 
 <table>
   <tr>
-   <td rowspan="2" >prefix
+   <td rowspan="2" >
+   </td>
+   <td colspan="2" >takes argument(s) and 
 <p>
-vs.
+returns a result
+   </td>
+   <td colspan="2" >takes argument(s) and 
 <p>
-computation type
+returns no result
    </td>
-   <td colspan="2" >takes argument(s) and returns a result
-   </td>
-   <td colspan="2" >takes argument(s) and returns no result
-   </td>
-   <td>takes no argument and returns no result
+   <td>takes no argument and 
+<p>
+returns no result
    </td>
   </tr>
   <tr>
-   <td>`Function`
+   <td>Function
    </td>
-   <td>`BiFunction`
+   <td>BiFunction
    </td>
-   <td>`Consumer`
+   <td>Consumer
    </td>
-   <td>`BiConsumer`
+   <td>BiConsumer
    </td>
-   <td>`Runnable`
-   </td>
-  </tr>
-  <tr>
-   <td>`then`
-   </td>
-   <td>`thenApply`, `thenCompose`
-   </td>
-   <td>
-   </td>
-   <td>`thenAccept`
-   </td>
-   <td>
-   </td>
-   <td>`thenRun`
+   <td>Runnable
    </td>
   </tr>
   <tr>
-   <td>`either`
+   <td>then
    </td>
-   <td>`applyToEither`
-   </td>
-   <td>
-   </td>
-   <td>`acceptEither`
+   <td>thenApply, thenCompose
    </td>
    <td>
    </td>
-   <td>`runAfterEither`
+   <td>thenAccept
+   </td>
+   <td>
+   </td>
+   <td>thenRun
    </td>
   </tr>
   <tr>
-   <td>`both`
+   <td>either
+   </td>
+   <td>applyToEither
    </td>
    <td>
    </td>
-   <td>`thenCombine`*
+   <td>acceptEither
    </td>
    <td>
    </td>
-   <td>`thenAcceptBoth`
+   <td>runAfterEither
    </td>
-   <td>`runAfterBoth`
+  </tr>
+  <tr>
+   <td>both
+   </td>
+   <td>
+   </td>
+   <td>thenCombine*
+   </td>
+   <td>
+   </td>
+   <td>thenAcceptBoth
+   </td>
+   <td>runAfterBoth
    </td>
   </tr>
 </table>
@@ -253,10 +255,10 @@ The _third_ naming pattern explains what thread executes the new stage:
 
 
 
-*   if a method has a structure like `something(...)` then the new stage is executed by the default facility (that can be synchronous or asynchronous).
-*   if a method has a structure like `somethingAsync(...)` then the new stage is executed by the default asynchronous facility.
-*   if a method has a structure like `somethingAsync(..., Executor)` then the new stage is executed by the supplied `Executor`.
+*   if a method has a signature like `something(...)` then the new stage is executed by _the default facility_ (that can be synchronous or asynchronous).
+*   if a method has a signature like `somethingAsync(...)` then the new stage is executed by _the default asynchronous facility_.
+*   if a method has a signature like `somethingAsync(..., Executor)` then the new stage is executed by the supplied `Executor`.
 
 If stages are independent and so can be executed in parallel, the asynchronous execution can give a significant performance improvement (of course if you have enough processor cores). However, if tasks are short (hundreds of milliseconds), then context switching between threads can introduce significant overhead.
 
->Note that the _default facility_ and the _default asynchronous facility_ are specified by `CompletionStage` implementations, not by the interface itself. Looking ahead, the `CompletableFuture` implementation of the `CompletionStage` interface uses the thread that completes the stage as the _default facility_ and `ForkJoinPool.commonPool()` as the _default asynchronous facility_.
+Note that _the default facility_ and _the default asynchronous facility_ are specified by `CompletionStage` implementations, not by the interface itself. Looking ahead, the `CompletableFuture` implementation of the `CompletionStage` interface uses the thread that completes the stage as _the default facility_ and `ForkJoinPool.commonPool()` as _the default asynchronous facility_.
