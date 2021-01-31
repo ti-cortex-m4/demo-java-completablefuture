@@ -5,28 +5,28 @@ split
    -[hidden]->
 split
    -[hidden]->
-   :get the price in GBP;
+   :get the price in the GBP;
 split again
    -[hidden]->
    :get the GBP/USD\nexchange rate;
 end split
-:get the price in USD;
+:get the price in the USD;
 split again
    -[hidden]->
 split
    -[hidden]->
-   :get the price in EUR;
+   :get the price in the EUR;
 split again
    -[hidden]->
    :get the EUR/USD\nexchange rate;
 end split
-:get the price in USD;
+:get the price in the USD;
 end split
-:get total price in USD;
+:get total price in the USD;
 
 :get tax;
 
-:get total price in USD\nafter tax;
+:get total price in the USD\nafter tax;
 end
 
 @enduml

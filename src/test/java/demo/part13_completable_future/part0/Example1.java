@@ -22,8 +22,8 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        int amountInUsd1 = getPriceInGbp() * getExchangeRateGbpToUsd(); //blocking and blocking
-        int amountInUsd2 = getPriceInEur() * getExchangeRateEurToUsd(); //blocking and blocking
+        int amountInUsd1 = getPriceInGbp() * getExchangeRateGbpToUsd(); //blocking
+        int amountInUsd2 = getPriceInEur() * getExchangeRateEurToUsd(); //blocking
         int amountInUsd = amountInUsd1 + amountInUsd2;
         float amountInUsdAfterTax = amountInUsd * (1 + getTax(amountInUsd)); //blocking
 
@@ -43,7 +43,8 @@ public class Example1 extends Demo1 {
         Future<Integer> priceInEur = executorService.submit(this::getPriceInEur);
         Future<Integer> exchangeRateEurToUsd = executorService.submit(this::getExchangeRateEurToUsd);
 
-        while (!priceInGbp.isDone() || !exchangeRateGbpToUsd.isDone() || !priceInEur.isDone() || !exchangeRateEurToUsd.isDone()) {
+        while (!priceInGbp.isDone() || !exchangeRateGbpToUsd.isDone()
+                || !priceInEur.isDone() || !exchangeRateEurToUsd.isDone()) {
             Thread.sleep(100); // busy-waiting
         }
 
@@ -71,15 +72,15 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        CompletableFuture<Integer> priceInGbp = supplyAsync(this::getPriceInGbp); // lazy
-        CompletableFuture<Integer> exchangeRateGbpToUsd = supplyAsync(this::getExchangeRateGbpToUsd); // lazy
-        CompletableFuture<Integer> priceInEur = supplyAsync(this::getPriceInEur); // lazy
-        CompletableFuture<Integer> exchangeRateEurToUsd = supplyAsync(this::getExchangeRateEurToUsd); // lazy
+        CompletableFuture<Integer> priceInGbp = supplyAsync(this::getPriceInGbp);
+        CompletableFuture<Integer> exchangeRateGbpToUsd = supplyAsync(this::getExchangeRateGbpToUsd);
+        CompletableFuture<Integer> priceInEur = supplyAsync(this::getPriceInEur);
+        CompletableFuture<Integer> exchangeRateEurToUsd = supplyAsync(this::getExchangeRateEurToUsd);
 
         CompletableFuture<Integer> amountInUsd1 = priceInGbp
-                .thenCombine(exchangeRateGbpToUsd, (price, exchangeRate) -> price * exchangeRate); // lazy
+                .thenCombine(exchangeRateGbpToUsd, (price, exchangeRate) -> price * exchangeRate);
         CompletableFuture<Integer> amountInUsd2 = priceInEur
-                .thenCombine(exchangeRateEurToUsd, (price, exchangeRate) -> price * exchangeRate); // lazy
+                .thenCombine(exchangeRateEurToUsd, (price, exchangeRate) -> price * exchangeRate);
 
         float amountInUsdAfterTax = amountInUsd1
                 .thenCombine(amountInUsd2, (amount1, amount2) -> amount1 + amount2)
