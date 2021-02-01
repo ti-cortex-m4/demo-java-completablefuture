@@ -1,3 +1,29 @@
+<!-- Copy and paste the converted output. -->
+
+<!-----
+NEW: Check the "Suppress top comment" option to remove this info from the output.
+
+Conversion time: 1.255 seconds.
+
+
+Using this Markdown file:
+
+1. Paste this output into your source file.
+2. See the notes and action items below regarding this conversion run.
+3. Check the rendered output (headings, lists, code blocks, tables) for proper
+   formatting and use a linkchecker before you publish this page.
+
+Conversion notes:
+
+* Docs to Markdown version 1.0β29
+* Mon Feb 01 2021 10:19:44 GMT-0800 (PST)
+* Source doc: Untitled document
+* This is a partial selection. Check to make sure intra-doc links work.
+* Tables are currently converted to HTML tables.
+----->
+
+
+
 # Java parallelism: CompletionStage and CompletableFuture
 
 
@@ -174,6 +200,8 @@ The _second_ naming pattern explains what computations perform the new stage:
 
 >If the new stage depends on both previous stages (has two arguments), it uses `BiFunction` instead of `Function` and `BiConsumer` instead of `Consumer`.
 
+Summary of the methods:
+
 
 <table>
   <tr>
@@ -193,43 +221,43 @@ returns no result
    </td>
   </tr>
   <tr>
-   <td>Function
+   <td><em>Function</em>
    </td>
-   <td>BiFunction
+   <td><em>BiFunction</em>
    </td>
-   <td>Consumer
+   <td><em>Consumer</em>
    </td>
-   <td>BiConsumer
+   <td><em>BiConsumer</em>
    </td>
-   <td>Runnable
+   <td><em>Runnable</em>
    </td>
   </tr>
   <tr>
    <td>then
    </td>
-   <td>thenApply, thenCompose
+   <td><em>thenApply, thenCompose</em>
    </td>
    <td>
    </td>
-   <td>thenAccept
+   <td><em>thenAccept</em>
    </td>
    <td>
    </td>
-   <td>thenRun
+   <td><em>thenRun</em>
    </td>
   </tr>
   <tr>
    <td>either
    </td>
-   <td>applyToEither
+   <td><em>applyToEither</em>
    </td>
    <td>
    </td>
-   <td>acceptEither
+   <td><em>acceptEither</em>
    </td>
    <td>
    </td>
-   <td>runAfterEither
+   <td><em>runAfterEither</em>
    </td>
   </tr>
   <tr>
@@ -237,13 +265,13 @@ returns no result
    </td>
    <td>
    </td>
-   <td>thenCombine*
+   <td><em>thenCombine*</em>
    </td>
    <td>
    </td>
-   <td>thenAcceptBoth
+   <td><em>thenAcceptBoth</em>
    </td>
-   <td>runAfterBoth
+   <td><em>runAfterBoth</em>
    </td>
   </tr>
 </table>
@@ -266,53 +294,19 @@ Note that _the default facility_ and _the default asynchronous facility_ are spe
 
 ### Methods to handle exceptions
 
-A synchronous computation can be completed normally or exceptionally. To recover from these exceptions, it’s possible to use a `try-catch` statement. A asynchronous computation can be completed normally or exceptionally as well. But because the pipelined stages can be executed in different threads, it’s impossible to use a `try-catch` statement in one thread to catch an exception thrown from another thread.
+A synchronous computation can be completed normally or exceptionally. To recover from these exceptions, it’s possible to use a `try-catch` statement. An asynchronous computation can be completed normally or exceptionally as well. But because the pipelined stages can be executed in different threads, it’s impossible to use a `try-catch` statement in one thread to catch an exception thrown from another thread.
 
-The `CompletionStage` interface has special specifications to handle exceptions. Each stage has two completion types of equal importance, the normal completion and the exceptional completion. If a stage completes normally, the dependent stages start executing. If a stage completes exceptionally, all dependent stages complete exceptionally as well, unless there is an exception recovery method in the pipeline.
+The `CompletionStage` interface has special specifications to handle exceptions. Each stage has two completion types of equal importance, the normal completion, and the exceptional completion. If a stage completes normally, the dependent stages start executing. If a stage completes exceptionally, all dependent stages complete exceptionally as well, unless there is an exception recovery method in the pipeline.
 
-The `handle` method registers a `BiFunction` which will be called when the previous stage completes either normally or exceptionally. The function applies as arguments the result and the exception and returns some result. This method can convert a successful result and can replace an exception with some fallback result (so an exception is not propagated to the next stage).
-
-
-```
-CompletionStage<String> stage = ...
-       .handle((result, throwable) -> {
-           if (throwable == null) {
-               return result == null ? null : result.toUpperCase();
-           } else {
-               return "exception: " + throwable.getMessage();
-           }
-       });
-```
+The `whenComplete` method is called when the previous stage completes either normally or exceptionally. The method has a `BiConsumer` argument that accepts the result and the exception. This method can perform some action with either a successful result or an exception, but can’t alter a successful result or replace an exception with some fallback result.
 
 
-The `whenComplete` method registers a `BiConsumer` which will be called when the previous stage completes either normally or exceptionally. The consumer accepts the result and the exception. This method can perform some action with either a successful result or an exception, but can’t alter a successful result or replace an exception with some fallback result.
 
+The `handle` method is called when the previous stage completes either normally or exceptionally. The method has a `BiFunction` argument that applies the result and the exception and returns some result. This method can convert a successful result and can replace an exception with some fallback result (so an exception is not propagated to the next stage).
 
-```
-CompletionStage<String> stage = ...
-       .whenComplete((result, throwable) -> {
-           if (throwable == null) {
-               logger.info("result: {}", result);
-           } else {
-               logger.error("exception: {}", throwable);
-           }
-       });
-```
+The `exceptionally` method is called when the previous stage completes exceptionally. The method has a `Function` argument that applies the exception and returns some result. This method can replace an exception with some fallback result (so an exception is not propagated to the next stage).
 
-
-The `exceptionally` method registers a `Function` which will be called when the previous stage completes exceptionally. The function applies as arguments the exception and returns some result. This method can replace an exception with some fallback result (so an exception is not propagated to the next stage).
-
-
-```
-CompletionStage<String> stage = ...
-       .exceptionally(throwable -> {
-               return "exception: " + throwable.getMessage();
-           }
-       });
-```
-
-
-Summary of the methods
+Summary of the methods:
 
 
 <table>
@@ -321,51 +315,31 @@ Summary of the methods
    </td>
    <td>
    </td>
-   <td>Result
-   </td>
-   <td>Method name
-   </td>
-   <td>Parameter
+   <td>Method
    </td>
   </tr>
   <tr>
-   <td>can not to modify result
+   <td>cann’t modify result
    </td>
    <td rowspan="2" >called on success or exception
    </td>
-   <td>CompletionStage&lt;T>
-   </td>
-   <td>whenComplete
-   </td>
-   <td>BiConsumer&lt;? super T,? super Throwable> action
+   <td><em>whenComplete</em>
    </td>
   </tr>
   <tr>
    <td rowspan="3" >can modify result
    </td>
-   <td>CompletionStage&lt;U>
-   </td>
-   <td>handle
-   </td>
-   <td>BiFunction&lt;? super T,Throwable,? extends U> fn
+   <td><em>handle</em>
    </td>
   </tr>
   <tr>
    <td rowspan="2" >called on exception
    </td>
-   <td>CompletionStage&lt;T>
-   </td>
-   <td>exceptionally 
-   </td>
-   <td>Function&lt;Throwable,​? extends T> fn
+   <td><em>exceptionally </em>
    </td>
   </tr>
   <tr>
-   <td>CompletionStage&lt;T>
-   </td>
-   <td>exceptionallyCompose 
-   </td>
-   <td>Function&lt;Throwable,​? extends CompletionStage&lt;T>> fn
+   <td><em>exceptionallyCompose </em>
    </td>
   </tr>
 </table>
