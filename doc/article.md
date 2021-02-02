@@ -1,3 +1,29 @@
+<!-- Copy and paste the converted output. -->
+
+<!-----
+NEW: Check the "Suppress top comment" option to remove this info from the output.
+
+Conversion time: 1.255 seconds.
+
+
+Using this Markdown file:
+
+1. Paste this output into your source file.
+2. See the notes and action items below regarding this conversion run.
+3. Check the rendered output (headings, lists, code blocks, tables) for proper
+   formatting and use a linkchecker before you publish this page.
+
+Conversion notes:
+
+* Docs to Markdown version 1.0β29
+* Mon Feb 01 2021 10:19:44 GMT-0800 (PST)
+* Source doc: Untitled document
+* This is a partial selection. Check to make sure intra-doc links work.
+* Tables are currently converted to HTML tables.
+----->
+
+
+
 # Java parallelism: CompletionStage and CompletableFuture
 
 
@@ -32,7 +58,7 @@ To change this, in Java 8 were added (and in Java 9 and Java 12 were updated) th
 
 The concept of a _future/promise_ exists in many programming languages (JavaScript: `Promise`; Java: `Future`, `CompletionStage`, `CompletableFuture`, Google Guava [ListenableFuture](https://github.com/google/guava/wiki/ListenableFutureExplained); Scala: `scala.concurrent.Future`) that allows writing asynchronous code that still has a _fluent interface_ as synchronous code.
 
->A _future/promise_ can be in two states: incompleted and completed, and completion can be performed either with a result to indicate success, or with an exception to indicate failure.
+A _future/promise_ represents the eventual result of an asynchronous operation. A _future/promise_ can be in two states: incompleted and completed, and completion can be performed either with a result to indicate success, or with an exception to indicate failure.
 
 In a broader sense, the terms _future_ and _promise_ are used interchangeably, as a placeholder for a parallel-running task that hasn't been completed yet but is expected in the future.
 
@@ -106,7 +132,7 @@ float amountInUsdAfterTax = amountInUsd * (1 + tax.get());
 ```
 
 
-3) The advantage of the asynchronous `CompletableFuture`-based solution is that the independent tasks are executed in parallel, and the dependent tasks are pipelined using a fluent interface. The disadvantage of this solution is that the `CompletableFuture` class has a rather complex API (35 public methods in the `CompletableFuture class` and 42 inherited methods from the `CompletionStage’ interface) - a problem this article is trying to explain.
+3) The advantage of the asynchronous `CompletableFuture`-based solution is that the independent tasks are executed in parallel, and the dependent tasks are pipelined using a fluent interface. The disadvantage of this solution is that the `CompletableFuture` class has a rather complex API (35 public methods in the `CompletableFuture` class and 42 inherited methods from the `CompletionStage` interface) - a problem this article is trying to explain.
 
 
 ```
@@ -146,13 +172,13 @@ Methods of the `CompletionStage` interface can be divided into two groups by the
 
 
 
-*   methods to perform computations
+*   methods to pipeline computations
 *   methods to handle exceptions
 
 The `CompletionStage` interface doesn’t contain methods for stage creation nor stage status checking nor stage completion. This functionality is delegated to `CompletionStage` implementations - mainly to the `CompletableFuture` class.
 
 
-### Naming convention
+### Methods to pipeline computations
 
 The `CompletionStage` interface has 43 methods (14 groups of 3 similarly overloaded methods in each plus 1 method) which at first glance may seem confusing. In fact, the methods have three distinguished naming patterns.
 
@@ -174,6 +200,8 @@ The _second_ naming pattern explains what computations perform the new stage:
 
 >If the new stage depends on both previous stages (has two arguments), it uses `BiFunction` instead of `Function` and `BiConsumer` instead of `Consumer`.
 
+Summary of the methods:
+
 
 <table>
   <tr>
@@ -193,43 +221,43 @@ returns no result
    </td>
   </tr>
   <tr>
-   <td>Function
+   <td><em>Function</em>
    </td>
-   <td>BiFunction
+   <td><em>BiFunction</em>
    </td>
-   <td>Consumer
+   <td><em>Consumer</em>
    </td>
-   <td>BiConsumer
+   <td><em>BiConsumer</em>
    </td>
-   <td>Runnable
+   <td><em>Runnable</em>
    </td>
   </tr>
   <tr>
    <td>then
    </td>
-   <td>thenApply, thenCompose
+   <td><em>thenApply, thenCompose</em>
    </td>
    <td>
    </td>
-   <td>thenAccept
+   <td><em>thenAccept</em>
    </td>
    <td>
    </td>
-   <td>thenRun
+   <td><em>thenRun</em>
    </td>
   </tr>
   <tr>
    <td>either
    </td>
-   <td>applyToEither
+   <td><em>applyToEither</em>
    </td>
    <td>
    </td>
-   <td>acceptEither
+   <td><em>acceptEither</em>
    </td>
    <td>
    </td>
-   <td>runAfterEither
+   <td><em>runAfterEither</em>
    </td>
   </tr>
   <tr>
@@ -237,13 +265,13 @@ returns no result
    </td>
    <td>
    </td>
-   <td>thenCombine*
+   <td><em>thenCombine*</em>
    </td>
    <td>
    </td>
-   <td>thenAcceptBoth
+   <td><em>thenAcceptBoth</em>
    </td>
-   <td>runAfterBoth
+   <td><em>runAfterBoth</em>
    </td>
   </tr>
 </table>
@@ -262,3 +290,57 @@ The _third_ naming pattern explains what thread executes the new stage:
 If stages are independent and so can be executed in parallel, the asynchronous execution can give a significant performance improvement (of course if you have enough processor cores). However, if tasks are short (hundreds of milliseconds), then context switching between threads can introduce significant overhead.
 
 Note that _the default facility_ and _the default asynchronous facility_ are specified by `CompletionStage` implementations, not by the interface itself. Looking ahead, the `CompletableFuture` implementation of the `CompletionStage` interface uses the thread that completes the stage as _the default facility_ and `ForkJoinPool.commonPool()` as _the default asynchronous facility_.
+
+
+### Methods to handle exceptions
+
+A synchronous computation can be completed normally or exceptionally. To recover from these exceptions, it’s possible to use a `try-catch` statement. An asynchronous computation can be completed normally or exceptionally as well. But because the pipelined stages can be executed in different threads, it’s impossible to use a `try-catch` statement in one thread to catch an exception thrown from another thread.
+
+The `CompletionStage` interface has special specifications to handle exceptions. Each stage has two completion types of equal importance, the normal completion, and the exceptional completion. If a stage completes normally, the dependent stages start executing. If a stage completes exceptionally, all dependent stages complete exceptionally as well, unless there is an exception recovery method in the pipeline.
+
+The `whenComplete` method is called when the previous stage completes either normally or exceptionally. The method has a `BiConsumer` argument that accepts the result and the exception. This method can perform some action with either a successful result or an exception, but can’t alter a successful result or replace an exception with some fallback result.
+
+
+
+The `handle` method is called when the previous stage completes either normally or exceptionally. The method has a `BiFunction` argument that applies the result and the exception and returns some result. This method can convert a successful result and can replace an exception with some fallback result (so an exception is not propagated to the next stage).
+
+The `exceptionally` method is called when the previous stage completes exceptionally. The method has a `Function` argument that applies the exception and returns some result. This method can replace an exception with some fallback result (so an exception is not propagated to the next stage).
+
+Summary of the methods:
+
+
+<table>
+  <tr>
+   <td>
+   </td>
+   <td>
+   </td>
+   <td>Method
+   </td>
+  </tr>
+  <tr>
+   <td>cann’t modify result
+   </td>
+   <td rowspan="2" >called on success or exception
+   </td>
+   <td><em>whenComplete</em>
+   </td>
+  </tr>
+  <tr>
+   <td rowspan="3" >can modify result
+   </td>
+   <td><em>handle</em>
+   </td>
+  </tr>
+  <tr>
+   <td rowspan="2" >called on exception
+   </td>
+   <td><em>exceptionally </em>
+   </td>
+  </tr>
+  <tr>
+   <td><em>exceptionallyCompose </em>
+   </td>
+  </tr>
+</table>
+
