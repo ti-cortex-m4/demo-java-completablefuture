@@ -18,7 +18,7 @@ public class Example2 extends Demo1 {
     public void testFuture() throws InterruptedException, ExecutionException {
 
         // thenApply
-        CompletableFuture<String> future1 = CompletableFuture.completedFuture("value")
+        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> sleepAndGet("value"))
                 .thenApply(String::toUpperCase);
         assertEquals("VALUE", future1.get());
 
@@ -39,6 +39,7 @@ public class Example2 extends Demo1 {
                         (s1, s2) -> s1 + " " + s2);
         assertEquals("parallel1 parallel2", future4.get());
 
+
         // thenAccept
         CompletableFuture<Void> future5 = CompletableFuture.supplyAsync(() -> sleepAndGet("value"))
                 .thenAccept(s -> logger.info("consumed: " + s));
@@ -55,6 +56,7 @@ public class Example2 extends Demo1 {
                 .thenAcceptBoth(CompletableFuture.supplyAsync(() -> sleepAndGet(2, "parallel2")),
                         (s1, s2) -> logger.info("consumed both: " + s1 + " " + s2));
         assertNull(future7.get());
+
 
         // thenRun
         CompletableFuture<Void> future8 = CompletableFuture.completedFuture("value")
