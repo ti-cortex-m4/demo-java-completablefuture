@@ -1,29 +1,3 @@
-<!-- Copy and paste the converted output. -->
-
-<!-----
-NEW: Check the "Suppress top comment" option to remove this info from the output.
-
-Conversion time: 1.255 seconds.
-
-
-Using this Markdown file:
-
-1. Paste this output into your source file.
-2. See the notes and action items below regarding this conversion run.
-3. Check the rendered output (headings, lists, code blocks, tables) for proper
-   formatting and use a linkchecker before you publish this page.
-
-Conversion notes:
-
-* Docs to Markdown version 1.0β29
-* Mon Feb 01 2021 10:19:44 GMT-0800 (PST)
-* Source doc: Untitled document
-* This is a partial selection. Check to make sure intra-doc links work.
-* Tables are currently converted to HTML tables.
------>
-
-
-
 # Java parallelism: CompletionStage and CompletableFuture
 
 
@@ -31,7 +5,7 @@ Conversion notes:
 
 The `CompletionStage` and `CompletableFuture`classes are high-level parallel Java API that was added in Java 8 to pipeline multiple asynchronous tasks into a single result without the mess of nested callbacks (‘callback hell’). These classes are implementations of the Future/Promise design pattern in Java.
 
-Before adding these classes Java already had much simpler classes to manage asynchronous tasks - in Java 5 were added the `Future` interface and its base implementation the `FutureTaks` class.
+Before adding these classes Java already had much simpler classes to manage asynchronous tasks - in Java 5 were added the `Future` interface and its base implementation the `FutureTaks` class. 
 
 The `Future` interface represents the _result_ of an asynchronous task that has a few methods:
 
@@ -43,7 +17,7 @@ The `Future` interface represents the _result_ of an asynchronous task that has 
 
 Basically, the `Future` interface represents an incompleted result of submitting a task (either ’Runnable’ or ’Callable’) for asynchronous execution to an ’ExecutorService’ instance. The incompleted result has the blocking ’get’ method and the non-blocking ’isDone’ method to wait for the completion of the task and retrieving the result.
 
-But the the `Future` interface has significant limitations in building multi-step asynchronous tasks:
+But the the `Future` interface has significant limitations in building multi-step asynchronous tasks: 
 
 
 
@@ -62,7 +36,7 @@ A _future/promise_ represents the eventual result of an asynchronous operation. 
 
 In a broader sense, the terms _future_ and _promise_ are used interchangeably, as a placeholder for a parallel-running task that hasn't been completed yet but is expected in the future.
 
-In a narrower sense, a _future_ is a read-only placeholder view of a result (that is yet unavailable), while a _promise_ is a writable, single-assignment object that sets the value of the _future_.
+In a narrower sense, a _future_ is a read-only placeholder view of a result (that is yet unavailable), while a _promise_ is a writable, single-assignment object that sets the value of the _future_. 
 
 The following workflow example can help you to understand the idea of future/promise. A consumer sends a long-running task to a producer to be executed asynchronously. The producer creates a promise when it starts that task and sends a future to a consumer. The consumer receives the future that isn’t completed yet and waits for its completion. During waiting, the consumer isn’t blocked and can execute other tasks. When the producer completes the task, it fulfills the promise and thereby provides the future's value. Essentially the promise represents the producing end of the future/promise relationship, while the future represents the consuming end. This explains why promises are single write-only and futures are multiple read-only.
 
@@ -70,7 +44,7 @@ The following workflow example can help you to understand the idea of future/pro
 
 The most important part of futures/promises is the possibility to define a pipeline of operations to be invoked upon completion of the task represented by the future/promise. In comparison with _asynchronous callbacks_, this allows writing more fluent code that supports the composition of nested result/error handlers without ‘callback hell’. In comparison with _blocked code_, this allows implementing quicker asynchronous pipelines without boilerplate synchronization.
 
-In Java, the `Future` interface represents a _future_: it has methods to check if the task is complete, to wait for its completion, and to retrieve the result of the task when it is complete. (The `FutureTask` class has the `void set(V v)` method that it is `protected`). The `CompletableFuture` class can be thought of as a _promise_ since their value can be explicitly set by the `complete` and `completeExceptionally` methods. However, `CompletableFuture` also implements the `Future` interface allowing it to be used as a _future_ as well.
+In Java, the `Future` interface represents a _future_: it has methods to check if the task is complete, to wait for its completion, and to retrieve the result of the task when it is complete. (The `FutureTask` class has the `void set(V v)` method that it is `protected`). The `CompletableFuture` class can be thought of as a _promise_ since their value can be explicitly set by the `complete` and `completeExceptionally` methods. However, `CompletableFuture` also implements the `Future` interface allowing it to be used as a _future_ as well. 
 
 
 ## Example
@@ -180,15 +154,15 @@ The `CompletionStage` interface doesn’t contain methods for stage creation nor
 
 ### Methods to pipeline computations
 
-The `CompletionStage` interface has 43 methods (14 groups of 3 similarly overloaded methods in each plus 1 method) which at first glance may seem confusing. In fact, the methods have three distinguished naming patterns.
+The `CompletionStage` interface has 43 methods (14 groups of 3 similarly overloaded methods in each plus 1 method) which at first glance may seem confusing. In fact, the methods have three distinguished naming patterns. 
 
 The _first_ naming pattern explains how a new stage is initiated:
 
 
 
 *   if a method’s name has the `then` prefix, then the new stage is initiated after completion of a single previous stage
-*   if a method’s name has the `either` prefix, then the new stage is initiated after completion of the first of two previous stages
-*   if a method’s name has the `both` prefix, then the new stage is initiated after completion of both previous stages
+*   if a method’s name has the `either` suffix, then the new stage is initiated after completion of the first of two previous stages
+*   if a method’s name has the `both` suffix, then the new stage is initiated after completion of both previous stages
 
 The _second_ naming pattern explains what computations perform the new stage:
 
@@ -221,43 +195,43 @@ returns no result
    </td>
   </tr>
   <tr>
-   <td><em>Function</em>
+   <td>Function
    </td>
-   <td><em>BiFunction</em>
+   <td>BiFunction
    </td>
-   <td><em>Consumer</em>
+   <td>Consumer
    </td>
-   <td><em>BiConsumer</em>
+   <td>BiConsumer
    </td>
-   <td><em>Runnable</em>
+   <td>Runnable
    </td>
   </tr>
   <tr>
    <td>then
    </td>
-   <td><em>thenApply, thenCompose</em>
+   <td>thenApply, thenCompose
    </td>
    <td>
    </td>
-   <td><em>thenAccept</em>
+   <td>thenAccept
    </td>
    <td>
    </td>
-   <td><em>thenRun</em>
+   <td>thenRun
    </td>
   </tr>
   <tr>
    <td>either
    </td>
-   <td><em>applyToEither</em>
+   <td>applyToEither
    </td>
    <td>
    </td>
-   <td><em>acceptEither</em>
+   <td>acceptEither
    </td>
    <td>
    </td>
-   <td><em>runAfterEither</em>
+   <td>runAfterEither
    </td>
   </tr>
   <tr>
@@ -265,19 +239,21 @@ returns no result
    </td>
    <td>
    </td>
-   <td><em>thenCombine*</em>
+   <td>thenCombine*
    </td>
    <td>
    </td>
-   <td><em>thenAcceptBoth</em>
+   <td>thenAcceptBoth
    </td>
-   <td><em>runAfterBoth</em>
+   <td>runAfterBoth
    </td>
   </tr>
 </table>
 
 
 >Note that the `thenCombine` method could have been named `thenApplyBoth`.
+
+The mathods that have Function, BiFunction arguments return `CompletionStage&lt;T>` that can be used to pass values. The methods that have Consumer, BiConsumer, Runnable return `CompletionStage&lt;Void>` that can be used to perform computations with side-effects and can signalize the fact of completion of computation either with result or with an exception.
 
 The _third_ naming pattern explains what thread executes the new stage:
 
@@ -294,17 +270,17 @@ Note that _the default facility_ and _the default asynchronous facility_ are spe
 
 ### Methods to handle exceptions
 
-A synchronous computation can be completed normally or exceptionally. To recover from these exceptions, it’s possible to use a `try-catch` statement. An asynchronous computation can be completed normally or exceptionally as well. But because the pipelined stages can be executed in different threads, it’s impossible to use a `try-catch` statement in one thread to catch an exception thrown from another thread.
+Synchronous computation can be completed normally or exceptionally. To recover from these exceptions, it’s possible to use a `try-catch` statement. Asynchronous computation can be completed normally or exceptionally as well. But because the pipelined stages can be executed in different threads, it’s impossible to use a `try-catch` statement in one thread to catch an exception thrown from another thread. 
 
 The `CompletionStage` interface has special specifications to handle exceptions. Each stage has two completion types of equal importance, the normal completion, and the exceptional completion. If a stage completes normally, the dependent stages start executing. If a stage completes exceptionally, all dependent stages complete exceptionally as well, unless there is an exception recovery method in the pipeline.
 
-The `whenComplete` method is called when the previous stage completes either normally or exceptionally. The method has a `BiConsumer` argument that accepts the result and the exception. This method can perform some action with either a successful result or an exception, but can’t alter a successful result or replace an exception with some fallback result.
+If it’s necessary to perform some action, when the previous stage completes either normally or exceptionally, then the method  `whenComplete` should be used. A `BiConsumer` argument of the `whenComplete`method is called when the previous stage completes either normally or exceptionally and allows to read both the result and the exception, but doesn’t allow to modify them.
 
+If it’s necessary to recover from an exception (to replace the exception with some fallback value), then the `handle` and `exceptionally` methods should be used. A `BiFunction` argument of the `handle` method is called when the previous stage completes either normally or exceptionally. A `Function` argument of the `exceptionally` method is called when the previous stage completes exceptionally. In both cases, an exception is not propagated to the next stage.
 
+The `exceptionallyCompose` method is similar to the `exceptionally` method - its `Function` argument of the `exceptionally` method is called when the previous stage completes exceptionally. The difference is that the result of the `Function` is a subclass of `CompletionStage`, which is useful when exception recovery is a long operation that is reasonable to execute as a separate stage (possible asynchronously).
 
-The `handle` method is called when the previous stage completes either normally or exceptionally. The method has a `BiFunction` argument that applies the result and the exception and returns some result. This method can convert a successful result and can replace an exception with some fallback result (so an exception is not propagated to the next stage).
-
-The `exceptionally` method is called when the previous stage completes exceptionally. The method has a `Function` argument that applies the exception and returns some result. This method can replace an exception with some fallback result (so an exception is not propagated to the next stage).
+>The difference between the `exceptionally` and `exceptionallyCompose` methods are the same as the difference between the `thenApply` and `thenCompose` methods - the latest has the result of the `Function` is a subclass of `CompletionStage`.
 
 Summary of the methods:
 
@@ -319,28 +295,27 @@ Summary of the methods:
    </td>
   </tr>
   <tr>
-   <td>cann’t modify result
+   <td>can’t modify result
    </td>
    <td rowspan="2" >called on success or exception
    </td>
-   <td><em>whenComplete</em>
+   <td>whenComplete
    </td>
   </tr>
   <tr>
    <td rowspan="3" >can modify result
    </td>
-   <td><em>handle</em>
+   <td>handle
    </td>
   </tr>
   <tr>
    <td rowspan="2" >called on exception
    </td>
-   <td><em>exceptionally </em>
+   <td>exceptionally 
    </td>
   </tr>
   <tr>
-   <td><em>exceptionallyCompose </em>
+   <td>exceptionallyCompose 
    </td>
   </tr>
 </table>
-
