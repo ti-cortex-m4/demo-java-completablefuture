@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertNull;
 
-// run Runnable after finishing future
 public class ThenRun extends Demo1 {
 
     @Test

@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertNull;
 
-// accept results in BiConsumer after finishing both futures
 public class ThenAcceptBoth extends Demo1 {
 
     @Test

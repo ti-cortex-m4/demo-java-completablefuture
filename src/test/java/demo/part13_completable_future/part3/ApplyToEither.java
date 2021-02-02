@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertEquals;
 
-// apply result in Function after finishing any future
 public class ApplyToEither extends Demo1 {
 
     @Test

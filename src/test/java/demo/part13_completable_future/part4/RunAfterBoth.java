@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertNull;
 
-// run Runnable after finishing both futures
 public class RunAfterBoth extends Demo1 {
 
     @Test

@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertNull;
 
-// accept result in Consumer after finishing any future
 public class AcceptEither extends Demo1 {
 
     @Test

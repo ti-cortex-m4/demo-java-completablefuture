@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertNull;
 
-// run Runnable after finishing any future
 public class RunAfterEither extends Demo1 {
 
     @Test

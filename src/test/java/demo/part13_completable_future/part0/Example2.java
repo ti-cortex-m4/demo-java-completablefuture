@@ -5,9 +5,6 @@ import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -15,64 +12,81 @@ import static org.junit.Assert.assertNull;
 public class Example2 extends Demo1 {
 
     @Test
-    public void testFuture() throws InterruptedException, ExecutionException {
-
-        // thenApply
-        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> sleepAndGet("value"))
+    public void testThenApply() throws InterruptedException, ExecutionException {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"))
                 .thenApply(String::toUpperCase);
-        assertEquals("VALUE", future1.get());
+        assertEquals("VALUE", future.get());
+    }
 
-        // thenCompose
-        CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() -> sleepAndGet("sequential1"))
+    @Test
+    public void testThenCompose() throws InterruptedException, ExecutionException {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("sequential1"))
                 .thenCompose(s -> CompletableFuture.supplyAsync(() -> sleepAndGet(s + " sequential2")));
-        assertEquals("sequential1 sequential2", future2.get());
+        assertEquals("sequential1 sequential2", future.get());
+    }
 
-        // applyToEither
-        CompletableFuture<String> future3 = CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1"))
+    @Test
+    public void testApplyToEither() throws InterruptedException, ExecutionException {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1"))
                 .applyToEither(CompletableFuture.supplyAsync(() -> sleepAndGet(2, "parallel2")),
                         String::toUpperCase);
-        assertEquals("PARALLEL1", future3.get());
+        assertEquals("PARALLEL1", future.get());
+    }
 
-        // thenCombine
-        CompletableFuture<String> future4 = CompletableFuture.supplyAsync(() -> sleepAndGet("parallel1"))
+    @Test
+    public void testThenCombine() throws InterruptedException, ExecutionException {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("parallel1"))
                 .thenCombine(CompletableFuture.supplyAsync(() -> sleepAndGet("parallel2")),
                         (s1, s2) -> s1 + " " + s2);
-        assertEquals("parallel1 parallel2", future4.get());
+        assertEquals("parallel1 parallel2", future.get());
+    }
 
 
-        // thenAccept
-        CompletableFuture<Void> future5 = CompletableFuture.supplyAsync(() -> sleepAndGet("value"))
+    @Test
+    public void testThenAccept() throws InterruptedException, ExecutionException {
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"))
                 .thenAccept(s -> logger.info("consumed: " + s));
-        assertNull(future5.get());
+        assertNull(future.get());
+    }
 
-        // acceptEither
-        CompletableFuture<Void> future6 = CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1"))
+    @Test
+    public void testAcceptEither() throws InterruptedException, ExecutionException {
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1"))
                 .acceptEither(CompletableFuture.supplyAsync(() -> sleepAndGet(2, "parallel2")),
                         s -> logger.info("consumed one: " + s));
-        assertNull(future6.get());
+        assertNull(future.get());
+    }
 
-        // thenAcceptBoth
-        CompletableFuture<Void> future7 = CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1"))
+    @Test
+    public void testThenAcceptBoth() throws InterruptedException, ExecutionException {
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1"))
                 .thenAcceptBoth(CompletableFuture.supplyAsync(() -> sleepAndGet(2, "parallel2")),
                         (s1, s2) -> logger.info("consumed both: " + s1 + " " + s2));
-        assertNull(future7.get());
+        assertNull(future.get());
+    }
 
 
-        // thenRun
-        CompletableFuture<Void> future8 = CompletableFuture.completedFuture("value")
+    @Test
+    public void testThenRun() throws InterruptedException, ExecutionException {
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"))
                 .thenRun(() -> logger.info("run in Runnable"));
-        assertNull(future8.get());
+        assertNull(future.get());
+    }
 
-        // runAfterEither
-        CompletableFuture<Void> future9 = CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1"))
+    @Test
+    public void testRunAfterEither() throws InterruptedException, ExecutionException {
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1"))
                 .runAfterEither(CompletableFuture.supplyAsync(() -> sleepAndGet(2, "parallel2")),
                         () -> logger.info("finished one"));
-        assertNull(future9.get());
+        assertNull(future.get());
+    }
 
-        // runAfterBoth
-        CompletableFuture<Void> future10 = CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1"))
+    @Test
+    public void testRunAfterBoth() throws InterruptedException, ExecutionException {
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1"))
                 .runAfterBoth(CompletableFuture.supplyAsync(() -> sleepAndGet(2, "parallel2")),
                         () -> logger.info("finished both"));
-        assertNull(future10.get());
+        assertNull(future.get());
     }
+
 }

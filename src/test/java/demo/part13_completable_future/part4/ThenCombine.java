@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertEquals;
 
-// run two futures parallelly and then combine them
 public class ThenCombine extends Demo1 {
 
     @Test
