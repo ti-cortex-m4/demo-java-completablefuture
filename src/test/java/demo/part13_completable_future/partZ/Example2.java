@@ -23,7 +23,7 @@ public class Example2 extends Demo1 {
             }
         } catch (InterruptedException ignored) {
         }
-        return new String(""+id);
+        return new String("" + id);
     }
 
     public CompletableFuture<String> getString(int id) {

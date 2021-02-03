@@ -14,7 +14,7 @@ public class RunAfterEither extends Demo1 {
     public void testRunAfterEither() throws InterruptedException, ExecutionException {
         CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1"))
                 .runAfterEither(CompletableFuture.supplyAsync(() -> sleepAndGet(2, "parallel2")),
-                        () -> logger.info("finished one"));
+                        () -> logger.info("run after first"));
         assertNull(future.get());
     }
 }

@@ -14,7 +14,7 @@ public class ApplyToEither extends Demo1 {
     public void testApplyToEither() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1"))
                 .applyToEither(CompletableFuture.supplyAsync(() -> sleepAndGet(2, "parallel2")),
-                        String::toUpperCase);
-        assertEquals("PARALLEL1", future.get());
+                        s -> "applied first: " + s);
+        assertEquals("applied first: parallel1", future.get());
     }
 }

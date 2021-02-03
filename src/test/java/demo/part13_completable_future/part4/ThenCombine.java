@@ -14,7 +14,7 @@ public class ThenCombine extends Demo1 {
     public void testThenCombine() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("parallel1"))
                 .thenCombine(CompletableFuture.supplyAsync(() -> sleepAndGet("parallel2")),
-                        (s1, s2) -> s1 + " " + s2);
-        assertEquals("parallel1 parallel2", future.get());
+                        (s1, s2) -> "applied both: " + s1 + " " + s2);
+        assertEquals("applied both: parallel1 parallel2", future.get());
     }
 }

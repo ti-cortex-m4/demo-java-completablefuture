@@ -12,7 +12,7 @@ public class ThenAccept extends Demo1 {
 
     @Test
     public void testThenAccept() throws InterruptedException, ExecutionException {
-        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"))
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> sleepAndGet("single"))
                 .thenAccept(s -> logger.info("consumed: " + s));
         assertNull(future.get());
     }

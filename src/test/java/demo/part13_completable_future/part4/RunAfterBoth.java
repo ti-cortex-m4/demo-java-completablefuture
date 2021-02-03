@@ -14,7 +14,7 @@ public class RunAfterBoth extends Demo1 {
     public void testRunAfterBoth() throws InterruptedException, ExecutionException {
         CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1"))
                 .runAfterBoth(CompletableFuture.supplyAsync(() -> sleepAndGet(2, "parallel2")),
-                        () -> logger.info("finished both"));
+                        () -> logger.info("run after both"));
         assertNull(future.get());
     }
 }

@@ -13,7 +13,7 @@ public class ThenCompose extends Demo1 {
     @Test
     public void testThenCompose() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("sequential1"))
-                .thenCompose(s -> CompletableFuture.supplyAsync(() -> sleepAndGet(s + " sequential2")));
-        assertEquals("sequential1 sequential2", future.get());
+                .thenCompose(s -> CompletableFuture.supplyAsync(() -> sleepAndGet("applied: " + s + " sequential2")));
+        assertEquals("applied: sequential1 sequential2", future.get());
     }
 }

@@ -12,8 +12,8 @@ public class ThenRun extends Demo1 {
 
     @Test
     public void testThenRun() throws InterruptedException, ExecutionException {
-        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"))
-                .thenRun(() -> logger.info("run in Runnable"));
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> sleepAndGet("single"))
+                .thenRun(() -> logger.info("run"));
         assertNull(future.get());
     }
 }

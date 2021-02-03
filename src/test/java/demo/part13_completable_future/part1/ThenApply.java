@@ -12,8 +12,8 @@ public class ThenApply extends Demo1 {
 
     @Test
     public void testThenApply() throws InterruptedException, ExecutionException {
-        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"))
-                .thenApply(String::toUpperCase);
-        assertEquals("VALUE", future.get());
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("single"))
+                .thenApply(s -> "applied: " + s);
+        assertEquals("applied: single", future.get());
     }
 }

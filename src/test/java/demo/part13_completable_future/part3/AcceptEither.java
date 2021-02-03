@@ -14,7 +14,7 @@ public class AcceptEither extends Demo1 {
     public void testAcceptEither() throws InterruptedException, ExecutionException {
         CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1"))
                 .acceptEither(CompletableFuture.supplyAsync(() -> sleepAndGet(2, "parallel2")),
-                        s -> logger.info("consumed one: " + s));
+                        s -> logger.info("consumed first: " + s));
         assertNull(future.get());
     }
 }

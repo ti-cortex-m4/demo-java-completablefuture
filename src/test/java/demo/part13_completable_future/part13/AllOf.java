@@ -15,7 +15,7 @@ public class AllOf extends Demo1 {
 
     @Test
     public void testAllOf() throws InterruptedException, ExecutionException {
-        CompletableFuture<?>[] futures = new CompletableFuture<?>[] {
+        CompletableFuture<?>[] futures = new CompletableFuture<?>[]{
                 CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1")),
                 CompletableFuture.supplyAsync(() -> sleepAndGet(2, "parallel2")),
                 CompletableFuture.supplyAsync(() -> sleepAndGet(3, "parallel3"))
