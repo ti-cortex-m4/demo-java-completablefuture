@@ -251,7 +251,7 @@ returns no result
 
 >Note that the `thenCombine` method could have been named `thenApplyBoth`.
 
-The methods that have `Function, `BiFunction` arguments return `CompletionStage&lt;T>` that can be used to pass values. The methods that have `Consumer`, `BiConsumer`, `Runnable` return `CompletionStage&lt;Void>` that can be used to perform computations with side-effects and can signalize the fact of completion of computation either with the result or with an exception.
+The methods that have `Function, `BiFunction` arguments return `CompletionStage<T>` that can be used to pass values. The methods that have `Consumer`, `BiConsumer`, `Runnable` return `CompletionStage<Void>` that can be used to perform computations with side-effects and can signalize the fact of completion of computation either with the result or with an exception.
 
 The _third_ naming pattern explains what thread executes the new stage:
 
@@ -332,7 +332,7 @@ assertEquals(5, future.get());
 ```
 
 
-If you use the `thenApply` method with a function that returns `CompletionStage&lt;T>`, then the result of the thenApply method will be `CompletionStage&lt;CompletionStage&lt;T>>`. Then to convert the result to `CompletionStage&lt;T>` for further processing you will need to call the blocking `get` method, which is highly discouraged in non-blocking stages processing. To avoid blocking calls, you should use the `thenCompose` method. The method performs conversion from `CompletionStage&lt;CompletionStage&lt;T>>` to `CompletionStage&lt;T>` in a non-blocking way. This is similar to how the `Stream.flatMap` method converts `Stream&lt;Stream&lt;T>>` to just `Stream&lt;T>`. 
+If you use the `thenApply` method with a function that returns `CompletionStage<T>`, then the result of the thenApply method will be `CompletionStage<CompletionStage<T>>`. Then to convert the result to `CompletionStage<T>` for further processing you will need to call the blocking `get` method, which is highly discouraged in non-blocking stages processing. To avoid blocking calls, you should use the `thenCompose` method. The method performs conversion from `CompletionStage<CompletionStage<T>>` to `CompletionStage<T>` in a non-blocking way. This is similar to how the `Stream.flatMap` method converts `Stream<Stream<T>>` to just `Stream<T>`. 
 
 
 #### The `Consumer`/`BiConsumer` methods
