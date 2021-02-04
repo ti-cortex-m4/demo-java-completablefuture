@@ -24,6 +24,9 @@ public class IsCancelled extends Demo1 {
     @Test
     public void testIsDoneFalse() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
+        assertFalse(future.isDone());
+        assertFalse(future.isCompletedExceptionally());
+        assertFalse(future.isCancelled());
         future.cancel(true);
         assertTrue(future.isDone());
         assertTrue(future.isCompletedExceptionally());
