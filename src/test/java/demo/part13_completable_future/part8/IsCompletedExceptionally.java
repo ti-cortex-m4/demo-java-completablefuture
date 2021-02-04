@@ -15,13 +15,17 @@ public class IsCompletedExceptionally extends Demo1 {
     @Test
     public void testIsCompletedExceptionallyFalse() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.completedFuture("value");
+        assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
+        assertFalse(future.isCancelled());
         assertEquals("value", future.get());
     }
 
     @Test
     public void testIsCompletedExceptionallyTrue() throws InterruptedException, ExecutionException {
-        CompletableFuture<String> future = CompletableFuture.failedFuture(new RuntimeException("error"));
+        CompletableFuture<String> future = CompletableFuture.failedFuture(new RuntimeException("exception"));
+        assertTrue(future.isDone());
         assertTrue(future.isCompletedExceptionally());
+        assertFalse(future.isCancelled());
     }
 }
