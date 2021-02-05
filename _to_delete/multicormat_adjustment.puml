@@ -6,9 +6,31 @@ skinparam monochrome true
 hide methods
 hide stereotypes
 
-table(FOO1) {
-  primary_key(FIELD1)
+table(medcomm_multiformat) {
+  primary_key(pk_medcomm_multiformat_id)
+  fk_medcomm_multiformat_format_id
+  fk_medcomm_multiformat_portion_id
+}
+
+table(medcomm_multiformat_format) {
+  primary_key(pk_medcomm_multiformat_format_id)
+  fk_fee_schedule_condition_id
+}
+
+table(medcomm_multiformat_portion) {
+  primary_key(pk_medcomm_multiformat_portion_id)
+  fk_fee_schedule_condition_id
+}
+
+table(pp_fee_schedule_condition) {
+  primary_key(pk_fee_schedule_condition_id)
   FIELD2
 }
+
+pp_fee_schedule_condition::pk_fee_schedule_condition_id <- medcomm_multiformat_portion::fk_fee_schedule_condition_id
+pp_fee_schedule_condition::pk_fee_schedule_condition_id <- medcomm_multiformat_format::fk_fee_schedule_condition_id
+
+medcomm_multiformat_format::pk_medcomm_multiformat_format_id <- medcomm_multiformat::fk_medcomm_multiformat_format_id
+medcomm_multiformat_portion::pk_medcomm_multiformat_portion_id <- medcomm_multiformat::fk_fee_schedule_condition_id
 
 @enduml
