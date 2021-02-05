@@ -19,7 +19,7 @@ public class CompleteExceptionally extends Demo1 {
         CompletableFuture<String> future = new CompletableFuture<>();
         assertFalse(future.isDone());
         assertFalse(future.isCompletedExceptionally());
-        future.completeExceptionally(new RuntimeException("error"));
+        future.completeExceptionally(new RuntimeException("exception"));
         assertTrue(future.isDone());
         assertTrue(future.isCompletedExceptionally());
         try {
@@ -28,7 +28,7 @@ public class CompleteExceptionally extends Demo1 {
         } catch (ExecutionException e) {
             Throwable cause = e.getCause();
             assertEquals(RuntimeException.class, cause.getClass());
-            assertEquals("error", cause.getMessage());
+            assertEquals("exception", cause.getMessage());
         }
     }
 }
