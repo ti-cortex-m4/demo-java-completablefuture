@@ -1,0 +1,29 @@
+@startuml
+
+class java.util.concurrent.CompletableFuture {
+}
+
+interface java.util.concurrent.CompletionStage {
+}
+
+interface java.util.concurrent.Future {
+}
+
+class java.util.concurrent.FutureTask {
+}
+
+interface java.util.concurrent.RunnableFuture {
+}
+
+interface java.lang.Runnable {
+}
+
+java.util.concurrent.CompletableFuture -up-|>  java.util.concurrent.CompletionStage
+java.util.concurrent.CompletableFuture -up-|>  java.util.concurrent.Future
+java.util.concurrent.FutureTask -up-|>  java.util.concurrent.RunnableFuture
+java.util.concurrent.RunnableFuture -up-|>  java.util.concurrent.Future
+java.util.concurrent.RunnableFuture -up-|>  java.lang.Runnable
+
+hide members
+
+@enduml
