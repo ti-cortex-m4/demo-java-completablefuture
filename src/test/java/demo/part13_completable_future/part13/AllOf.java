@@ -8,17 +8,17 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static org.junit.Assert.assertEquals;
 
-// wait for all of futures to finish
 public class AllOf extends Demo1 {
 
     @Test
     public void testAllOf() throws InterruptedException, ExecutionException {
         CompletableFuture<?>[] futures = new CompletableFuture<?>[]{
-                CompletableFuture.supplyAsync(() -> sleepAndGet(1, "parallel1")),
-                CompletableFuture.supplyAsync(() -> sleepAndGet(2, "parallel2")),
-                CompletableFuture.supplyAsync(() -> sleepAndGet(3, "parallel3"))
+                supplyAsync(() -> sleepAndGet(1, "parallel1")),
+                supplyAsync(() -> sleepAndGet(2, "parallel2")),
+                supplyAsync(() -> sleepAndGet(3, "parallel3"))
         };
 
         CompletableFuture<Void> future = CompletableFuture.allOf(futures);

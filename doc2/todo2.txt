@@ -1,5 +1,0 @@
-https://www.anuragkapur.com/blog/devoxx-uk-2018#completablefutures
-https://blog.qfotografie.de/2018/05/15/devoxx-uk-deep-dive-streams-and-completablefutures/
-
-http://millross-consultants.com/completion-stage-future-introduction.html
-http://millross-consultants.com/completable-future-error-propagation.html

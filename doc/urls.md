@@ -20,3 +20,27 @@ https://www.youtube.com/watch?v=0hQvWIdwnw4&ab_channel=Devoxx   Parallel and Asy
 https://www.youtube.com/watch?v=Q_0_1mKTlnY&ab_channel=GOTOConferences  GOTO 2014 • New Concurrency Utilities in Java 8 • Angelika Langer
 
 https://plantuml.com/class-diagram
+
+
+
+>The Java CompletableFuture API is designed to implement multi-stage operations that have a single result. If it’s necessary to implement multi-stage operations that have a stream of results, it’s necessary to use reactive streams implemented in Java Flow API or third-party frameworks (RxJava, etc).
+
+
+
+Synchronous vs. asynchronous API
+The phrase synchronous API is another way of talking about a traditional call to a method: you call it, the caller waits while the method computes, the method returns, and the caller continues with the returned value. Even if the caller and callee were executed on different threads, the caller would still wait for the callee to complete. This situation gives rise to the phrase blocking call. By contrast, in an asynchronous API the method returns immediately (or at least before its computation is complete), delegating its remaining computation to a thread, which runs asynchronously to the caller—hence, the phrase nonblocking call. The remaining computation gives its value to the caller by calling a callback method,  or the caller invokes a further “wait until the computation is complete” method. This style of computation is common in I/O systems programming: you initiate a disc access, which happens asynchronously while you do more computation, and when you have nothing more useful to do, you wait until the disc blocks are loaded into memory. Note that blocking and nonblocking are often used for specific implementations of I/O by the operating system. However, these terms tend to be used interchangeably with asynchronous and synchronous even in non-I/O contexts.  Executing relatively long-lasting operations by using asynchronous tasks can increase the performance and responsiveness of your application, especially if it relies on one or more remote external services.
+
+
+https://java-design-patterns.com/patterns/promise/
+https://www.nurkiewicz.com/2013/12/promises-and-completablefuture.html
+https://salonegupta.wordpress.com/2017/08/24/internals-of-java-futuret/
+https://www.infoq.com/presentations/Asynchronous-Scala-Java/
+http://www.labviewcraftsmen.com/blog/futures-promises-and-continuations-oh-my
+https://www.infoq.com/articles/Functional-Style-Callbacks-Using-CompletableFuture/
+https://www.youtube.com/watch?v=CITVS-gwySo&ab_channel=CopperSpice
+
+https://www.anuragkapur.com/blog/devoxx-uk-2018#completablefutures
+https://blog.qfotografie.de/2018/05/15/devoxx-uk-deep-dive-streams-and-completablefutures/
+
+http://millross-consultants.com/completion-stage-future-introduction.html
+http://millross-consultants.com/completable-future-error-propagation.html
