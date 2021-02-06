@@ -44,3 +44,5 @@ https://blog.qfotografie.de/2018/05/15/devoxx-uk-deep-dive-streams-and-completab
 
 http://millross-consultants.com/completion-stage-future-introduction.html
 http://millross-consultants.com/completable-future-error-propagation.html
+
+чтобы получить быструю асинхронную обработку мы не должны блокировать потоки
