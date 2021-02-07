@@ -23,12 +23,28 @@ https://plantuml.com/class-diagram
 
 
 
->The Java CompletableFuture API is designed to implement multi-stage operations that have a single result. If it’s necessary to implement multi-stage operations that have a stream of results, it’s necessary to use reactive streams implemented in Java Flow API or third-party frameworks (RxJava, etc).
+>The Java CompletableFuture API is designed to implement multi-stage operations that have a single result.
+If it’s necessary to implement multi-stage operations that have a stream of results, it’s necessary to use
+reactive streams implemented in Java Flow API or third-party frameworks (RxJava, etc).
 
 
 
 Synchronous vs. asynchronous API
-The phrase synchronous API is another way of talking about a traditional call to a method: you call it, the caller waits while the method computes, the method returns, and the caller continues with the returned value. Even if the caller and callee were executed on different threads, the caller would still wait for the callee to complete. This situation gives rise to the phrase blocking call. By contrast, in an asynchronous API the method returns immediately (or at least before its computation is complete), delegating its remaining computation to a thread, which runs asynchronously to the caller—hence, the phrase nonblocking call. The remaining computation gives its value to the caller by calling a callback method,  or the caller invokes a further “wait until the computation is complete” method. This style of computation is common in I/O systems programming: you initiate a disc access, which happens asynchronously while you do more computation, and when you have nothing more useful to do, you wait until the disc blocks are loaded into memory. Note that blocking and nonblocking are often used for specific implementations of I/O by the operating system. However, these terms tend to be used interchangeably with asynchronous and synchronous even in non-I/O contexts.  Executing relatively long-lasting operations by using asynchronous tasks can increase the performance and responsiveness of your application, especially if it relies on one or more remote external services.
+The phrase synchronous API is another way of talking about a traditional call to a method: you call it,
+the caller waits while the method computes, the method returns, and the caller continues with the returned value.
+Even if the caller and callee were executed on different threads, the caller would still wait for the callee
+to complete. This situation gives rise to the phrase blocking call.
+By contrast, in an asynchronous API the method returns immediately (or at least before its computation is complete),
+delegating its remaining computation to a thread, which runs asynchronously to the caller—hence,
+the phrase nonblocking call. The remaining computation gives its value to the caller by calling a callback method,
+or the caller invokes a further “wait until the computation is complete” method.
+This style of computation is common in I/O systems programming: you initiate a disc access,
+which happens asynchronously while you do more computation, and when you have nothing more useful to do,
+you wait until the disc blocks are loaded into memory. Note that blocking and nonblocking are often used for
+specific implementations of I/O by the operating system. However, these terms tend to be used interchangeably
+with asynchronous and synchronous even in non-I/O contexts.  Executing relatively long-lasting operations
+by using asynchronous tasks can increase the performance and responsiveness of your application, especially
+if it relies on one or more remote external services.
 
 
 https://java-design-patterns.com/patterns/promise/
@@ -39,80 +55,16 @@ http://www.labviewcraftsmen.com/blog/futures-promises-and-continuations-oh-my
 https://www.infoq.com/articles/Functional-Style-Callbacks-Using-CompletableFuture/
 https://www.youtube.com/watch?v=CITVS-gwySo&ab_channel=CopperSpice
 
-https://www.anuragkapur.com/blog/devoxx-uk-2018#completablefutures
-https://blog.qfotografie.de/2018/05/15/devoxx-uk-deep-dive-streams-and-completablefutures/
-
-http://millross-consultants.com/completion-stage-future-introduction.html
-http://millross-consultants.com/completable-future-error-propagation.html
-
-чтобы получить быструю асинхронную обработку мы не должны блокировать потоки
-
-давайте сравним давайте сравним вот
-
-цепочку действий на completo было фьючер
-
-который написан через сына плай функцию
-
-по умолчанию и то же самое когда мы
-
-пишем за на playa sing во втором случае
-
-мы всякий разум каждый раз наша задача
-
-уходит в диете пор как в отдельном с
-
-отдельным с трансфером туда наша задача
-
-то же самое у меня есть полезная работа
-
-100 наносекунд 100 микросекунд 100
-
-миллисекунд
-
-за за сто процентов берется цепочка
-
-действий по умолчанию потому что они все
-
-используются в одном и том же треде
-
-когда вот пришлось работать а оранжевый
-
-цвет это overheat того что каждый из
-
-моих действий я явно пересылаю
-
-асинхронно исполнении 50 процентов для
-
-100 наносекунд уже многовато но не надо
-
-делать это на секундную задача в пара
-
-лет выигрыш нарядно нибудь ну и точно
-
-так же ситуация с загрузка нашей системы
-
-не так ужасно как в первом случае но все
-
-равно этот overheat может быть очень
-
-очень даже заметен и вот это как бы
-
-объясняет для чего нам нужны эти методы
 
 методы которые явно специфицировать
-
 асинхронность исполнения они нужны для
-
 предсказуемости того где мои действия
+будут исполняться
 
-будут исполняться а методы по умолчанию
-
+методы по умолчанию
 нужно для того чтобы просто иметь
-
 несколько сколько-то более высокую
-
 производительность
-
 
 предсказуемость - важный поток не должен выполнять длительные пользовательские действия
 
@@ -120,8 +72,7 @@ CompletableFuture
 • thenSomethingAsync(...) – предсказуемость
 • thenSomething(...) – производительность
 
-Перемещение работы из потока в поток снижает
-производительность
+Перемещение работы из потока в поток снижает производительность
 
 Futures in Java 8 - I
 54
