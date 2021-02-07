@@ -48,6 +48,7 @@ if it relies on one or more remote external services.
 
 
 https://java-design-patterns.com/patterns/promise/
+http://dist-prog-book.com/chapter/2/futures.html
 https://www.nurkiewicz.com/2013/12/promises-and-completablefuture.html
 https://salonegupta.wordpress.com/2017/08/24/internals-of-java-futuret/
 https://www.infoq.com/presentations/Asynchronous-Scala-Java/
