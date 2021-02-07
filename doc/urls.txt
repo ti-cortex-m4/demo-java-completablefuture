@@ -165,3 +165,27 @@ completionStage.thenApply( x -> x * x )
 themselves instead to their results using compose
  handle & whenComplete – support unconditional
 computation – both normal or exceptional triggering
+
+Java Future nether effective nor composable
+lst.map(x => x*2).filter(x => x<50)
+
+important ops
+✔ Assign result value
+✔ Wait for result
+✔ Obtain associated future object
+✔ Start async computation
+
+goal: Do not block current thread while waiting
+for result of future
+
+Callbacks
+Register callback which is invoked
+(asynchronously) when future is completed
+Async computations never block
+(except for managed blocking)
+
+
+(create promise)
+(get reference to future)
+(register callback)
+(write to promise)

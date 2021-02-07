@@ -1,0 +1,11 @@
+@startuml
+
+rectangle "Promise\nwrite-once" as Promise
+rectangle "Future\nread-only" as Future
+
+'[*] --> Promise
+Promise -left-> Future
+
+'Future --> [*]
+
+@enduml
