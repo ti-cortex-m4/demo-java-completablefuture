@@ -1,0 +1,770 @@
+welcome to the copper spice youtube
+
+channel and thanks for joining us in
+
+this video we are going to introduce
+
+futures and promises and talk about why
+
+they are a value futures and promises we
+
+are going to begin by providing a quick
+
+overview of where the concepts of
+
+futures and promises originated from and
+
+where they can be used then we want to
+
+explain a bit about each component and
+
+show a few examples of how these classes
+
+can be used to solve a few particular
+
+problems we will also look at async and
+
+how it fits into the future and promise
+
+system futures and promises are an
+
+abstraction originally developed in
+
+functional programming languages to
+
+handle concurrency these concepts allow
+
+a program to pass values between threads
+
+without using any of the typical
+
+synchronization mechanisms used when
+
+sharing data between threads like
+
+mutexes one of the challenges with using
+
+futures and promises is mostly centered
+
+around the terminology various terms
+
+have been used by different researchers
+
+developers and computer languages to
+
+mean very similar things it can be
+
+challenging to figure out which
+
+definition is being used in a given
+
+context and in fact some have said the
+
+class names for futures and promises
+
+should have been reversed in this talk
+
+we will be discussing all these terms as
+
+they pertain to C++ specifically futures
+
+and promises are useful when you have
+
+some operation or set of operations
+
+which produce a result could take a
+
+significant amount of time or may not
+
+need to happen in any particular order a
+
+good example of when you might use a
+
+future and a promise to improve
+
+performance is when you're reading or
+
+writing data like opening a file in an
+
+editor ideally it would be good to allow
+
+the user to continue interacting with
+
+the program after the first portion of
+
+the file has been loaded the remainder
+
+of the file could then be loaded in the
+
+background a common way to implement
+
+this is by using a future
+
+or you may have a system which is making
+
+a call to a web service we're using a
+
+raw TCP socket and you don't want to
+
+wait for this operation to complete
+
+before moving on to another task another
+
+example is when doing database queries
+
+or distributed systems which often have
+
+long running tasks this is only a short
+
+list of places where futures and
+
+promises can be utilized it's worth
+
+noting that these constructs are not
+
+limited to a fully multi-threaded
+
+application in the late 70s the term
+
+promise was first introduced and that a
+
+year later the idea of future was
+
+introduced over the next 20 years they
+
+were implemented in a few lesser-known
+
+computer languages these constructs were
+
+considered mostly theoretical at the
+
+time they were not originally developed
+
+to solve the modern-day problems we have
+
+with networks web servers and
+
+distributed systems 30 to 40 years later
+
+were finally realizing the value of this
+
+technology futures and promises were not
+
+widely known until early 2002 when
+
+Python introduced the notion of what
+
+they called deferred objects in a
+
+library called twisted in 2007 the dojo
+
+deferred library added these concepts to
+
+JavaScript the boost library introduced
+
+one of the first thread libraries for
+
+C++ in 2001
+
+it wasn't until 2009 that the boost
+
+thread library added functionality to
+
+support futures and promises with the
+
+release of C++ 11 futures and promises
+
+became part of the standard library
+
+there have been several new proposals to
+
+expand the functionality of futures and
+
+promises in the C++ standard and these
+
+are available as experimental in some
+
+compilers it is expected that C++ 20
+
+will contain most of these enhancements
+
+when you're looking at a computer
+
+language or browsing through code
+
+samples on Stack Overflow you need to be
+
+very careful not every computer language
+
+has both constructs namely futures and
+
+promises
+
+and the definitions and implementations
+
+may be different we ran into this when
+
+we were looking at some sample code and
+
+it was using a promise the code seemed
+
+unusual or even incorrect then we
+
+realized this was not C++ code it was
+
+actually JavaScript if you are using
+
+futures and promises in a language other
+
+than C++ these constructs may not be in
+
+the core language or standard library in
+
+most all cases futures and promises will
+
+be supported in various third-party
+
+libraries in C++ a future is an instance
+
+of a template in class this object is
+
+read-only its purpose is to encapsulate
+
+a value that may not be available yet
+
+but will be provided at some point the
+
+template parameter for the future
+
+template indicates the type of data the
+
+future will hold the primary way you
+
+work with a future object is to call the
+
+get method calling get will retrieve the
+
+data stored in the future if the future
+
+is not yet ready meaning the data has
+
+not been provided the call to get will
+
+block if for some reason an error
+
+occurred while computing the value the
+
+get method will throw an exception the
+
+promised instance is also an object of a
+
+template in class just as with a future
+
+the template parameter indicates the
+
+datatype of the stored value the T for
+
+the promise and the T for the future
+
+must match this may seem a bit odd but
+
+if you create or instantiate your own
+
+future object it will always be invalid
+
+and it cannot be used for anything there
+
+is no way to make this future valid the
+
+only public constructor for a future
+
+creates an invalid empty future to
+
+create a usable future you first create
+
+a promise when the promise is
+
+instantiated it automatically creates an
+
+invalid but usable future object which
+
+you can then ex
+
+tract from the promised object if this
+
+future will become valid when the
+
+promise fills in the data this is called
+
+fulfilling a promise as a recap the
+
+purpose of the promise object is to
+
+guarantee that some function will
+
+compute some value and make it available
+
+in the corresponding future object so
+
+how does all this work a typical usage
+
+involves first creating a promise object
+
+from the promise object you extract the
+
+future and hold on to it
+
+then you move the promise to another
+
+thread or function once the function has
+
+finished it is responsible for setting
+
+the value in the promise and the future
+
+becomes available
+
+at any point the main thread can call
+
+the get method of the future object to
+
+wait for the data in the future to be
+
+available if the function has already
+
+finished the call to get will return
+
+immediately if it is not available the
+
+call to get will wait until the future
+
+is finished so what happens if the
+
+function fails if the promise contains
+
+an exception when the main thread calls
+
+the get method the exception in the
+
+promise will be thrown there are two
+
+ways the promise might contain an
+
+exception if the function encounters an
+
+exception instead of actually throwing
+
+it should place the exception object in
+
+the promise this allows the exception to
+
+be thrown later when get is called and
+
+not in the function itself it would be a
+
+very bad practice to throw an exception
+
+in a thread since it is unclear who
+
+should catch it according to the C++
+
+standard throwing an exception in a
+
+thread calls STD terminate if the
+
+function does not set a specific
+
+exception in the promise then the
+
+promise will go out of scope without
+
+being fulfilled when this occurs
+
+the promise automatically sets a generic
+
+exception in the future this is called a
+
+broken promise exception this is
+
+accurate since the promise was not
+
+fulfilled and the function has therefore
+
+broken its promise to compute a value
+
+the problem with relying on the broken
+
+promise exception to be set is that it
+
+actually does not indicate why the
+
+promise was broken and it's not a very
+
+meaningful error here is a simple
+
+example that uses a future to store
+
+computed value generated as a result of
+
+some function the main function creates
+
+a promise and extracts the corresponding
+
+future a new thread is then started to
+
+run the do work function and the promise
+
+object is moved into the thread the main
+
+thread then calls get and prints the
+
+result the threads are joined to
+
+complete the process
+
+notice the T in STD promise and STD
+
+future are both int if you were to
+
+change the T for STD future to a double
+
+you would get a compile error saying
+
+something like conversion from future
+
+int to future double requested the do
+
+work function will run at some point
+
+after the thread has started and before
+
+the call to get returns since the main
+
+thread cannot continue until the value
+
+is available it waits if the main thread
+
+runs first it may be blocked until do
+
+work has completed the reason the
+
+promise and future are separate objects
+
+is to encapsulate the two different sets
+
+of functionality the promise is used by
+
+the function which is responsible for
+
+computing a value in order to store the
+
+return value or exception in the
+
+corresponding future the future is used
+
+by the caller to retrieve the
+
+information which was computed this is
+
+why the get method exists in only the
+
+future and the set value method exists
+
+in only the promise
+
+the future promise mechanism works very
+
+well when you have different threads
+
+working on different tasks and the
+
+results need to be combined together by
+
+a main thread in this use case the fact
+
+that get will block is not consequential
+
+in fact it's expected we have some
+
+larger tasks which can be broken down
+
+into five different parts and each part
+
+can run independently the idea is to
+
+start one thread for each of these tasks
+
+to speed up processing in this use case
+
+we start five threads and pass a unique
+
+promise to each one the main thread
+
+simply gets the values from all the
+
+futures in turn as soon as all five
+
+tasks are complete then all five calls
+
+to get will be unblocked and the values
+
+will all be available to the main thread
+
+one of the problems with std future is
+
+that it offers no way of notifying
+
+anyone when it's ready in some cases
+
+like the use case we covered in the
+
+previous example this is not an issue
+
+however since the get method can block
+
+this may need to be part of your design
+
+considerations what you can do is call
+
+the wait form method with this awkward
+
+argument specifying an immediate timeout
+
+the return value of the wait for method
+
+will tell you if the future is ready
+
+this gives you a way to ask if I do call
+
+get will I block however one of the
+
+missing features which would be very
+
+valuable is the ability to change rows
+
+together the idea would be that when a
+
+future is ready
+
+another process is started and a new
+
+future has passed to some function and
+
+another value is computed unfortunately
+
+this technology is not available in any
+
+current version of the C++ standard
+
+library the boost thread library added a
+
+method called VIN which can be passed a
+
+lambda or a function when the future
+
+becomes valid the lambda or function
+
+will be invoked this is sort of like a
+
+signal slot connection the lambda our
+
+function is passed the return value
+
+which was just placed in the
+
+future this means you're not blocked by
+
+calling the get method on the future and
+
+in fact once the future becomes valid
+
+data is automatically passed to the next
+
+function in the chain developers have
+
+been asking the Standards Committee to
+
+add a similar method to the standard
+
+library for several years there was hope
+
+this would be part of C++ 17 however it
+
+was not approved for various reasons
+
+many of which are quite compelling this
+
+method along with several other new
+
+ideas were moved into the sg-1
+
+concurrency technical specification
+
+there is some belief a change to futures
+
+may be part of the c++ 20 standard one
+
+of the complexities they are heavily
+
+considering is how to determine which
+
+thread should invoke the various parts
+
+of the chain should then be passed a
+
+reference to a new thread how do you
+
+pass the idea of the thread where the
+
+chain future will be run what if you
+
+want the chain future to run on any one
+
+of several threads in a thread pool
+
+there are lots of questions with few
+
+clear answers right now in this area of
+
+the standard since futures and promises
+
+can be somewhat cumbersome to use the
+
+standard library provides a function
+
+called STD async which encapsulates a
+
+portion of the complexity of setting up
+
+a promise and a future acing provides
+
+the abstraction of calling a regular
+
+function in another thread the return
+
+value of the thread will automatically
+
+be returned in the future internally
+
+async manages the promise and calls the
+
+set value method in the promise when the
+
+function returns if there is a failure
+
+async will call set exception to
+
+indicate a problem basically STD async
+
+provides a higher-level mechanism to
+
+call an ordinary function in another
+
+thread and retrieve the value when it's
+
+ready it is valuable to note the
+
+function which is called does
+
+not have to handle futures or promises
+
+in any way it can be a normal function
+
+which takes parameters and returns value
+
+this means async allows you to call
+
+existing functions in a separate thread
+
+without modifying the original function
+
+here is a generic example showing how
+
+std async would be used the calls to get
+
+are still blocking the only guarantee is
+
+that both computations are complete and
+
+their corresponding futures are ready
+
+before the addition of the two values
+
+can happen in a real-world application
+
+you may need to handle the case where
+
+one of the get methods might throw an
+
+exception if this happens the return
+
+expression will not be evaluated and
+
+instead the exception will be propagated
+
+to the color of the compute and some
+
+function the idea of futures and
+
+promises are relatively new to C++ but
+
+they have been around in functional
+
+programming in other languages for many
+
+years what was added in C++ 11 was a
+
+good start and there are very talented
+
+people on the Standards Committee who
+
+are looking to advance this technology
+
+with the addition of methods like then
+
+or when all and when any in C++ 24 now
+
+we have the beginning of futures
+
+promises and async once you are aware of
+
+the limitations of the current standard
+
+there is a great deal of improvement you
+
+can make to your application design and
+
+leverage asynchronous computations one
+
+of the huge advantages of using futures
+
+is to facilitate the ability to return a
+
+value from a thread this allows
+
+functions in multi-threaded code to be
+
+structured more like normal procedural
+
+code for more information about the
+
+copper spice project and the libraries
+
+we have developed please visit our
+
+website at wwlp.com thanks for watching
+
+we hope you found the
+
+to value if you have any questions or
+
+feedback please feel free to leave a
+
+comment on this video or send us an
+
+email please make sure you subscribe to
+
+our YouTube channel and come back in two
+
+weeks for our next video
+
