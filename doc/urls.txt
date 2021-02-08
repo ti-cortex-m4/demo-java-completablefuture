@@ -59,37 +59,6 @@ https://www.infoq.com/articles/Functional-Style-Callbacks-Using-CompletableFutur
 https://www.youtube.com/watch?v=CITVS-gwySo&ab_channel=CopperSpice
 
 
-методы которые явно специфицировать
-асинхронность исполнения они нужны для
-предсказуемости того где мои действия
-будут исполняться
-
-методы по умолчанию
-нужно для того чтобы просто иметь
-несколько сколько-то более высокую
-производительность
-
-предсказуемость - важный поток не должен выполнять длительные пользовательские действия
-
-CompletableFuture
-• thenSomethingAsync(...) – предсказуемость
-• thenSomething(...) – производительность
-
-Перемещение работы из потока в поток снижает производительность
-
-Futures in Java 8 - I
-54
- Future (implemented by FutureTask) – represents the
-result of an cancelable asynchronous computation.
-Methods are provided to check if the computation is
-complete, to wait for its completion, and to retrieve the
-result of the computation (blocking till its ready).
- RunnableFuture – a Future that is Runnable.
-Successful execution of the run method causes Future
-completion, and allows access to its results.
- ScheduledFuture – delayed cancelable action that
-returns result. Usually a scheduled future is the result
-of scheduling a task with a ScheduledExecutorService
 
 Futures in Java 8 - II
 56
@@ -120,26 +89,3 @@ themselves instead to their results using compose
  handle & whenComplete – support unconditional
 computation – both normal or exceptional triggering
 
-Java Future nether effective nor composable
-lst.map(x => x*2).filter(x => x<50)
-
-important ops
-✔ Assign result value
-✔ Wait for result
-✔ Obtain associated future object
-✔ Start async computation
-
-goal: Do not block current thread while waiting
-for result of future
-
-Callbacks
-Register callback which is invoked
-(asynchronously) when future is completed
-Async computations never block
-(except for managed blocking)
-
-
-(create promise)
-(get reference to future)
-(register callback)
-(write to promise)
