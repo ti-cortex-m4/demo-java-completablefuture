@@ -27,16 +27,16 @@ public class Handle extends Demo1 {
 
     @Test
     public void testHandleError() throws InterruptedException, ExecutionException {
-        CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException("error"))
+        CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException("exception"))
                 .handle((value, t) -> {
                     if (t == null) {
                         return value.toUpperCase();
                     } else {
-                        return t.getMessage();
+                        return "failure: " + t.getMessage();
                     }
                 });
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
-        assertEquals("error", future.get());
+        assertEquals("failure: exception", future.get());
     }
 }

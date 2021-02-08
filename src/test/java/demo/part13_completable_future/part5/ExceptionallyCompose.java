@@ -13,7 +13,7 @@ public class ExceptionallyCompose extends Demo1 {
     @Test
     public void testExceptionallySuccess() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.completedFuture("value")
-                .exceptionallyCompose(t -> CompletableFuture.completedFuture("error: " + t.getMessage()));
+                .exceptionallyCompose(t -> CompletableFuture.completedFuture("failure: " + t.getMessage()));
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
         assertEquals("value", future.get());
@@ -21,10 +21,10 @@ public class ExceptionallyCompose extends Demo1 {
 
     @Test
     public void testExceptionallyError() throws InterruptedException, ExecutionException {
-        CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException("error"))
-                .exceptionallyCompose(t -> CompletableFuture.completedFuture("error: " + t.getMessage()));
+        CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException("exception"))
+                .exceptionallyCompose(t -> CompletableFuture.completedFuture("failure: " + t.getMessage()));
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
-        assertEquals("error: error", future.get());
+        assertEquals("failure: exception", future.get());
     }
 }
