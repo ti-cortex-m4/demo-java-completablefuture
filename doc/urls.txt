@@ -30,25 +30,6 @@ If it’s necessary to implement multi-stage operations that have a stream of re
 reactive streams implemented in Java Flow API or third-party frameworks (RxJava, etc).
 
 
-
-Synchronous vs. asynchronous API
-The phrase synchronous API is another way of talking about a traditional call to a method: you call it,
-the caller waits while the method computes, the method returns, and the caller continues with the returned value.
-Even if the caller and callee were executed on different threads, the caller would still wait for the callee
-to complete. This situation gives rise to the phrase blocking call.
-By contrast, in an asynchronous API the method returns immediately (or at least before its computation is complete),
-delegating its remaining computation to a thread, which runs asynchronously to the caller—hence,
-the phrase nonblocking call. The remaining computation gives its value to the caller by calling a callback method,
-or the caller invokes a further “wait until the computation is complete” method.
-This style of computation is common in I/O systems programming: you initiate a disc access,
-which happens asynchronously while you do more computation, and when you have nothing more useful to do,
-you wait until the disc blocks are loaded into memory. Note that blocking and nonblocking are often used for
-specific implementations of I/O by the operating system. However, these terms tend to be used interchangeably
-with asynchronous and synchronous even in non-I/O contexts.  Executing relatively long-lasting operations
-by using asynchronous tasks can increase the performance and responsiveness of your application, especially
-if it relies on one or more remote external services.
-
-
 https://java-design-patterns.com/patterns/promise/
 http://dist-prog-book.com/chapter/2/futures.html
 https://www.nurkiewicz.com/2013/12/promises-and-completablefuture.html
