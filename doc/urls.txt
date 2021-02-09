@@ -5,7 +5,7 @@ https://medium.com/javarevisited/completablefuture-usage-and-best-practises-4285
 
 https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
 https://kalpads.medium.com/fantastic-completablefuture-allof-and-how-to-handle-errors-27e8a97144a0
-https://medium.com/swlh/combining-multiple-api-calls-with-completablefuture-1d9d27e03bec
+https://theboreddev.com/combining-multiple-api-calls-with-completablefuture/
 https://swathisprasad.medium.com/multi-threading-in-spring-boot-using-completablefuture-a7ca68a0fe48
 https://blog.softwaremill.com/synchronous-or-asynchronous-and-why-wrestle-with-wrappers-2c5667eb7acf
 https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
