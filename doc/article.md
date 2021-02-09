@@ -1,13 +1,38 @@
+<!-- Copy and paste the converted output. -->
+
+<!-----
+NEW: Check the "Suppress top comment" option to remove this info from the output.
+
+Conversion time: 1.709 seconds.
+
+
+Using this Markdown file:
+
+1. Paste this output into your source file.
+2. See the notes and action items below regarding this conversion run.
+3. Check the rendered output (headings, lists, code blocks, tables) for proper
+   formatting and use a linkchecker before you publish this page.
+
+Conversion notes:
+
+* Docs to Markdown version 1.0β29
+* Mon Feb 08 2021 23:37:05 GMT-0800 (PST)
+* Source doc: Untitled document
+* Tables are currently converted to HTML tables.
+----->
+
+
+
 # Java parallelism: CompletionStage and CompletableFuture
 
 
 ## Introduction
 
-The `CompletionStage` and `CompletableFuture`classes are high-level parallel Java API that was added in Java 8 to pipeline multiple asynchronous computations into a single result without the mess of nested callbacks (‘callback hell’). These classes are implementations of the futures/promises in Java.
+The `CompletionStage` and `CompletableFuture`classes are high-level parallel Java API that was added in Java 8 to pipeline multiple asynchronous computations into a single result without the mess of nested callbacks (‘callback hell`). These classes are implementations of the futures/promises in Java.
 
 Before adding these classes Java already had much simpler classes to manage asynchronous tasks - in Java 5 were added the `Future` interface and its base implementation the `FutureTask` class. 
 
-The `Future` interface represents an incompleted _result_ of submitting a _task_ (either ’Runnable’ or ’Callable’) for asynchronous execution to an ’ExecutorService’ instance. The `Future` interface has a few methods:
+The `Future` interface represents an incompleted _result_ of submitting a _task_ (either `Runnable` or `Callable`) for asynchronous execution to an `ExecutorService` instance. The `Future` interface has a few methods:
 
 
 
@@ -19,9 +44,9 @@ But the `Future` interface has significant limitations in building multi-step as
 
 
 
-*   it’s impossible to register a callback on task competition - the only possible way is to check the result of the `isDone` method in a cycle (to busy-wait)
-*   it’s impossible to combine the results of two tasks in a non-blocking way
-*   it’s impossible to manually complete a task either with a result or with an exception
+*   it's impossible to register a callback on task competition - the only possible way is to check the result of the `isDone` method in a cycle (to busy-wait)
+*   it's impossible to combine the results of two tasks in a non-blocking way
+*   it's impossible to manually complete a task either with a result or with an exception
 
 To change this, in Java 8 were added (and in Java 9 and Java 12 were updated) the `CompletionStage` interface and its base implementation the `CompletableFuture` class. These classes allow building effective multi-step computations of a single result - not only in simple linear sequences of steps but also when steps form dependencies as complicated as directed acyclic graphs.
 
@@ -36,18 +61,18 @@ A _future/promise_ represents the eventual result of an asynchronous operation. 
 
 >In a narrower sense, a _future_ is a read-only placeholder view of a result (that is yet unavailable), while a _promise_ is a writable, single-assignment object that sets the value of the _future_. 
 
-The following workflow example can help you to understand the idea of future/promise. A consumer sends a long-running task to a producer to be executed asynchronously. The producer creates a promise when it starts that task and sends a future to a consumer. The consumer receives the future that isn’t completed yet and waits for its completion. During waiting, the consumer isn’t blocked and can execute other tasks. When the producer completes the task, it fulfills the promise and thereby provides the future's value. Essentially the promise represents the producing end of the future/promise relationship, while the future represents the consuming end. This explains why promises are single write-only and futures are multiple read-only.
+The following workflow example can help you to understand the idea of future/promise. A consumer sends a long-running task to a producer to be executed asynchronously. The producer creates a promise when it starts that task and sends a future to a consumer. The consumer receives the future that isn`t completed yet and waits for its completion. During waiting, the consumer isn`t blocked and can execute other tasks. When the producer completes the task, it fulfills the promise and thereby provides the future's value. Essentially the promise represents the producing end of the future/promise relationship, while the future represents the consuming end. This explains why promises are single write-only and futures are multiple read-only.
 
 ![Future and Promise](/images/future_and_promise.png)
 
-The most important part of futures/promises is the possibility to define a pipeline of operations to be invoked upon completion of the task represented by the future/promise. In comparison with _asynchronous callbacks_, this allows writing more fluent code that supports the composition of nested result/error handlers without ‘callback hell’. In comparison with _blocked code_, this allows implementing quicker asynchronous pipelines without boilerplate synchronization.
+The most important part of futures/promises is the possibility to define a pipeline of operations to be invoked upon completion of the task represented by the future/promise. In comparison with _asynchronous callbacks_, this allows writing more fluent code that supports the composition of nested result/error handlers without ‘callback hell`. In comparison with _blocked code_, this allows implementing quicker asynchronous pipelines without boilerplate synchronization.
 
 In Java, the `Future` interface represents a _future_: it has methods to check if the task is complete, to wait for its completion, and to retrieve the result of the task when it is complete. (The `FutureTask` class has the `void set(V v)` method that it is `protected`). The `CompletableFuture` class represents a _promise_ since their value can be explicitly set by the `complete` and `completeExceptionally` methods. However, `CompletableFuture` also implements the `Future` interface allowing it to be used as a _future_ as well. 
 
 
 ## Example
 
-The following code example can help you to understand the usage of the `CompletableFuture` class as an implementation of future/promise in Java. In the given workflow it’s necessary to calculate the total price in the USD of two products (the first is priced in the GBP and the second is priced in the EUR), including tax. To do this, it’s necessary to execute the following computations:
+The following code example can help you to understand the usage of the `CompletableFuture` class as an implementation of future/promise in Java. In the given workflow it's necessary to calculate the total price in the USD of two products (the first is priced in the GBP and the second is priced in the EUR), including tax. To do this, it's necessary to execute the following computations:
 
 
 
@@ -61,7 +86,7 @@ The following code example can help you to understand the usage of the `Completa
 8. to get the value of the tax (a long-running call, depends on tasks 7)
 9. to calculate the price of both product in the USD after tax (depends on tasks 7, 8)
 
-Notice that some tasks are long-running (for example, they make remote calls), so it’s worth executing them asynchronously. Also, some tasks here depend on other tasks (they must be executed sequentially) but some are independent (they can be executed parallelly).
+Notice that some tasks are long-running (for example, they make remote calls), so it`s worth executing them asynchronously. Also, some tasks here depend on other tasks (they must be executed sequentially) but some are independent (they can be executed parallelly).
 
 The proposed workflow is implemented below in three styles: synchronous, asynchronous `Future`-based, and asynchronous `CompletableFuture`-based.
 
@@ -147,7 +172,7 @@ Methods of the `CompletionStage` interface can be divided into two groups by the
 *   methods to pipeline computations
 *   methods to handle exceptions
 
-The `CompletionStage` interface doesn’t contain methods for stage creation nor stage status checking nor stage completion. This functionality is delegated to `CompletionStage` implementations - mainly to the `CompletableFuture` class.
+The `CompletionStage` interface doesn`t contain methods for stage creation nor stage status checking nor stage completion. This functionality is delegated to `CompletionStage` implementations - mainly to the `CompletableFuture` class.
 
 
 ### Methods to pipeline computations
@@ -263,6 +288,10 @@ The _third_ naming pattern explains what thread executes the new stage:
 
 Note that _the default facility_ and _the default asynchronous facility_ are specified by `CompletionStage` implementations, not by the interface itself. Looking ahead, the `CompletableFuture` implementation of the `CompletionStage` interface uses the thread that completes the stage as _the default facility_ and `ForkJoinPool.commonPool()` as _the default asynchronous facility_.
 
+>To get more performance, you should use `something(Executor)` methods (because context switch reduces the performance).
+
+>To have more control over which tasks are executed in which thread, you should use `somethingAsync(..., Executor)` methods (because high-importance thread must not execute low-importance tasks).
+
 >If stages are independent and so can be executed in parallel, the asynchronous execution can give a significant performance improvement (of course if you have enough processor cores). However, if tasks are short (hundreds of milliseconds), then context switching between threads can introduce significant overhead.
 
 
@@ -278,7 +307,7 @@ assertEquals("applied: single", future.get());
 ```
 
 
-The `thenCompose` method creates a new stage that upon completion applies the given `Function` to the result of the single previous stage. This method is similar to the `thenApply` method described above. The difference is that the result of the `Function` is a subclass of `CompletionStage`, which is useful when functional transformation is a long operation that is reasonable to execute as a separate stage (possible asynchronously).
+The `thenCompose` method creates a new stage that upon completion applies the given `Function` to the result of the single previous stage. This method is similar to the `thenApply` method described above. The difference is that the result of the `Function` is a subclass of `CompletionStage`, which is useful when a functional transformation is a long operation that is reasonable to execute as a separate stage (possible asynchronously).
 
 
 ```
@@ -407,7 +436,7 @@ assertNull(future.get());
 
 ### Methods to handle exceptions
 
-Synchronous computation can be completed normally or exceptionally. To recover from these exceptions, it’s possible to use a `try-catch` statement. Asynchronous computation can be completed normally or exceptionally as well. But because the pipelined stages can be executed in different threads, it’s impossible to use a `try-catch` statement in one thread to catch an exception thrown from another thread. 
+Synchronous computation can be completed normally or exceptionally. To recover from these exceptions, it's possible to use a `try-catch` statement. Asynchronous computation can be completed normally or exceptionally as well. But because the pipelined stages can be executed in different threads, it's impossible to use a `try-catch` statement in one thread to catch an exception thrown from another thread. 
 
 The `CompletionStage` interface has special specifications to handle exceptions. Each stage has two completion types of equal importance: the normal completion and the exceptional completion. If a stage completes normally, the dependent stages start executing. If a stage completes exceptionally, all dependent stages complete exceptionally, unless there is an exception recovery method in the pipeline.
 
@@ -426,7 +455,7 @@ Summary of the methods:
    </td>
   </tr>
   <tr>
-   <td>can’t modify result
+   <td>can`t modify the result
    </td>
    <td rowspan="2" >called on success or exception
    </td>
@@ -436,7 +465,7 @@ Summary of the methods:
    </td>
   </tr>
   <tr>
-   <td rowspan="3" >can modify result
+   <td rowspan="3" >can modify the result
    </td>
    <td>`handle(biFunction)`
    </td>
@@ -460,9 +489,9 @@ Summary of the methods:
 </table>
 
 
-If it’s necessary to perform some action, when the previous stage completes either normally or exceptionally, then the method  `whenComplete` should be used. A `BiConsumer` argument of the `whenComplete`method is called when the previous stage completes either normally or exceptionally and allows to read both the result (or `null` if none) and the exception (or `null` if none), but doesn’t allow to modify them.
+If it's necessary to perform some action, when the previous stage completes either normally or exceptionally, then the method  `whenComplete` should be used. A `BiConsumer` argument of the `whenComplete`method is called when the previous stage completes either normally or exceptionally and allows to read both the result (or `null` if none) and the exception (or `null` if none), but doesn`t allow to modify them.
 
-If it’s necessary to recover from an exception (to replace the exception with some fallback value), then the `handle` and `exceptionally` methods should be used. A `BiFunction` argument of the `handle` method is called when the previous stage completes either normally or exceptionally. A `Function` argument of the `exceptionally` method is called when the previous stage completes exceptionally. In both cases, an exception is not propagated to the next stage.
+If it's necessary to recover from an exception (to replace the exception with some fallback value), then the `handle` and `exceptionally` methods should be used. A `BiFunction` argument of the `handle` method is called when the previous stage completes either normally or exceptionally. A `Function` argument of the `exceptionally` method is called when the previous stage completes exceptionally. In both cases, an exception is not propagated to the next stage.
 
 The `exceptionallyCompose` method is similar to the `exceptionally` method - its `Function` argument of the `exceptionally` method is called when the previous stage completes exceptionally. The difference is that the result of the `Function` is a subclass of `CompletionStage`, which is useful when exception recovery is a long operation that is reasonable to execute as a separate stage (possible asynchronously).
 
@@ -471,7 +500,7 @@ The `exceptionallyCompose` method is similar to the `exceptionally` method - its
 
 ##### Code examples
 
-The `whenComplete` method accepts a nullable result and an exception but can’t modify the return value - it’s still completed exceptionally.
+The `whenComplete` method accepts a nullable result and an exception but can`t modify the return value - it`s still completed exceptionally.
 
 
 ```
@@ -539,9 +568,9 @@ In comparing with the `FutureTask` class the `CompletableFuture` class has signi
 
 
 
-*   it’s possible to register a callback for future competition
-*   it’s possible to combine the results of many computations
-*   it’s possible to manually complete a future either with a result or with an exception
+*   it's possible to register a callback for future competition
+*   it's possible to combine the results of many computations
+*   it's possible to manually complete a future either with a result or with an exception
 
 The general workflow of `CompletableFuture` objects looks like this:
 
@@ -729,12 +758,12 @@ Summary of the methods to check the status
 </table>
 
 
->It’s impossible to cancel an already completed future.
+>It's impossible to cancel an already completed future.
 
 
 ##### Code examples
 
-The `isDone` method returns whether the future is completed. Note that a future _completed normally_ is _completed_ but not _completed exceptionally_.
+The `isDone` method returns whether the future is completed. Note that a future completed normally is completed but not completed exceptionally.
 
 
 ```
@@ -745,7 +774,7 @@ assertFalse(future.isCancelled());
 ```
 
 
-The `isCompletedExceptionally` method returns whether the future is completed exceptionally. Note that a future _completed exceptionally_ is also _completed_.
+The `isCompletedExceptionally` method returns whether the future is completed exceptionally. Note that a future completed exceptionally is also completed.
 
 
 ```
@@ -756,77 +785,23 @@ assertFalse(future.isCancelled());
 ```
 
 
-The `isCancelled` method returns whether the future is canceled. Note that a _canceled_ future is also _completed exceptionally_ and _completed_.
+The `isCancelled` method returns whether the future is canceled. Note that a canceled future is also completed exceptionally and completed.
 
+CompletableFuture&lt;String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
 
-```
-CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
 assertFalse(future.isDone());
+
 assertFalse(future.isCompletedExceptionally());
+
 assertFalse(future.isCancelled());
+
 future.cancel(true);
+
 assertTrue(future.isDone());
+
 assertTrue(future.isCompletedExceptionally());
+
 assertTrue(future.isCancelled());
-```
-
-
-Summary of the states
-
-
-<table>
-  <tr>
-   <td>Future state
-   </td>
-   <td>`isDone`
-   </td>
-   <td>`isCompletedExceptionally`
-   </td>
-   <td>`isCancelled`
-   </td>
-  </tr>
-  <tr>
-   <td>incompleted
-   </td>
-   <td>’false’
-   </td>
-   <td>’false’
-   </td>
-   <td>’false’
-   </td>
-  </tr>
-  <tr>
-   <td>completed normally
-   </td>
-   <td>’true’
-   </td>
-   <td>’false’
-   </td>
-   <td>’false’
-   </td>
-  </tr>
-  <tr>
-   <td>completed exceptionally
-   </td>
-   <td>’true’
-   </td>
-   <td>’true’
-   </td>
-   <td>’false’
-   </td>
-  </tr>
-  <tr>
-   <td>canceled
-   </td>
-   <td>’true’
-   </td>
-   <td>’true’
-   </td>
-   <td>’true’
-   </td>
-  </tr>
-</table>
-
 
 
 #### Methods to complete futures
@@ -858,7 +833,7 @@ Behavior
    </td>
    <td>complete​(value)
    </td>
-   <td>completes this ’CompletableFuture’ with the given value if not already completed
+   <td>completes this `CompletableFuture` with the given value if not already completed
    </td>
   </tr>
   <tr>
@@ -866,13 +841,13 @@ Behavior
    </td>
    <td>completeAsync(supplier)​
    </td>
-   <td>Completes this ’CompletableFuture’ with the result of the given ’Supplier’
+   <td>completes this `CompletableFuture` with the result of the given `Supplier`
    </td>
   </tr>
   <tr>
    <td>completeOnTimeout​(value, timeout, timeUnit)
    </td>
-   <td>completes this ’CompletableFuture’ with the given value if not already completed before the given timeout
+   <td>completes this `CompletableFuture` with the given value if not already completed before the given timeout
    </td>
   </tr>
   <tr>
@@ -880,7 +855,7 @@ Behavior
    </td>
    <td>orTimeout​(timeout, timeUnit)
    </td>
-   <td>exceptionally completes this ’CompletableFuture’ with a ’TimeoutException’ if not already completed before the given timeout
+   <td>exceptionally completes this `CompletableFuture` with a `TimeoutException` if not already completed before the given timeout
    </td>
   </tr>
   <tr>
@@ -890,26 +865,26 @@ Behavior
    </td>
    <td>completeExceptionally​(throwable)
    </td>
-   <td>completes this ’CompletableFuture’ with the given exception if not already completed
+   <td>completes this `CompletableFuture` with the given exception if not already completed
    </td>
   </tr>
   <tr>
    <td>cancel​(mayInterruptIfRunning)
    </td>
-   <td>completes this ’CompletableFuture’ with a ’CancellationException’, if not already completed 
+   <td>completes this `CompletableFuture` with a `CancellationException`, if not already completed 
    </td>
   </tr>
 </table>
 
 
-The ’cancel(boolean mayInterruptIfRunning)’ method requires special attention. This method is inherited from the ’Future’ interface that has default implementation the ’FutureTask’ class. The ’FutureTask’ class also implements the ’run’ method from the ’Runnable’ interface. So, the ’FutureTask’ class has a _task_ (a ’Runnable’) that is executed in a thread pool, that it can be interrupted. On the contrary, the ’CompletableFuture’ interface has no task (it has _computations_ implemented by ’Function’, ’Consumer’, ’Runnable’ interfaces) so it cannot be interrupted. So when the ’cancel’ method is called, the future completes exceptionally with a ’CompletionException’ caused by the ’CancellationException’, but a _task_ will still be executed in the thread pool. The parameter mayInterruptIfRunning does not affect the  ’cancel’ method because ’Thread’ interrupts are not used to control processing.
+The `cancel(boolean mayInterruptIfRunning)` method requires special attention. This method is inherited from the `Future` interface that has default implementation the `FutureTask` class. The `FutureTask` class also implements the `run` method from the `Runnable` interface. So, the `FutureTask` class has a _task_ (a `Runnable`) that is executed in a thread pool, that it can be interrupted. On the contrary, the `CompletableFuture` interface has no task (it has _computations_ implemented by `Function`, `Consumer`, `Runnable` interfaces) so it cannot be interrupted. So when the `cancel` method is called, the future completes exceptionally with a `CompletionException` caused by the `CancellationException`, but a _task_ will still be executed in the thread pool. The parameter mayInterruptIfRunning does not affect the  `cancel` method because `Thread` interrupts are not used to control processing.
 
-By the definition of future/promise, its value can be set only once. But the ’CompletableFuture’ class has ’obtrudeValue’​ and ’obtrudeException’​ methods that forcibly set or reset either the value or the exception,  whether or not already completed. (that may be needed during error recovery actions). 
+By the definition of future/promise, its value can be set only once. But the `CompletableFuture` class has `obtrudeValue`​ and `obtrudeException`​ methods that forcibly set or reset either the value or the exception,  whether or not already completed. (that may be needed during error recovery actions). 
 
 
 ##### Code examples
 
-The `complete​` method completes the future normally because it isn’t already completed.
+The `complete​` method completes the future normally because it isn`t already completed.
 
 
 ```
@@ -954,7 +929,7 @@ future.get(); // ExecutionException caused by TimeoutException
 ```
 
 
-The `completeExceptionally​` method completes this future exceptionally, because it isn’t already completed.
+The `completeExceptionally​` method completes this future exceptionally, because it isn`t already completed.
 
 
 ```
@@ -968,7 +943,7 @@ assertTrue(future.isCompletedExceptionally());
 ```
 
 
-The `cancel​` method cancels the future (completes exceptionally), because it isn’t already completed.
+The `cancel​` method cancels the future (completes exceptionally), because it isn`t already completed.
 
 
 ```
@@ -984,7 +959,7 @@ assertTrue(future.isCancelled());
 
 Methods to retrieve the result
 
-To get the result of a ’CompletableFuture’, it’s possible to use the following blocking and non-blocking methods. In most cases these methods should be used as the last computation step, don’t use them inside pipelined stages.
+To get the result of a `CompletableFuture`, it's possible to use the following blocking and non-blocking methods. In most cases these methods should be used as the last computation step, don`t use them inside pipelined stages.
 
 
 <table>
@@ -1003,7 +978,7 @@ To get the result of a ’CompletableFuture’, it’s possible to use the follo
    </td>
    <td>throws checked exceptions
    </td>
-   <td>’get()’
+   <td>`get()`
    </td>
    <td>returns the result value when complete (waits if necessary) or throws an exception if completed exceptionally 
    </td>
@@ -1011,7 +986,7 @@ To get the result of a ’CompletableFuture’, it’s possible to use the follo
   <tr>
    <td>
    </td>
-   <td>’join()’
+   <td>`join()`
    </td>
    <td>returns the result value when complete (waits if necessary) or throws an <em>unchecked</em> if completed exceptionally 
    </td>
@@ -1021,7 +996,7 @@ To get the result of a ’CompletableFuture’, it’s possible to use the follo
    </td>
    <td>throws checked exceptions
    </td>
-   <td>’get​(timeout, timeUnit)’
+   <td>`get​(timeout, timeUnit)`
    </td>
    <td>returns the result value when complete (waits for at most the given time) or throws an exception if completed exceptionally
    </td>
@@ -1031,7 +1006,7 @@ To get the result of a ’CompletableFuture’, it’s possible to use the follo
    </td>
    <td>
    </td>
-   <td>’getNow(valueIfAbsen’t)​’
+   <td>`getNow(valueIfAbsent)​`
    </td>
    <td>returns the result value (or throws an <em>unchecked</em> exception if completed exceptionally) if completed, else returns the given <em>valueIfAbsent</em>
    </td>
@@ -1040,12 +1015,15 @@ To get the result of a ’CompletableFuture’, it’s possible to use the follo
 
 
 
-#### If this ’CompletableFuture’ is canceled, all these methods throw an unchecked ’CancellationException’
+##### >You should not use blocking methods in asynchronous computation pipeline - it reduces performance dramatically.
+
+
+#### If this `CompletableFuture` is canceled, all these methods throw an unchecked `CancellationException`
 
 
 #### Methods for bulk operations
 
-Last but not the least, the ’CompletableFuture’ class has two static methods, then this future depends on many previous futures, not just on two. Note that all the argument futures can have different generic types.
+Last but not the least, the `CompletableFuture` class has two static methods, then this future depends on many previous futures, not just on two. Note that all the argument futures can have different generic types.
 
 
 <table>
@@ -1058,17 +1036,17 @@ Last but not the least, the ’CompletableFuture’ class has two static methods
    </td>
   </tr>
   <tr>
-   <td>similar to the ’thenAcceptBoth​’ method
+   <td>similar to the `thenAcceptBoth​` method
    </td>
-   <td>’allOf​(CompletableFuture&lt;?>..)’
+   <td>`allOf​(CompletableFuture&lt;?>..)`
    </td>
    <td>returns a new CompletableFuture&lt;Void> that is completed when all of the given CompletableFutures complete; if any of the given CompletableFutures complete exceptionally, then the returned CompletableFuture also does so 
    </td>
   </tr>
   <tr>
-   <td>similar to the ’acceptEither​’ method
+   <td>similar to the `acceptEither​` method
    </td>
-   <td>’anyOf​​(CompletableFuture&lt;?>..)
+   <td>`anyOf​​(CompletableFuture&lt;?>..)
    </td>
    <td>returns a new CompletableFuture&lt;Object> that is completed when any of the given CompletableFutures complete, with the same result; if any of the given CompletableFutures complete exceptionally, then the returned CompletableFuture also does so 
    </td>
@@ -1079,7 +1057,7 @@ Last but not the least, the ’CompletableFuture’ class has two static methods
 
 ##### Code examples
 
-The static `allOf` method returns a new incomplete future that is completed when all of the given CompletableFutures complete. Note that the result of this method is ’CompletableFuture&lt;Void>’ and you should obtain results of each given futures by inspecting them individually.
+The static `allOf` method returns a new incomplete future that is completed when all of the given CompletableFutures complete. Note that the result of this method is `CompletableFuture&lt;Void>` and you should obtain results of each given future by inspecting them individually.
 
 
 ```
@@ -1101,7 +1079,7 @@ assertEquals("parallel1, parallel2, parallel3", result);
 ```
 
 
-The static `anyOf` method returns a new incomplete future that is completed when any of the given CompletableFutures complete. Note that the result of this method is ’CompletableFuture&lt;Object>’ and you should cast the result to the given type (here: ’String’) manually.
+The static `anyOf` method returns a new incomplete future that is completed when any of the given CompletableFutures complete. Note that the result of this method is `CompletableFuture&lt;Object>` and you should cast the result to the given type (here: `String`) manually.
 
 
 ```
