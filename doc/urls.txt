@@ -11,7 +11,6 @@ https://blog.softwaremill.com/synchronous-or-asynchronous-and-why-wrestle-with-w
 https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
 https://www.fatalerrors.org/a/0dt82Q.html
 https://techblogstation.com/java/completablefuture-in-java/
-http://blog.gilliard.lol/presentations/DevNexus-2018-Java-In-Serverless-Land.html
 https://medium.com/@johnmcclean/reactive-programming-with-java-8-and-simple-react-pull-push-model-70751d63628f
 
 https://www.nurkiewicz.com/2013/05/java-8-definitive-guide-to.html
