@@ -1,5 +1,7 @@
 @startuml
 
+skinparam monochrome true
+
 together {
   interface java.util.concurrent.CompletionStage {}
 

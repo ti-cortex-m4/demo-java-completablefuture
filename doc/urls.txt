@@ -1,72 +1,24 @@
 https://www.jesperdj.com/2015/09/26/the-future-is-completable-in-java-8/
 https://www.nurkiewicz.com/2013/05/java-8-definitive-guide-to.html
+https://www.nurkiewicz.com/2013/12/promises-and-completablefuture.html
 https://www.deadcoderising.com/java8-writing-asynchronous-code-with-completablefuture/
 https://www.baeldung.com/java-completablefuture
 https://www.baeldung.com/java-9-completablefuture
 https://www.callicoder.com/java-8-completablefuture-tutorial/
 
-
+http://dist-prog-book.com/chapter/2/futures.html
+https://java-design-patterns.com/patterns/promise/
 https://www.marccarre.com/2016/05/08/java-8-concurrency-completablefuture-in-practice.html
 https://www.ibm.com/developerworks/library/j-jvmc2/index.html
 https://www.infoq.com/articles/Functional-Style-Callbacks-Using-CompletableFuture/
 https://en.wikipedia.org/wiki/Futures_and_promises
 https://stackoverflow.com/questions/14541975/whats-the-difference-between-a-future-and-a-promise
-
-https://www.youtube.com/watch?v=W7iK74YA5NM&ab_channel=JUGNsk   Сергей Куксенко - Как сделать CompletableFuture еще быстрее
-https://www.youtube.com/watch?v=hqR41XVx3kM&ab_channel=JUG.ru   Дмитрий Чуйко — CompletableFuture. Хочется взять и применить
-https://www.youtube.com/watch?v=-MBPQ7NIL_Y&ab_channel=JUG.ru   Tomasz Nurkiewicz — CompletableFuture in Java 8, asynchronous processing done right
-https://www.youtube.com/watch?v=x5akmCWgGY0&ab_channel=Java     Parallel Streams, CompletableFuture, and All That: Concurrency in Java 8
-https://www.youtube.com/watch?v=IwJ-SCfXoAU&ab_channel=Devoxx
-https://www.youtube.com/watch?v=0hQvWIdwnw4&ab_channel=Devoxx   Parallel and Asynchronous Programming with Streams and CompletableFuture with Venkat Subramaniam
-https://www.youtube.com/watch?v=Q_0_1mKTlnY&ab_channel=GOTOConferences  GOTO 2014 • New Concurrency Utilities in Java 8 • Angelika Langer
-
-https://plantuml.com/class-diagram
-
-CompletableFuture - A Future that may be explicitly completed (setting its value and status), and may be used as a CompletionStage, supporting dependent functions and actions that trigger upon its completion.
-
-
->The Java CompletableFuture API is designed to implement multi-stage operations that have a single result.
-If it’s necessary to implement multi-stage operations that have a stream of results, it’s necessary to use
-reactive streams implemented in Java Flow API or third-party frameworks (RxJava, etc).
-
-
-https://java-design-patterns.com/patterns/promise/
-http://dist-prog-book.com/chapter/2/futures.html
-https://www.nurkiewicz.com/2013/12/promises-and-completablefuture.html
-https://salonegupta.wordpress.com/2017/08/24/internals-of-java-futuret/
 https://www.infoq.com/presentations/Asynchronous-Scala-Java/
 http://www.labviewcraftsmen.com/blog/futures-promises-and-continuations-oh-my
 https://www.infoq.com/articles/Functional-Style-Callbacks-Using-CompletableFuture/
 https://www.youtube.com/watch?v=CITVS-gwySo&ab_channel=CopperSpice
 
-
-
-Futures in Java 8 - II
-56
- CompletableFuture – a Future that may be explicitly
-completed (by setting its value and status), and may
-be used as a CompletionStage, supporting dependent
-functions and actions that trigger upon its completion.
- CompletionStage – a stage of possibly asynchronous
-computation, that is triggered by completion of
-previous stage or stages (CompletionStages form
-Direct Acyclic Graph – DAG). A stage performs an
-action or computes value and completes upon
-termination of its computation, which in turn triggers
-next dependent stages. Computation may be Function
-(apply), Consumer (accept), or Runnable (run).
-
-CompletionStage
-60
- Computation may be Function (apply), Consumer
-(accept), or Runnable (run) – e.g.:
-completionStage.thenApply( x -> x * x )
-.thenAccept(System.out::print )
-.thenRun( System.out::println )
- Stage computation can be triggered by completion of
-1 (then), 2 (combine), or either 1 of 2 (either)
- Functional composition can be applied to stages
-themselves instead to their results using compose
- handle & whenComplete – support unconditional
-computation – both normal or exceptional triggering
-
+https://www.youtube.com/watch?v=W7iK74YA5NM&ab_channel=JUGNsk   Сергей Куксенко - Как сделать CompletableFuture еще быстрее
+https://www.youtube.com/watch?v=-MBPQ7NIL_Y&ab_channel=JUG.ru   Tomasz Nurkiewicz — CompletableFuture in Java 8, asynchronous processing done right
+https://www.youtube.com/watch?v=x5akmCWgGY0&ab_channel=Java     Parallel Streams, CompletableFuture, and All That: Concurrency in Java 8
+https://www.youtube.com/watch?v=Q_0_1mKTlnY&ab_channel=GOTOConferences  GOTO 2014 • New Concurrency Utilities in Java 8 • Angelika Langer
