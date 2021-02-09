@@ -15,7 +15,6 @@ https://en.wikipedia.org/wiki/Futures_and_promises
 https://stackoverflow.com/questions/14541975/whats-the-difference-between-a-future-and-a-promise
 https://www.infoq.com/presentations/Asynchronous-Scala-Java/
 http://www.labviewcraftsmen.com/blog/futures-promises-and-continuations-oh-my
-https://www.infoq.com/articles/Functional-Style-Callbacks-Using-CompletableFuture/
 https://www.youtube.com/watch?v=CITVS-gwySo&ab_channel=CopperSpice
 
 https://www.youtube.com/watch?v=W7iK74YA5NM&ab_channel=JUGNsk   Сергей Куксенко - Как сделать CompletableFuture еще быстрее
