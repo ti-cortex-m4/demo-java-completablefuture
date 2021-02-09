@@ -3,7 +3,7 @@
 <!-----
 NEW: Check the "Suppress top comment" option to remove this info from the output.
 
-Conversion time: 1.709 seconds.
+Conversion time: 2.282 seconds.
 
 
 Using this Markdown file:
@@ -16,7 +16,7 @@ Using this Markdown file:
 Conversion notes:
 
 * Docs to Markdown version 1.0β29
-* Mon Feb 08 2021 23:37:05 GMT-0800 (PST)
+* Tue Feb 09 2021 01:50:52 GMT-0800 (PST)
 * Source doc: Untitled document
 * Tables are currently converted to HTML tables.
 ----->
@@ -787,24 +787,21 @@ assertFalse(future.isCancelled());
 
 The `isCancelled` method returns whether the future is canceled. Note that a canceled future is also completed exceptionally and completed.
 
-CompletableFuture&lt;String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
 
+```
+CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
 assertFalse(future.isDone());
-
 assertFalse(future.isCompletedExceptionally());
-
 assertFalse(future.isCancelled());
-
 future.cancel(true);
-
 assertTrue(future.isDone());
-
 assertTrue(future.isCompletedExceptionally());
-
 assertTrue(future.isCancelled());
+```
 
 
-#### Methods to complete futures
+
+##### Methods to complete futures
 
 The third group of methods is intended to complete futures - to transit incompleted future in one of the completion states: completed normally, exceptionally on canceled. The methods can be grouped by the following criteria:
 
@@ -1038,7 +1035,7 @@ Last but not the least, the `CompletableFuture` class has two static methods, th
   <tr>
    <td>similar to the `thenAcceptBoth​` method
    </td>
-   <td>`allOf​(CompletableFuture&lt;?>..)`
+   <td>`allOf​(completableFuture..)`
    </td>
    <td>returns a new CompletableFuture&lt;Void> that is completed when all of the given CompletableFutures complete; if any of the given CompletableFutures complete exceptionally, then the returned CompletableFuture also does so 
    </td>
@@ -1046,7 +1043,7 @@ Last but not the least, the `CompletableFuture` class has two static methods, th
   <tr>
    <td>similar to the `acceptEither​` method
    </td>
-   <td>`anyOf​​(CompletableFuture&lt;?>..)
+   <td>`anyOf​​(CompletableFuture..)`
    </td>
    <td>returns a new CompletableFuture&lt;Object> that is completed when any of the given CompletableFutures complete, with the same result; if any of the given CompletableFutures complete exceptionally, then the returned CompletableFuture also does so 
    </td>
