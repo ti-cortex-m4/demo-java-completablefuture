@@ -1,12 +1,10 @@
 https://www.jrebel.com/blog/java-completablefuture-api
 https://deepakvadgama.com/blog/completable-future-internals/
-http://www.polarsparc.com/xhtml/Java8-CompletableFuture-4.html
 https://medium.com/javarevisited/completablefuture-usage-and-best-practises-4285c4ceaad4
 
 https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
 https://kalpads.medium.com/fantastic-completablefuture-allof-and-how-to-handle-errors-27e8a97144a0
 https://theboreddev.com/combining-multiple-api-calls-with-completablefuture/
-https://swathisprasad.medium.com/multi-threading-in-spring-boot-using-completablefuture-a7ca68a0fe48
 https://blog.softwaremill.com/synchronous-or-asynchronous-and-why-wrestle-with-wrappers-2c5667eb7acf
 https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
 
@@ -42,3 +40,20 @@ https://www.youtube.com/watch?v=Q_0_1mKTlnY&ab_channel=GOTOConferences  GOTO 201
 
 CompletableFuture<T> from Java 8 is an advanced abstraction over a promise that value of type T will be available in the future. Observable<T> is quite similar, but it promises arbitrary number of items in the future, from 0 to infinity.
 CompletableFuture represents one value in the future
+
+
+Synchronous vs. asynchronous API
+The phrase synchronous API is another way of talking about a traditional call to a method:
+you call it, the caller waits while the method computes, the method returns, and the caller continues
+with the returned value. Even if the caller and callee were executed on different threads, the caller
+would still wait for the callee to complete. This situation gives rise to the phrase blocking call.
+By contrast, in an asynchronous API the method returns immediately (or at least before its computation is complete),
+delegating its remaining computation to a thread, which runs asynchronously to the caller—hence,
+the phrase nonblocking call. The remaining computation gives its value to the caller by calling a callback method,
+or the caller invokes a further “wait until the computation is complete” method. This style of computation
+is common in I/O systems programming: you initiate a disc access, which happens asynchronously while you do more
+computation, and when you have nothing more useful to do, you wait until the disc blocks are loaded into memory.
+Note that blocking and nonblocking are often used for specific implementations of I/O by the operating system.
+However, these terms tend to be used interchangeably with asynchronous and synchronous even in non-I/O contexts.
+Executing relatively long-lasting operations by using asynchronous tasks can increase
+the performance and responsiveness of your application, especially if it relies on one or more remote external services.
