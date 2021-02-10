@@ -3,15 +3,12 @@ package demo.part13_completable_future.part0;
 import demo.common.Demo1;
 import org.junit.Test;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.function.BiConsumer;
 
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
@@ -19,7 +16,6 @@ public class Example1 extends Demo1 {
 
     @Test
     public void testSynchronous() {
-        LocalDateTime start = LocalDateTime.now();
         logger.info("this task started");
 
         int amountInUsd1 = getPriceInGbp() * getExchangeRateGbpToUsd(); // blocking
@@ -27,8 +23,7 @@ public class Example1 extends Demo1 {
         int netAmountInUsd = amountInUsd1 + amountInUsd2;
         float grossAmountInUsd = netAmountInUsd * (1 + getTax(netAmountInUsd)); // blocking
 
-        LocalDateTime finish = LocalDateTime.now();
-        logger.info("this task finished: result={} after {} ms", grossAmountInUsd, Duration.between(start, finish).toMillis());
+        logger.info("this task finished: {}", grossAmountInUsd);
 
         logger.info("another task started");
     }
@@ -37,7 +32,6 @@ public class Example1 extends Demo1 {
     public void testAsynchronousWithFuture() throws InterruptedException, ExecutionException {
         ExecutorService executorService = Executors.newCachedThreadPool();
 
-        LocalDateTime start = LocalDateTime.now();
         logger.info("this task started");
 
         Future<Integer> priceInGbp = executorService.submit(this::getPriceInGbp);
@@ -51,8 +45,8 @@ public class Example1 extends Demo1 {
             logger.info("another task is running");
         }
 
-        int amountInUsd1 = priceInGbp.get() * exchangeRateGbpToUsd.get();
-        int amountInUsd2 = priceInEur.get() * exchangeRateEurToUsd.get();
+        int amountInUsd1 = priceInGbp.get() * exchangeRateGbpToUsd.get(); // actually non-blocking
+        int amountInUsd2 = priceInEur.get() * exchangeRateEurToUsd.get(); // actually non-blocking
         int netAmountInUsd = amountInUsd1 + amountInUsd2;
 
         Future<Float> tax = executorService.submit(() -> getTax(netAmountInUsd));
@@ -62,19 +56,18 @@ public class Example1 extends Demo1 {
             logger.info("another task is running");
         }
 
-        float grossAmountInUsd = netAmountInUsd * (1 + tax.get());
+        float grossAmountInUsd = netAmountInUsd * (1 + tax.get()); // actually non-blocking
 
-        LocalDateTime finish = LocalDateTime.now();
-        logger.info("finished: result={} after {} ms", grossAmountInUsd, Duration.between(start, finish).toMillis());
-
-        logger.info("another task is running");
+        logger.info("finished: {}", grossAmountInUsd);
 
         executorService.shutdown();
         executorService.awaitTermination(60, TimeUnit.SECONDS);
+
+        logger.info("another task is running");
     }
 
     @Test
-    public void testAsynchronousWithCompletableFuture() throws InterruptedException, ExecutionException {
+    public void testAsynchronousWithCompletableFuture() throws InterruptedException {
         CompletableFuture<Integer> priceInGbp = supplyAsync(this::getPriceInGbp);
         CompletableFuture<Integer> exchangeRateGbpToUsd = supplyAsync(this::getExchangeRateGbpToUsd);
         CompletableFuture<Integer> priceInEur = supplyAsync(this::getPriceInEur);
@@ -85,25 +78,21 @@ public class Example1 extends Demo1 {
         CompletableFuture<Integer> amountInUsd2 = priceInEur
                 .thenCombine(exchangeRateEurToUsd, (price, exchangeRate) -> price * exchangeRate);
 
-        LocalDateTime start = LocalDateTime.now();
         logger.info("this task started");
 
         amountInUsd1
                 .thenCombine(amountInUsd2, (amount1, amount2) -> amount1 + amount2)
                 .thenCompose(netAmountInUsd -> supplyAsync(() -> netAmountInUsd * (1 + getTax(netAmountInUsd))))
-                .whenComplete(new BiConsumer<Float, Throwable>() {
-                    @Override
-                    public void accept(Float result, Throwable throwable) {
-                        if (throwable == null) {
-                            LocalDateTime finish = LocalDateTime.now();
-                            logger.info("this task finished: result={} after {} ms", result, Duration.between(start, finish).toMillis());
-                        } else {
-                            logger.info("this task failed: {}", throwable.getMessage());
-                        }
+                .whenComplete((grossAmountInUsd, throwable) -> {
+                    if (throwable == null) {
+                        logger.info("this task finished: {}", grossAmountInUsd);
+                    } else {
+                        logger.info("this task failed: {}", throwable.getMessage());
                     }
                 }); // non-blocking
 
         logger.info("another task started");
+        Thread.sleep(10000);
     }
 
     private int getPriceInGbp() {
