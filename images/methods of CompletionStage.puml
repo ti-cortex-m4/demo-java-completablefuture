@@ -1,10 +1,8 @@
 @startuml
 
-skinparam monochrome true
-
 rectangle "Methods of the CompletionStage interface" as Methods
-rectangle "Pipelining\n\nthenApply\nthenAccept\nthenRun" as Pipelining
-rectangle "Exception Handling\n\nwhenComplete\nhandle\nexceptionally\nexceptionallyCompose" as ExceptionHandling
+rectangle "methods for pipelining \n  \n thenApply \n thenAccept \n thenRun" as Pipelining
+rectangle "methods for exception handling \n  \n whenComplete \n handle \n exceptionally \n exceptionallyCompose" as ExceptionHandling
 
 Methods --> ExceptionHandling
 Methods --> Pipelining

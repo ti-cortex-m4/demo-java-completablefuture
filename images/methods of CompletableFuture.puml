@@ -1,12 +1,16 @@
 @startuml
 
-skinparam monochrome true
-
 rectangle "Methods of the CompletableFuture class" as Methods
-rectangle "Pipelining\n\nthenApply\nthenAccept\nthenRun" as Pipelining
-rectangle "Exception Handling\n\nwhenComplete\nhandle\nexceptionally\nexceptionallyCompose" as ExceptionHandling
+rectangle "methods to create future \n  \n supplyAsync \n runAsync \n completedFuture \n failedFuture​" as MethodsToCreate
+rectangle "methods to check status \n  \n isDone \n isCompletedExceptionally \n isCancelled" as MethodsToCheck
+rectangle "methods to complete future \n  \n complete \n completeOnTimeout \n orTimeout \n completeExceptionally \n cancel" as MethodsToComplete
+rectangle "methods to get result \n  \n get \n join \n get(timeout, timeUnit) \n getNow(valueIfAbsent)" as MethodsToGet
+rectangle "methods for bulk operation \n  \n allOf \n anyOf" as MethodsForBulkOperation
 
-Methods --> ExceptionHandling
-Methods --> Pipelining
+Methods --> MethodsToCreate
+Methods --> MethodsToCheck
+Methods --> MethodsToComplete
+Methods --> MethodsToGet
+Methods --> MethodsForBulkOperation
 
 @enduml
