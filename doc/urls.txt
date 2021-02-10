@@ -4,7 +4,6 @@ http://www.polarsparc.com/xhtml/Java8-CompletableFuture-4.html
 https://medium.com/javarevisited/completablefuture-usage-and-best-practises-4285c4ceaad4
 
 https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
-https://kalpads.medium.com/fantastic-completablefuture-allof-and-how-to-handle-errors-27e8a97144a0
 https://theboreddev.com/combining-multiple-api-calls-with-completablefuture/
 https://swathisprasad.medium.com/multi-threading-in-spring-boot-using-completablefuture-a7ca68a0fe48
 https://blog.softwaremill.com/synchronous-or-asynchronous-and-why-wrestle-with-wrappers-2c5667eb7acf
