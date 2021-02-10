@@ -2,7 +2,7 @@
 
 skinparam monochrome true
 
-rectangle "Methods of the CompletionStage interface" as Methods
+rectangle "Methods of the CompletableFuture class" as Methods
 rectangle "Pipelining\n\nthenApply\nthenAccept\nthenRun" as Pipelining
 rectangle "Exception Handling\n\nwhenComplete\nhandle\nexceptionally\nexceptionallyCompose" as ExceptionHandling
 
