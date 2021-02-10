@@ -22,13 +22,13 @@ public class Example1 extends Demo1 {
         LocalDateTime start = LocalDateTime.now();
         logger.info("started");
 
-        int amountInUsd1 = getPriceInGbp() * getExchangeRateGbpToUsd(); //blocking
-        int amountInUsd2 = getPriceInEur() * getExchangeRateEurToUsd(); //blocking
-        int amountInUsd = amountInUsd1 + amountInUsd2;
-        float amountInUsdAfterTax = amountInUsd * (1 + getTax(amountInUsd)); //blocking
+        int amountInUsd1 = getPriceInGbp() * getExchangeRateGbpToUsd(); // blocking
+        int amountInUsd2 = getPriceInEur() * getExchangeRateEurToUsd(); // blocking
+        int netAmountInUsd = amountInUsd1 + amountInUsd2;
+        float grossAmountInUsd = netAmountInUsd * (1 + getTax(netAmountInUsd)); // blocking
 
         LocalDateTime finish = LocalDateTime.now();
-        logger.info("finished: result1={} after {} ms", amountInUsdAfterTax, Duration.between(start, finish).toMillis());
+        logger.info("finished: result1={} after {} ms", grossAmountInUsd, Duration.between(start, finish).toMillis());
     }
 
     @Test
@@ -50,18 +50,18 @@ public class Example1 extends Demo1 {
 
         int amountInUsd1 = priceInGbp.get() * exchangeRateGbpToUsd.get();
         int amountInUsd2 = priceInEur.get() * exchangeRateEurToUsd.get();
-        int amountInUsd = amountInUsd1 + amountInUsd2;
+        int netAmountInUsd = amountInUsd1 + amountInUsd2;
 
-        Future<Float> tax = executorService.submit(() -> getTax(amountInUsd));
+        Future<Float> tax = executorService.submit(() -> getTax(netAmountInUsd));
 
         while (!tax.isDone()) {
             Thread.sleep(100); // busy-waiting
         }
 
-        float amountInUsdAfterTax = amountInUsd * (1 + tax.get());
+        float grossAmountInUsd = netAmountInUsd * (1 + tax.get());
 
         LocalDateTime finish = LocalDateTime.now();
-        logger.info("finished: result2={} after {} ms", amountInUsdAfterTax, Duration.between(start, finish).toMillis());
+        logger.info("finished: result2={} after {} ms", grossAmountInUsd, Duration.between(start, finish).toMillis());
 
         executorService.shutdown();
         executorService.awaitTermination(60, TimeUnit.SECONDS);
@@ -82,13 +82,13 @@ public class Example1 extends Demo1 {
         CompletableFuture<Integer> amountInUsd2 = priceInEur
                 .thenCombine(exchangeRateEurToUsd, (price, exchangeRate) -> price * exchangeRate);
 
-        float amountInUsdAfterTax = amountInUsd1
+        float grossAmountInUsd = amountInUsd1
                 .thenCombine(amountInUsd2, (amount1, amount2) -> amount1 + amount2)
                 .thenCompose(amountInUsd -> supplyAsync(() -> amountInUsd * (1 + getTax(amountInUsd))))
                 .get(); // blocking
 
         LocalDateTime finish = LocalDateTime.now();
-        logger.info("finished: result3={} after {} ms", amountInUsdAfterTax, Duration.between(start, finish).toMillis());
+        logger.info("finished: result3={} after {} ms", grossAmountInUsd, Duration.between(start, finish).toMillis());
     }
 
     private int getPriceInGbp() {
