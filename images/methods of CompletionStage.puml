@@ -1,0 +1,12 @@
+@startuml
+
+skinparam monochrome true
+
+rectangle "Methods of CompletionStage" as Methods
+rectangle "Pipelining\n\nthenApply\nthenAccept\nthenRun" as Pipelining
+rectangle "Exception Handling\n\nwhenComplete\nhandle\nexceptionally\nexceptionallyCompose" as ExceptionHandling
+
+Methods --> ExceptionHandling
+Methods --> Pipelining
+
+@enduml
