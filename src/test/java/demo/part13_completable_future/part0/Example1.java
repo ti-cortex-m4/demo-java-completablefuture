@@ -87,7 +87,7 @@ public class Example1 extends Demo1 {
                     if (throwable == null) {
                         logger.info("this task finished: {}", grossAmountInUsd);
                     } else {
-                        logger.info("this task failed: {}", throwable.getMessage());
+                        logger.warn("this task failed: {}", throwable.getMessage());
                     }
                 }); // non-blocking
 
