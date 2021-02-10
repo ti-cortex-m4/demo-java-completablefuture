@@ -14,9 +14,9 @@ https://www.nurkiewicz.com/2013/05/java-8-definitive-guide-to.html
 https://www.nurkiewicz.com/2013/05/java-8-completablefuture-in-action.html
 https://www.nurkiewicz.com/2013/12/promises-and-completablefuture.html
 https://www.nurkiewicz.com/2015/03/completablefuture-cant-be-interrupted.html
-https://www.nurkiewicz.com/2014/12/asynchronous-timeouts-with.html
+-   https://www.nurkiewicz.com/2014/12/asynchronous-timeouts-with.html
 https://www.nurkiewicz.com/2015/11/which-thread-executes.html
-https://www.nurkiewicz.com/2014/11/converting-between-completablefuture.html
+-   https://www.nurkiewicz.com/2014/11/converting-between-completablefuture.html
 
 https://www.jesperdj.com/2015/09/26/the-future-is-completable-in-java-8/
 https://www.deadcoderising.com/java8-writing-asynchronous-code-with-completablefuture/
@@ -39,3 +39,6 @@ https://www.youtube.com/watch?v=W7iK74YA5NM&ab_channel=JUGNsk   Сергей К�
 https://www.youtube.com/watch?v=-MBPQ7NIL_Y&ab_channel=JUG.ru   Tomasz Nurkiewicz — CompletableFuture in Java 8, asynchronous processing done right
 https://www.youtube.com/watch?v=x5akmCWgGY0&ab_channel=Java     Parallel Streams, CompletableFuture, and All That: Concurrency in Java 8
 https://www.youtube.com/watch?v=Q_0_1mKTlnY&ab_channel=GOTOConferences  GOTO 2014 • New Concurrency Utilities in Java 8 • Angelika Langer
+
+CompletableFuture<T> from Java 8 is an advanced abstraction over a promise that value of type T will be available in the future. Observable<T> is quite similar, but it promises arbitrary number of items in the future, from 0 to infinity.
+CompletableFuture represents one value in the future
