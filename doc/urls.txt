@@ -1,7 +1,5 @@
 https://www.jrebel.com/blog/java-completablefuture-api
-https://deepakvadgama.com/blog/completable-future-internals/
 https://medium.com/javarevisited/completablefuture-usage-and-best-practises-4285c4ceaad4
-
 https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
 https://theboreddev.com/combining-multiple-api-calls-with-completablefuture/
 https://blog.softwaremill.com/synchronous-or-asynchronous-and-why-wrestle-with-wrappers-2c5667eb7acf
