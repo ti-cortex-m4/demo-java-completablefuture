@@ -1,4 +1,4 @@
-https://www.jrebel.com/blog/java-completablefuture-api
++   https://www.jrebel.com/blog/java-completablefuture-api
 https://medium.com/javarevisited/completablefuture-usage-and-best-practises-4285c4ceaad4
 https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
 https://theboreddev.com/combining-multiple-api-calls-with-completablefuture/
@@ -35,7 +35,9 @@ https://www.youtube.com/watch?v=-MBPQ7NIL_Y&ab_channel=JUG.ru   Tomasz Nurkiewic
 https://www.youtube.com/watch?v=x5akmCWgGY0&ab_channel=Java     Parallel Streams, CompletableFuture, and All That: Concurrency in Java 8
 https://www.youtube.com/watch?v=Q_0_1mKTlnY&ab_channel=GOTOConferences  GOTO 2014 • New Concurrency Utilities in Java 8 • Angelika Langer
 
-CompletableFuture<T> from Java 8 is an advanced abstraction over a promise that value of type T will be available in the future. Observable<T> is quite similar, but it promises arbitrary number of items in the future, from 0 to infinity.
+CompletableFuture<T> from Java 8 is an advanced abstraction over a promise that value of type T will be available in the future.
+Observable<T> is quite similar, but it promises arbitrary number of items in the future, from 0 to infinity.
+
 CompletableFuture represents one value in the future
 
 
