@@ -1,11 +1,9 @@
 https://www.jrebel.com/blog/java-completablefuture-api
 https://deepakvadgama.com/blog/completable-future-internals/
-http://www.polarsparc.com/xhtml/Java8-CompletableFuture-4.html
 https://medium.com/javarevisited/completablefuture-usage-and-best-practises-4285c4ceaad4
 
 https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
 https://theboreddev.com/combining-multiple-api-calls-with-completablefuture/
-https://swathisprasad.medium.com/multi-threading-in-spring-boot-using-completablefuture-a7ca68a0fe48
 https://blog.softwaremill.com/synchronous-or-asynchronous-and-why-wrestle-with-wrappers-2c5667eb7acf
 https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
 
@@ -13,9 +11,9 @@ https://www.nurkiewicz.com/2013/05/java-8-definitive-guide-to.html
 https://www.nurkiewicz.com/2013/05/java-8-completablefuture-in-action.html
 https://www.nurkiewicz.com/2013/12/promises-and-completablefuture.html
 https://www.nurkiewicz.com/2015/03/completablefuture-cant-be-interrupted.html
-https://www.nurkiewicz.com/2014/12/asynchronous-timeouts-with.html
+-   https://www.nurkiewicz.com/2014/12/asynchronous-timeouts-with.html
 https://www.nurkiewicz.com/2015/11/which-thread-executes.html
-https://www.nurkiewicz.com/2014/11/converting-between-completablefuture.html
+-   https://www.nurkiewicz.com/2014/11/converting-between-completablefuture.html
 
 https://www.jesperdj.com/2015/09/26/the-future-is-completable-in-java-8/
 https://www.deadcoderising.com/java8-writing-asynchronous-code-with-completablefuture/
@@ -38,3 +36,23 @@ https://www.youtube.com/watch?v=W7iK74YA5NM&ab_channel=JUGNsk   Сергей К�
 https://www.youtube.com/watch?v=-MBPQ7NIL_Y&ab_channel=JUG.ru   Tomasz Nurkiewicz — CompletableFuture in Java 8, asynchronous processing done right
 https://www.youtube.com/watch?v=x5akmCWgGY0&ab_channel=Java     Parallel Streams, CompletableFuture, and All That: Concurrency in Java 8
 https://www.youtube.com/watch?v=Q_0_1mKTlnY&ab_channel=GOTOConferences  GOTO 2014 • New Concurrency Utilities in Java 8 • Angelika Langer
+
+CompletableFuture<T> from Java 8 is an advanced abstraction over a promise that value of type T will be available in the future. Observable<T> is quite similar, but it promises arbitrary number of items in the future, from 0 to infinity.
+CompletableFuture represents one value in the future
+
+
+Synchronous vs. asynchronous API
+The phrase synchronous API is another way of talking about a traditional call to a method:
+you call it, the caller waits while the method computes, the method returns, and the caller continues
+with the returned value. Even if the caller and callee were executed on different threads, the caller
+would still wait for the callee to complete. This situation gives rise to the phrase blocking call.
+By contrast, in an asynchronous API the method returns immediately (or at least before its computation is complete),
+delegating its remaining computation to a thread, which runs asynchronously to the caller—hence,
+the phrase nonblocking call. The remaining computation gives its value to the caller by calling a callback method,
+or the caller invokes a further “wait until the computation is complete” method. This style of computation
+is common in I/O systems programming: you initiate a disc access, which happens asynchronously while you do more
+computation, and when you have nothing more useful to do, you wait until the disc blocks are loaded into memory.
+Note that blocking and nonblocking are often used for specific implementations of I/O by the operating system.
+However, these terms tend to be used interchangeably with asynchronous and synchronous even in non-I/O contexts.
+Executing relatively long-lasting operations by using asynchronous tasks can increase
+the performance and responsiveness of your application, especially if it relies on one or more remote external services.
