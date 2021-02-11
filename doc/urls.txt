@@ -54,3 +54,9 @@ Note that blocking and nonblocking are often used for specific implementations o
 However, these terms tend to be used interchangeably with asynchronous and synchronous even in non-I/O contexts.
 Executing relatively long-lasting operations by using asynchronous tasks can increase
 the performance and responsiveness of your application, especially if it relies on one or more remote external services.
+
+
+
+https://i-rant.arnaudbos.com/loom-part-2-blocking/
+https://www.jrebel.com/blog/types-of-concurrency-in-java-by-oleg-shelajev
+https://www.jrebel.com/blog/concurrency-in-java
