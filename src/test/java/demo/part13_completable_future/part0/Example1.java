@@ -58,7 +58,7 @@ public class Example1 extends Demo1 {
 
         float grossAmountInUsd = netAmountInUsd * (1 + tax.get()); // actually non-blocking
 
-        logger.info("finished: {}", grossAmountInUsd);
+        logger.info("this task finished: {}", grossAmountInUsd);
 
         executorService.shutdown();
         executorService.awaitTermination(60, TimeUnit.SECONDS);
