@@ -33,10 +33,6 @@ https://www.youtube.com/watch?v=-MBPQ7NIL_Y&ab_channel=JUG.ru   Tomasz Nurkiewic
 https://www.youtube.com/watch?v=x5akmCWgGY0&ab_channel=Java     Parallel Streams, CompletableFuture, and All That: Concurrency in Java 8
 https://www.youtube.com/watch?v=Q_0_1mKTlnY&ab_channel=GOTOConferences  GOTO 2014 • New Concurrency Utilities in Java 8 • Angelika Langer
 
-CompletableFuture<T> from Java 8 is an advanced abstraction over a promise that value of type T will be available in the future.
-Observable<T> is quite similar, but it promises arbitrary number of items in the future, from 0 to infinity.
-
-CompletableFuture represents one value in the future
 
 
 Synchronous vs. asynchronous API
@@ -55,17 +51,6 @@ However, these terms tend to be used interchangeably with asynchronous and synch
 Executing relatively long-lasting operations by using asynchronous tasks can increase
 the performance and responsiveness of your application, especially if it relies on one or more remote external services.
 
-
- The real motivation behind CompletableFuture was to overcome certain limitations of Future interface:
-1. There was no way to make get() call non-blocking in Future.
-2. No support for exception handling.
-3. Chaining of callbacks was not supported.
-4. There was no way to explicitly complete the task.
-
-1. There is no way to complete the future. we can only attempt           to cancel the task.
-2. The get() method in the Future Interface is blocking operation
-3. No support for exception handling
-4. Multiple futures cannot be chained together.
 
 CompletableFuture gives you a way to attach a callback which will get called when the task completes, that way we can write the transformation logic that will execute after the completion of the task.
 
