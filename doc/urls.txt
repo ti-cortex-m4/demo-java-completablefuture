@@ -1,7 +1,5 @@
-+   https://www.jrebel.com/blog/java-completablefuture-api
-https://medium.com/javarevisited/completablefuture-usage-and-best-practises-4285c4ceaad4
-https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
-https://theboreddev.com/combining-multiple-api-calls-with-completablefuture/
+    https://www.jrebel.com/blog/java-completablefuture-api
+    https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
 https://blog.softwaremill.com/synchronous-or-asynchronous-and-why-wrestle-with-wrappers-2c5667eb7acf
 https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
 
@@ -13,7 +11,7 @@ https://www.nurkiewicz.com/2015/03/completablefuture-cant-be-interrupted.html
 https://www.nurkiewicz.com/2015/11/which-thread-executes.html
 -   https://www.nurkiewicz.com/2014/11/converting-between-completablefuture.html
 
-https://www.jesperdj.com/2015/09/26/the-future-is-completable-in-java-8/
+    https://www.jesperdj.com/2015/09/26/the-future-is-completable-in-java-8/
 https://www.deadcoderising.com/java8-writing-asynchronous-code-with-completablefuture/
 https://www.baeldung.com/java-completablefuture
 https://www.baeldung.com/java-9-completablefuture
@@ -58,6 +56,20 @@ Executing relatively long-lasting operations by using asynchronous tasks can inc
 the performance and responsiveness of your application, especially if it relies on one or more remote external services.
 
 
+ The real motivation behind CompletableFuture was to overcome certain limitations of Future interface:
+1. There was no way to make get() call non-blocking in Future.
+2. No support for exception handling.
+3. Chaining of callbacks was not supported.
+4. There was no way to explicitly complete the task.
+
+1. There is no way to complete the future. we can only attempt           to cancel the task.
+2. The get() method in the Future Interface is blocking operation
+3. No support for exception handling
+4. Multiple futures cannot be chained together.
+
+CompletableFuture gives you a way to attach a callback which will get called when the task completes, that way we can write the transformation logic that will execute after the completion of the task.
+
+The computation stage may be expressed as a Function, Consumer or Runnable. Usually, the completion of one stage triggers the execution of others. The CompletionStage interface has several methods which can be employed to chain several computations or tasks to achieve end result, to name a few, thenAccept(), thenApply(), thenCombine(), thenRun(), whenComplete().
 
 https://i-rant.arnaudbos.com/loom-part-2-blocking/
 https://www.jrebel.com/blog/types-of-concurrency-in-java-by-oleg-shelajev
