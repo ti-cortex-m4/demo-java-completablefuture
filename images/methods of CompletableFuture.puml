@@ -11,6 +11,6 @@ Methods --> MethodsToCreate
 Methods --> MethodsToCheck
 Methods --> MethodsToComplete
 Methods --> MethodsToGet
-Methods --> MethodsForBulkOperation
+'Methods --> MethodsForBulkOperation
 
 @enduml
