@@ -19,7 +19,8 @@ public class Cancel extends Demo1 {
         CompletableFuture<String> future = new CompletableFuture<>();
         assertFalse(future.isDone());
         assertFalse(future.isCancelled());
-        future.cancel(false);
+        boolean isCanceled = future.cancel(false);
+        assertTrue(isCanceled);
         assertTrue(future.isDone());
         assertTrue(future.isCancelled());
         try {
