@@ -1,0 +1,30 @@
+@startuml
+
+rectangle "get the price in the GBP" as step1
+rectangle "get the GBP/USD\nexchange rate" as step2
+storage  "thenCombine" as step3
+
+rectangle "get the price in the EUR" as step4
+rectangle "get the EUR/USD\nexchange rate" as step5
+storage  "thenCombine" as step6
+
+storage  "thenCombine" as step7
+
+storage  "thenCompose" as step8
+
+storage  "whenComplete" as step9
+
+step1 --> step3
+step2 --> step3
+
+step4 --> step6
+step5 --> step6
+
+step3 --> step7
+step6 --> step7
+
+step7 --> step8
+
+step8 --> step9
+
+@enduml
