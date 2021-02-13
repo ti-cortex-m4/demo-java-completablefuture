@@ -1,21 +1,22 @@
 @startuml
+scale 1.0
 
 rectangle "get the first price\nin the GBP" as step1
 rectangle "get the GBP/USD\nexchange rate" as step2
 storage  "thenCombine" as step3
-rectangle "get the first price\nin the USD" as step3a
+file "the first price\nin the USD" as step3a
 
 rectangle "get the second\nprice in the EUR" as step4
 rectangle "get the EUR/USD\nexchange rate" as step5
 storage  "thenCombine" as step6
-rectangle "get the second price\nin the USD" as step6a
+file "the second price\nin the USD" as step6a
 
 storage  "thenCombine" as step7
-rectangle "net price" as step7a
+file "the net price" as step7a
+rectangle "get the tax formula" as step7b
 
 storage  "thenCompose" as step8
-note right of step8 : get tex
-rectangle "gross price" as step8a
+file "the gross price" as step8a
 
 storage  "whenComplete" as step9
 
@@ -31,7 +32,9 @@ step3a --> step7
 step6a --> step7
 
 step7 --> step7a
+step7a --> step7b
 step7a --> step8
+step7b --> step8
 
 step8 --> step8a
 step8a --> step9
