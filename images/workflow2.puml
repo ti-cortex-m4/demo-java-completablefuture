@@ -1,35 +1,39 @@
 @startuml
 
-rectangle "get the price in the GBP" as step1
+rectangle "get the first price\nin the GBP" as step1
 rectangle "get the GBP/USD\nexchange rate" as step2
 storage  "thenCombine" as step3
-note left of step3 : get first price in the USD
+rectangle "get the first price\nin the USD" as step3a
 
-rectangle "get the price in the EUR" as step4
+rectangle "get the second\nprice in the EUR" as step4
 rectangle "get the EUR/USD\nexchange rate" as step5
 storage  "thenCombine" as step6
-note right of step6 : get second price in the USD
+rectangle "get the second price\nin the USD" as step6a
 
 storage  "thenCombine" as step7
-note right of step7 : get net price
+rectangle "net price" as step7a
 
 storage  "thenCompose" as step8
 note right of step8 : get tex
+rectangle "gross price" as step8a
 
 storage  "whenComplete" as step9
-note right of step9 : get gross price
 
 step1 --> step3
 step2 --> step3
+step3 --> step3a
 
 step4 --> step6
 step5 --> step6
+step6 --> step6a
 
-step3 --> step7
-step6 --> step7
+step3a --> step7
+step6a --> step7
 
-step7 --> step8
+step7 --> step7a
+step7a --> step8
 
-step8 --> step9
+step8 --> step8a
+step8a --> step9
 
 @enduml
