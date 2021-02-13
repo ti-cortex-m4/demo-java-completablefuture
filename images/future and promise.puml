@@ -7,7 +7,6 @@ skinparam titleFontSize 15
 skinparam sequenceMessageAlign center
 
 activate consumer
-consumer->consumer: create task
 consumer->>producer: submit task
 activate producer
 producer->producer: create promise
@@ -17,7 +16,6 @@ consumer->consumer: wait for\nfuture completion
 producer->producer: write promise
 producer->consumer: complete future
 deactivate producer
-consumer->consumer: read task result
 
 ||1||
 producer -[#white]->]
