@@ -2,6 +2,9 @@
 
 scale 1.0
 skinparam monochrome true
+skinparam RectangleBackgroundColor white
+skinparam StorageBackgroundColor white
+skinparam NoteBackgroundColor white
 
 rectangle "get the first price\nin the GBP" as step1
 rectangle "get the GBP/USD\nexchange rate" as step2

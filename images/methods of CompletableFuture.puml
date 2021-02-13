@@ -1,5 +1,9 @@
 @startuml
 
+scale 1.0
+skinparam monochrome true
+skinparam RectangleBackgroundColor white
+
 rectangle "Methods of the CompletableFuture class" as Methods
 rectangle "methods to create future \n  \n supplyAsync \n runAsync \n completedFuture \n failedFuture​" as MethodsToCreate
 rectangle "methods to check status \n  \n isDone \n isCompletedExceptionally \n isCancelled" as MethodsToCheck
