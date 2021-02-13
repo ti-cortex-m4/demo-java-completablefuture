@@ -6,15 +6,15 @@ skinparam RectangleBackgroundColor white
 skinparam StorageBackgroundColor white
 skinparam NoteBackgroundColor white
 
-rectangle "get the first price\nin the GBP" as step1
-rectangle "get the GBP/USD\nexchange rate" as step2
-storage  "thenCombine" as step3
-note right of step3: the first price\nin the USD
-
 rectangle "get the second\nprice in the EUR" as step4
 rectangle "get the EUR/USD\nexchange rate" as step5
 storage  "thenCombine" as step6
 note left of step6: the second price\nin the USD
+
+rectangle "get the first price\nin the GBP" as step1
+rectangle "get the GBP/USD\nexchange rate" as step2
+storage  "thenCombine" as step3
+note right of step3: the first price\nin the USD
 
 storage  "thenCombine" as step7
 note right of step7: the net price

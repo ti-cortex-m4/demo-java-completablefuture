@@ -5,9 +5,9 @@
 
 The CompletableFuture API is a high-level API for asynchronous programming in Java. This API supports _pipelining_ (also known as _chaining_ or _combining_) multiple asynchronous and synchronous computations into a single result without the mess of nested callbacks (‘callback hell`). This API also is an implementation of the Future/Promise design pattern in Java.
 
-Before adding these classes Java already had much simpler classes to manage asynchronous tasks. In Java 5 were added the `Future` interface and its base implementation the `FutureTask` class.
+Before adding these classes, Java already had much simpler classes to manage asynchronous tasks. In Java 5 were added the `Future` interface and its base implementation the `FutureTask` class.
 
-The `Future` interface represents a _possibly incompleted_ _result_ of an asynchronous computation. The `Future` interface has few methods:
+The `Future` interface represents a _possibly uncompleted_ _result_ of an asynchronous computation. The `Future` interface has few methods:
 
 
 
@@ -15,13 +15,13 @@ The `Future` interface represents a _possibly incompleted_ _result_ of an asynch
 *   to cancel the task
 *   to wait if necessary for the task to complete, and then to retrieve its result
 
-But the `Future` interface has significant limitations in building multi-step asynchronous computations:
+However, the `Future` interface has significant limitations in building multi-step asynchronous computations:
 
 
 
-*   it's impossible to register a callback for future competition
-*   it's impossible to pipeline computations in a non-blocking way
-*   it's impossible to manually complete a future (either with a result or with an exception)
+*   it is impossible to register a callback for future competition
+*   it is impossible to pipeline computations in a non-blocking way
+*   it is impossible to manually complete a future (either with a result or with an exception)
 
 To change this, in Java 8 were added (and in Java 9 and Java 12 were updated) the `CompletionStage` interface and its base implementation the `CompletableFuture` class. These classes allow building effective multi-step asynchronous computations of a single result.
 
@@ -39,13 +39,13 @@ The concept of a _future/promise_ as an eventual result of an asynchronous opera
 *   Scala: `scala.concurrent.Future`
 *   C#: `Task`, `TaskCompletionSource`
 
-A _future/promise_ represents an object that changes its state during the time. A _future/promise_ can be in two states: incompleted and completed, and completion can be performed either with a result to indicate success, or with an exception to indicate failure.
+A _future/promise_ represents an object that changes its state during the time. A _future/promise_ can be in two states: uncompleted and completed, and completion can be performed either with a result to indicate success, or with an exception to indicate failure.
 
->In a broader sense, the terms _future_ and _promise_ are used interchangeably, as a placeholder for a parallel-running task that hasn't been completed yet but is expected in the future.
+>In a broader sense, the terms _future_ and _promise_ are used interchangeably, as a placeholder for a parallel-running task that has not yet been completed but is expected in the future.
 
 >In a narrower sense, a _future_ is a read-only placeholder view of a result (that is yet unavailable), while a _promise_ is a writable, single-assignment object that sets the value of the _future_.
 
-The following workflow example can help you to understand the idea of future/promise. A consumer sends a long-running task to a producer to be executed asynchronously. The producer creates a promise when it starts that task and sends a future to a consumer. The consumer receives the future that isn`t completed yet and waits for its completion. During waiting, the consumer isn`t blocked and can execute other tasks. When the producer completes the task, it fulfills the promise and thereby provides the future's value. Essentially the promise represents the producing end of the future/promise relationship, while the future represents the consuming end.
+The following workflow example can help you to understand the idea of future/promise. A consumer sends a long-running task to a producer to execute asynchronously. The producer creates a promise when it starts that task and sends a future to a consumer. The consumer receives the future that is not completed and waits for its completion. During waiting, the consumer is not blocked and can execute other tasks. When the producer completes the task, it fulfills the promise and thereby provides the future its value. Essentially the promise represents the producing end of the future/promise relationship, while the future represents the consuming end.
 
 ![Future and Promise](/images/future_and_promise.png)
 
@@ -53,14 +53,14 @@ The most important part of futures/promises is the possibility to define a pipel
 
 In Java, the `Future` interface represents a _future_: it has methods to check if the task is complete, to wait for its completion, and to retrieve the result of the task when it is complete. The `CompletableFuture` class represents a _promise_ since their value can be explicitly set by the `complete` and `completeExceptionally` methods. However, `CompletableFuture` also implements the `Future` interface allowing it to be used as a _future_ as well.
 
-![class diagramm](/images/class_diagramm.png)
+![class diagram](/images/class_diagram.png)
 
 
 ## Example
 
 The following code example can help you to understand the usage of the `CompletableFuture` class as an implementation of future/promise in Java.
 
-In the given workflow it's necessary to calculate the total price in the USD of two products (the first is priced in the GBP and the second is priced in the EUR), including tax. To do this, it's necessary to execute the following computations:
+In the given workflow it is necessary to calculate the total price in the USD of two products (the first is priced in the GBP and the second is priced in the EUR), including tax. To do this, it is necessary to execute the following computations:
 
 
 
@@ -74,15 +74,15 @@ In the given workflow it's necessary to calculate the total price in the USD of 
 8. to get the value of the tax (a long-running call, depends on tasks 7)
 9. to calculate the price of both product in the USD after tax (depends on tasks 7, 8)
 
-Notice that some tasks are long-running (for example, they make remote calls), so it`s worth executing them asynchronously. Also, some tasks here depend on other tasks (they must be executed sequentially) but some are independent (they can be executed parallelly).
+Notice that some tasks are long-running (for example, they make remote calls), so it is worth executing them asynchronously. In addition, some tasks here depend on other tasks (they must be executed sequentially) but some are independent (they can be executed parallelly).
 
-The proposed workflow is implemented below in three styles: synchronous, asynchronous `Future`-based, and asynchronous `CompletableFuture`-based.
+The proposed workflow is implemented below in three styles: synchronous, asynchronous `Future`-based and asynchronous `CompletableFuture`-based.
 
 >In _synchronous_ programming, the main thread starts an axillary task and blocks until this task is finished. When the axillary task is completed, the main thread continues the main task.
 
 >In _asynchronous_ programming, the main thread starts an axillary task in a worker thread and continues its task. When the worker thread finished the auxiliary task, it notified the main thread for example by a callback.
 
-1) The advantage of the synchronous solution is the simplest code. The disadvantage of this solution is that all tasks are performed sequentially and take the most time (although some of them are independent and can be performed in parallel).
+1) The advantage of the synchronous solution is the simplest code. The disadvantage of this solution is that all tasks execute sequentially and take the most time (although some of them are independent and can be performed in parallel).
 
 
 ```
@@ -164,6 +164,8 @@ logger.info("another task started");
 ```
 
 
+![CompletableFuture API example](/images/CompletableFuture_API_example.png)
+
 
 ## The [CompletionStage](https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/util/concurrent/CompletionStage.html) interface
 
@@ -191,21 +193,21 @@ The `CompletionStage` interface contains methods for stages pipelining but not f
 
 The `CompletionStage` interface has 43 public methods that form three distinguished naming patterns.
 
-The _first_ naming pattern explains _how_ a new stage is started :
+The _first_ naming pattern explains _how_ a new stage is started:
 
 
 
-*   if a method name has the `then` prefix, then the new stage is started after completion of a single previous stage
-*   if a method name has the `either` suffix, then the new stage is started after completion of the first of two previous stages
-*   if a method name has the `both` suffix, then the new stage is started after completion of both previous stages
+*   if a method name has fragment `then`, then the new stage is started after completion of a single previous stage
+*   if a method name has fragment `either`, then the new stage is started after completion of the first of two previous stages
+*   if a method name has fragment `both`, then the new stage is started after completion of both previous stages
 
 The _second_ naming pattern explains _what computations perform_ the new stage:
 
 
 
-*   if a method name has the `apply` fragment, then the new stage applies an argument by a `Function` (takes argument(s) and returns one result)
-*   if a method name has the `accept` fragment, then the new stage accepts an argument by a `Consumer` (takes argument(s) and returns no result)
-*   if a method name has the `run` fragment, then the new stage runs an action by a `Runnable` (takes no argument and returns no result)
+*   if a method name has fragment `apply`, then the new stage applies an argument by a `Function` (takes argument(s) and returns one result)
+*   if a method name has fragment `accept`, then the new stage accepts an argument by a `Consumer` (takes argument(s) and returns no result)
+*   if a method name has fragment `run`, then the new stage runs an action by a `Runnable` (takes no argument and returns no result)
 
 >If the new stage depends on both previous stages, it uses `BiFunction` instead of `Function` and `BiConsumer` instead of `Consumer`.
 
@@ -286,19 +288,19 @@ returns no result
 </table>
 
 
-The methods that have `Function, `BiFunction` arguments return `CompletionStage<T>` that can be used to pass values. The methods that have `Consumer`, `BiConsumer`, `Runnable` return `CompletionStage<Void>` that can be used to perform computations with side-effects and can signalize the fact of completion of computation either with the result or with an exception.
+The methods that have `Function, `BiFunction` arguments return `CompletionStage&lt;T>` that can be used to pass values. The methods that have `Consumer`, `BiConsumer`, `Runnable` return `CompletionStage&lt;Void>` that can be used to perform computations with side-effects and can signalize the fact of completion of computation either with the result or with an exception.
 
 The _third_ naming pattern explains _what thread executes_ the new stage:
 
 
 
-*   if a method has a signature like `something(...)`, then the new stage is executed by _the default facility_ (that can be synchronous or asynchronous).
-*   if a method has a signature like `somethingAsync(...)`, then the new stage is executed by _the default asynchronous facility_.
-*   if a method has a signature like `somethingAsync(..., Executor)`, then the new stage is executed by the supplied `Executor`.
+*   if a method has fragment `something(...)`, then the new stage is executed by _the default facility_ (that can be synchronous or asynchronous).
+*   if a method has fragment `somethingAsync(...)`, then the new stage is executed by _the default asynchronous facility_.
+*   if a method has fragment `somethingAsync(..., Executor)`, then the new stage is executed by the supplied `Executor`.
 
 Note that _the default facility_ and _the default asynchronous facility_ are specified by `CompletionStage` implementations, not by the interface itself. Looking ahead, the `CompletableFuture` implementation of the `CompletionStage` interface uses the thread that completes the stage as _the default facility_ and `ForkJoinPool.commonPool()` as _the default asynchronous facility_.
 
->ForkJoinPool.commonPool() is scared across the JVM, it’s implicitly used by the `CompletableFuture` class and parallel streams.
+>ForkJoinPool.commonPool() is shared across the JVM, it is implicitly used by the `CompletableFuture` class and Parallel Streams.
 
 >To get more performance, you should use `something(Executor)` methods (because context switch reduces the performance).
 
@@ -416,7 +418,7 @@ assertNull(future.get());
 
 ### Methods to handle exceptions
 
-Synchronous computation can be completed normally or exceptionally. To recover from these exceptions, it's possible to use a `try-catch-finally` statement. Asynchronous computation can be completed normally or exceptionally as well. But because the pipelined stages can be executed in different threads, the `CompletionStage` interface has special specifications to handle exceptions.
+Synchronous computation can be completed normally or exceptionally. To recover from these exceptions, it is possible to use a `try-catch-finally` statement. Asynchronous computation can be completed normally or exceptionally as well. However, because the pipelined stages can be executed in different threads, the `CompletionStage` interface has special specifications to handle exceptions.
 
 Each stage has two completion types of equal importance: the normal completion and the exceptional completion. If a stage completes normally, the dependent stages start executing. If a stage completes exceptionally, all dependent stages complete exceptionally, unless there is an exception recovery method in the pipeline.
 
@@ -435,7 +437,7 @@ Summary of the methods to pipeline computations:
    </td>
   </tr>
   <tr>
-   <td>can`t modify the result
+   <td>can't modify the result
    </td>
    <td rowspan="2" >called on success or exception
    </td>
@@ -469,9 +471,9 @@ Summary of the methods to pipeline computations:
 </table>
 
 
-If it's necessary to perform some action, when the previous stage completes either normally or exceptionally, then the method  `whenComplete` should be used. A `BiConsumer` argument of the `whenComplete`method is called when the previous stage completes either normally or exceptionally and allows to read both the result (or `null` if none) and the exception (or `null` if none), but doesn`t allow to modify them.
+If it is necessary to perform some action, when the previous stage completes either normally or exceptionally, then the  `whenComplete` method should be used. A `BiConsumer` argument of the `whenComplete` method is called when the previous stage completes either normally or exceptionally and allows to read both the result (or `null` if none) and the exception (or `null` if none), but doesn`t allow to modify them.
 
-If it's necessary to recover from an exception (to replace the exception with some fallback value), then the `handle` and `exceptionally` methods should be used. A `BiFunction` argument of the `handle` method is called when the previous stage completes either normally or exceptionally. A `Function` argument of the `exceptionally` method is called when the previous stage completes exceptionally. In both cases, an exception is not propagated to the next stage.
+If it is necessary to recover from an exception (to replace the exception with some fallback value), then the `handle` and `exceptionally` methods should be used. A `BiFunction` argument of the `handle` method is called when the previous stage completes either normally or exceptionally. A `Function` argument of the `exceptionally` method is called when the previous stage completes exceptionally. In both cases, an exception is not propagated to the next stage.
 
 
 ##### Code examples
@@ -538,15 +540,15 @@ assertEquals("failure: exception", future.get());
 
 ### The [CompletableFuture](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CompletableFuture.html) class
 
-The `CompletableFuture` class is the main implementation of the  `CompletionStage` interface. But basic that it also implements the `Future` interface. That means the `CompletableFuture` class can simultaneously represent a step in a multi-step computation and the result of an asynchronous task.
+The `CompletableFuture` class is the main implementation of the `CompletionStage` interface. However, it also implements the `Future` interface. That means the `CompletableFuture` class can simultaneously represent a step in a multi-step computation and the result of an asynchronous task.
 
 In comparing with the `FutureTask` class the `CompletableFuture` class has significant capabilities:
 
 
 
-*   it's possible to register a callback for future competition
-*   it's impossible to pipeline computations in a non-blocking way
-*   it's impossible to manually complete a future (either with a result or with an exception)
+*   it is possible to register a callback for future competition
+*   it is impossible to pipeline computations in a non-blocking way
+*   it is impossible to manually complete a future (either with a result or with an exception)
 
 The general workflow of `CompletableFuture` objects as a future/promise:
 
@@ -563,7 +565,7 @@ Besides 5 methods implemented from the `Future` interface and 43 methods impleme
 *   methods to create futures
 *   methods to check the status of futures
 *   methods to complete futures
-*   methods to retrieve results of futures
+*   methods to get results of futures
 *   methods for bulk futures operations
 
 ![methods of CompletableFuture](/images/methods_of_CompletableFuture.png)
@@ -571,7 +573,7 @@ Besides 5 methods implemented from the `Future` interface and 43 methods impleme
 
 #### Methods to create futures
 
-By the general workflow, a future is created uncompleted and then, after executions some computations, the future is completed. But for some cases (for example, for testing) it would be necessary to create an already completed future. The `CompletableFuture` class has methods to create incompleted, completing, and already completed futures.
+By the general workflow, a future is created uncompleted and then, after executions some computations, the future is completed. However, for some cases (for example, for testing) it would be necessary to create an already completed future. The `CompletableFuture` class has methods to create uncompleted, completing, and already completed futures.
 
 Summary of the methods to create futures
 
@@ -586,7 +588,7 @@ Summary of the methods to create futures
    </td>
   </tr>
   <tr>
-   <td>incompleted
+   <td>uncompleted
    </td>
    <td>`newIncompleteFuture()`
    </td>
@@ -641,7 +643,7 @@ Summary of the methods to create futures
 
 ##### Code examples
 
-The no-arg constructor creates an incompleted future.
+The no-arg constructor creates an uncompleted future.
 
 
 ```
@@ -650,7 +652,7 @@ assertFalse(future.isDone());
 ```
 
 
-The factory `newIncompleteFuture` method creates an incompleted future. This method should be overridden if you are implementing a subclass of `CompletableFuture`.
+The factory `newIncompleteFuture` method creates an uncompleted future. This method should be overridden if you are implementing a subclass of `CompletableFuture`.
 
 
 ```
@@ -661,7 +663,7 @@ assertFalse(future2.isDone());
 ```
 
 
-The `supplyAsync` method creates an incompleted future that is asynchronously completed with the value from the given `Supplier`.
+The `supplyAsync` method creates an uncompleted future that is asynchronously completed with the value from the given `Supplier`.
 
 
 ```
@@ -670,7 +672,7 @@ assertEquals("value", future.get());
 ```
 
 
-The `runAsync` method creates an incompleted future that is asynchronously completed after running the given `Runnable`.
+The `runAsync` method creates an uncompleted future that is asynchronously completed after running the given `Runnable`.
 
 
 ```
@@ -702,7 +704,7 @@ assertTrue(future.isCompletedExceptionally());
 
 #### Methods to check the status
 
-To check the status of a future, the `CompletableFuture` class has _non-blocking_ methods to check whether the future is incompleted or completed in various ways.
+To check the status of a future, the `CompletableFuture` class has _non-blocking_ methods to check whether the future is uncompleted or completed in various ways.
 
 Summary of the methods to check the status of futures
 
@@ -717,7 +719,7 @@ Summary of the methods to check the status of futures
    </td>
   </tr>
   <tr>
-   <td rowspan="3" >nonblocking
+   <td rowspan="3" >non-blocking
    </td>
    <td>`isDone`
    </td>
@@ -739,7 +741,7 @@ Summary of the methods to check the status of futures
 </table>
 
 
->It's impossible to cancel an already completed future.
+>It is impossible to cancel an already completed future.
 
 
 ##### Code examples
@@ -784,7 +786,7 @@ assertTrue(future.isCancelled());
 
 #### Methods to complete futures
 
-The `CompletableFuture` class has methods to complete futures - to perform transit incompleted future in one of the completion states: completed normally, exceptionally on canceled.
+The `CompletableFuture` class has methods to complete futures - to perform transit uncompleted future in one of the completion states: completed normally, exceptionally on canceled.
 
 Summary of the methods to complete futures
 
@@ -853,7 +855,8 @@ Summary of the methods to complete futures
 
 The `cancel(boolean mayInterruptIfRunning)` method has a special implementation peculiarity in the `CompletableFuture` class. The parameter `mayInterruptIfRunning` does not affect because thread interrupts are not used to control processing in this implementation of the `Future` interface. When the `cancel` method is called, the computation is canceled by the `CancellationException`, but the `Thread.interrupt()` method is not called to interrupt the underlying thread.
 
->The `cancel` method has the same effect as the `completeExceptionally(new CancellationException())` call.
+
+##### Code examples
 
 The `complete​` method completes the future normally because it isn`t already completed.
 
@@ -929,9 +932,10 @@ assertTrue(future.isCancelled());
 ```
 
 
-Methods to retrieve the result
 
-To get the result of a `CompletableFuture`, it's possible to use the following blocking and non-blocking methods. In most cases, these methods should be used as the last computation step, don`t use them inside pipelined stages.
+#### Methods to get results of futures
+
+To get the result of a `CompletableFuture`, it is possible to use the following blocking and non-blocking methods. In most cases, these methods should be used as the last computation step, don`t use them inside pipelined stages.
 
 Summary of the methods to retrieve results of futures
 
@@ -994,7 +998,7 @@ Summary of the methods to retrieve results of futures
 
 #### Methods for bulk operations
 
-The `CompletableFuture` class has two static methods to wait for the completion of many futures, not just of two as in the `thenCombine`, `thenAcceptBoth`, `runAfterBoth` methods. Note that all the argument futures can have different generic types, its arguments have the `CompletableFuture<?>` type.
+The `CompletableFuture` class has two static methods to wait for the completion of many futures, not just of two as in the `thenCombine`, `thenAcceptBoth`, `runAfterBoth` methods. Note that all the argument futures can have different generic types, its arguments have the `CompletableFuture&lt;?>` type.
 
 Summary of the methods for bulk futures operations
 
@@ -1013,7 +1017,7 @@ Summary of the methods for bulk futures operations
    </td>
    <td>`allOf​(completableFuture..)`
    </td>
-   <td>returns a new CompletableFuture&lt;Void> that is completed when all of the given CompletableFutures complete; if any of the given CompletableFutures complete exceptionally, then the returned CompletableFuture also does so 
+   <td>returns a new CompletableFuture&lt;Void> that is completed when all of the given `CompletableFuture`s complete; if any of the given `CompletableFutures` complete exceptionally, then the returned `CompletableFuture` also does so 
    </td>
   </tr>
   <tr>
@@ -1021,7 +1025,7 @@ Summary of the methods for bulk futures operations
    </td>
    <td>`anyOf​​(completableFuture..)`
    </td>
-   <td>returns a new CompletableFuture<Object> that is completed when any of the given CompletableFutures complete, with the same result; if any of the given CompletableFutures complete exceptionally, then the returned CompletableFuture also does so 
+   <td>returns a new `CompletableFuture&lt;Object>` that is completed when any of the given `CompletableFutures` complete, with the same result; if any of the given `CompletableFuture`s complete exceptionally, then the returned CompletableFuture also does so 
    </td>
   </tr>
 </table>
@@ -1030,7 +1034,7 @@ Summary of the methods for bulk futures operations
 
 ##### Code examples
 
-The static `allOf` method returns a new incomplete future that is completed when all of the given CompletableFutures complete. Note that the result of this method is `CompletableFuture<Void>` and you should obtain results of each given future by inspecting them individually.
+The static `allOf` method returns a new incomplete future that is completed when _all_ of the given `CompletableFuture`s complete. Note that the result of this method is `CompletableFuture&lt;Void>` and you should obtain results of each given future by inspecting them individually.
 
 
 ```
@@ -1052,7 +1056,7 @@ assertEquals("parallel1, parallel2, parallel3", result);
 ```
 
 
-The static `anyOf` method returns a new incomplete future that is completed when any of the given CompletableFutures complete. Note that the result of this method is `CompletableFuture<Object>` and you should cast the result to the given type (here: `String`) manually.
+The static `anyOf` method returns a new incomplete future that is completed when _any_ of the given `CompletableFuture`s complete. Note that the result of this method is `CompletableFuture&lt;Object>` and you should cast the result to the required type manually.
 
 
 ```
@@ -1062,3 +1066,22 @@ CompletableFuture<Object> future = CompletableFuture.anyOf(
        supplyAsync(() -> sleepAndGet(3, "parallel3"))
 );
 assertEquals("parallel1", future.get());
+```
+
+
+
+## Conclusion
+
+The CompletableFuture API is a high-level API that allows building high-level concurrent code. The API is not easy and it is worth studying if you want to write _efficient_ concurrent code.
+
+There are the following rules of thumb in using CompletableFuture API:
+
+
+
+*   Know what executor service executes what computation, do not allow a high-priority thread to execute long-running low-priority tasks
+*   Avoid blocking methods inside a computation pipeline
+*   Avoid short (hundreds of milliseconds) asynchronous computations because frequent context switching can introduce significant overhead
+*   Be aware of new exception handling and recovery design that works differently than the `try-catch-finally` statement
+*   Manage timeouts to do not wait too long (perhaps indefinitely) for a failed computation
+
+The CompletableFuture API is rather complicated and is justified to use when the single result depends on many steps that form a complicated _Directed Acyclic Graph_ with parallel and sequential fragments. Try to use simpler tools - Parallel Streams or `ExecutorService`s. Be aware of the drawbacks of asynchronous programming - the asynchronous code is often much more difficult to implement, understand and support. Make sure that the CompletableFuture API is an appropriate tool for your job. 
