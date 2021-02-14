@@ -1,5 +1,6 @@
 @startuml
 
+scale 0.9
 skinparam monochrome true
 
 together {
