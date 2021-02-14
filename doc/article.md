@@ -7,7 +7,7 @@ The CompletableFuture API is a high-level API for asynchronous programming in Ja
 
 Before adding these classes, Java already had much simpler classes to manage asynchronous tasks. In Java 5 were added the `Future` interface and its base implementation the `FutureTask` class.
 
-The `Future` interface represents a _possibly uncompleted_ _result_ of an asynchronous computation. The `Future` interface has few methods:
+The `Future` interface represents a possibly uncompleted result of an asynchronous computation. The `Future` interface has few methods:
 
 
 
@@ -23,14 +23,14 @@ However, the `Future` interface has significant limitations in building multi-st
 *   it is impossible to pipeline computations in a non-blocking way
 *   it is impossible to manually complete a future (either with a result or with an exception)
 
-To change this, in Java 8 were added (and in Java 9 and Java 12 were updated) the `CompletionStage` interface and its base implementation the `CompletableFuture` class. These classes allow building effective multi-step asynchronous computations of a single result.
+To change this, in Java 8 were added (and in Java 9 and Java 12 were updated) the `CompletionStage` interface and its base implementation the `CompletableFuture` class. These classes allow building effective and fluent multi-step asynchronous computations of a single result.
 
 The CompletableFuture API is not simple. The `CompletionStage` interface has 43 public methods. The `CompletableFuture` class implements 5 methods from the `Future` interface, 43 methods from the `CompletionStage` interface, and has 30 own public methods.
 
 
 ## Futures and promises
 
-The concept of a _future/promise_ as an eventual result of an asynchronous operation exists in many programming languages and allows writing asynchronous code that still has a _fluent interface_ as synchronous code:
+The concept of a _future/promise_ as an eventual result of an asynchronous task exists in many programming languages and allows writing asynchronous code that still has a _fluent interface_ as synchronous code:
 
 
 
@@ -64,17 +64,17 @@ In the given workflow it is necessary to calculate the total price in the USD of
 
 
 
-1. to get the price of the first product in the GBP (a long-running call)
-2. to get the GBP/USD exchange rate (a long-running call)
+1. to get the price of the first product in the GBP (a long-running task)
+2. to get the GBP/USD exchange rate (a long-running task)
 3. to calculate the price of the first product in the USD (depends on tasks 1, 2)
-4. to get the price of the second product in the EUR (a long-running call)
-5. to get the EUR/USD exchange rate (a long-running call)
+4. to get the price of the second product in the EUR (a long-running task)
+5. to get the EUR/USD exchange rate (a long-running task)
 6. to calculate the price of the second product in the USD (depends on tasks 4, 5)
 7. to calculate the price of both product in the USD before tax (depends on tasks 3, 6)
-8. to get the value of the tax (a long-running call, depends on tasks 7)
+8. to get the value of the tax (a long-running task, depends on tasks 7)
 9. to calculate the price of both product in the USD after tax (depends on tasks 7, 8)
 
-Notice that some tasks are long-running (for example, they make remote calls), so it is worth executing them asynchronously. In addition, some tasks here depend on other tasks (they must be executed sequentially) but some are independent (they can be executed parallelly).
+Notice that some tasks are long-running (for example, they make remote calls), so it is worth executing them asynchronously. In addition, some tasks here depend on other tasks (they must be executed sequentially) but some are independent (they can be executed in parallel).
 
 The proposed workflow is implemented below in three styles: synchronous, asynchronous `Future`-based and asynchronous `CompletableFuture`-based.
 
@@ -197,9 +197,9 @@ The _first_ naming pattern explains _how_ a new stage is started:
 
 
 
-*   if a method name has fragment `then`, then the new stage is started after completion of a single previous stage
-*   if a method name has fragment `either`, then the new stage is started after completion of the first of two previous stages
-*   if a method name has fragment `both`, then the new stage is started after completion of both previous stages
+*   if a method name has fragment `then`, then the new stage is started after completion of _a single_ previous stage
+*   if a method name has fragment `either`, then the new stage is started after completion of _the first of two_ previous stages
+*   if a method name has fragment `both`, then the new stage is started after completion of _both_ previous stages
 
 The _second_ naming pattern explains _what computations perform_ the new stage:
 
@@ -288,7 +288,7 @@ returns no result
 </table>
 
 
-The methods that have `Function, `BiFunction` arguments return `CompletionStage&lt;T>` that can be used to pass values. The methods that have `Consumer`, `BiConsumer`, `Runnable` return `CompletionStage&lt;Void>` that can be used to perform computations with side-effects and can signalize the fact of completion of computation either with the result or with an exception.
+The methods that have `Function`, `BiFunction` arguments return `CompletionStage&lt;T>` that can be used to pass values. The methods that have `Consumer`, `BiConsumer`, `Runnable` return `CompletionStage&lt;Void>` that can be used to perform computations with _side-effects_ and can signalize the fact of completion of computation either with the result or with an exception.
 
 The _third_ naming pattern explains _what thread executes_ the new stage:
 
@@ -301,10 +301,6 @@ The _third_ naming pattern explains _what thread executes_ the new stage:
 Note that _the default facility_ and _the default asynchronous facility_ are specified by `CompletionStage` implementations, not by the interface itself. Looking ahead, the `CompletableFuture` implementation of the `CompletionStage` interface uses the thread that completes the stage as _the default facility_ and `ForkJoinPool.commonPool()` as _the default asynchronous facility_.
 
 >ForkJoinPool.commonPool() is shared across the JVM, it is implicitly used by the `CompletableFuture` class and Parallel Streams.
-
->To get more performance, you should use `something(Executor)` methods (because context switch reduces the performance).
-
->To have more control over which tasks are executed in which thread, you should use `somethingAsync(..., Executor)` methods (because high-importance thread must not execute low-importance tasks).
 
 
 ##### Code examples
@@ -418,7 +414,7 @@ assertNull(future.get());
 
 ### Methods to handle exceptions
 
-Synchronous computation can be completed normally or exceptionally. To recover from these exceptions, it is possible to use a `try-catch-finally` statement. Asynchronous computation can be completed normally or exceptionally as well. However, because the pipelined stages can be executed in different threads, the `CompletionStage` interface has special specifications to handle exceptions.
+Synchronous computation can be completed normally or exceptionally. To recover from these exceptions, it is possible to use `try-catch-finally` statements. Asynchronous computation can be completed normally or exceptionally as well. However, because the pipelined stages can be executed in different threads, the `CompletionStage` interface has special specifications to handle exceptions.
 
 Each stage has two completion types of equal importance: the normal completion and the exceptional completion. If a stage completes normally, the dependent stages start executing. If a stage completes exceptionally, all dependent stages complete exceptionally, unless there is an exception recovery method in the pipeline.
 
@@ -478,7 +474,7 @@ If it is necessary to recover from an exception (to replace the exception with s
 
 ##### Code examples
 
-The `whenComplete` method accepts a nullable result and an exception but can`t modify the return value - it`s still completed exceptionally.
+The `whenComplete` method accepts a nullable result and an exception but can’t modify the return value - it is still completed exceptionally.
 
 
 ```
@@ -555,7 +551,7 @@ The general workflow of `CompletableFuture` objects as a future/promise:
 
 
 1. a _creating_ thread creates an incomplete future and adds computation handlers to it
-2. a _reading _thread waits (in a blocking or non-blocking way) until the future is completed normally or exceptionally
+2. a _reading_ thread waits (in a blocking or non-blocking way) until the future is completed normally or exceptionally
 3. a _completing_ thread completes the future and unblocks the _reading _thread
 
 Besides 5 methods implemented from the `Future` interface and 43 methods implemented from the `Future` interface, the `CompletableFuture` class itself defines 30 public methods. These methods can be divided into two groups by their purpose:
@@ -618,19 +614,19 @@ Summary of the methods to create futures
    </td>
   </tr>
   <tr>
-   <td>`completedStage​(value)`
+   <td>`completedStage(value)`
    </td>
    <td>returns a new `CompletionStage` that is already completed with the given value
    </td>
   </tr>
   <tr>
-   <td>`failedFuture​(throwable)`
+   <td>`failedFuture(throwable)`
    </td>
    <td>returns a new `CompletableFuture` that is already completed exceptionally with the given exception
    </td>
   </tr>
   <tr>
-   <td>`failedStage​(throwable)`
+   <td>`failedStage(throwable)`
    </td>
    <td>returns a new `CompletionStage` that is already completed exceptionally with the given exception
    </td>
@@ -786,7 +782,7 @@ assertTrue(future.isCancelled());
 
 #### Methods to complete futures
 
-The `CompletableFuture` class has methods to complete futures - to perform transit uncompleted future in one of the completion states: completed normally, exceptionally on canceled.
+The `CompletableFuture` class has methods to complete futures - to perform transit uncompleted futures in one of the completion states: completed normally, exceptionally on canceled.
 
 Summary of the methods to complete futures
 
@@ -807,7 +803,7 @@ Summary of the methods to complete futures
    </td>
    <td>synchronous
    </td>
-   <td>complete​(value)
+   <td>complete(value)
    </td>
    <td>completes this `CompletableFuture` with the given value if not already completed
    </td>
@@ -821,7 +817,7 @@ Summary of the methods to complete futures
    </td>
   </tr>
   <tr>
-   <td>completeOnTimeout​(value, timeout, timeUnit)
+   <td>completeOnTimeout(value, timeout, timeUnit)
    </td>
    <td>completes this `CompletableFuture` with the given value if not already completed before the given timeout
    </td>
@@ -829,7 +825,7 @@ Summary of the methods to complete futures
   <tr>
    <td>complete normally or exceptionally depends on timeout
    </td>
-   <td>orTimeout​(timeout, timeUnit)
+   <td>orTimeout(timeout, timeUnit)
    </td>
    <td>exceptionally completes this `CompletableFuture` with a `TimeoutException` if not already completed before the given timeout
    </td>
@@ -839,13 +835,13 @@ Summary of the methods to complete futures
    </td>
    <td rowspan="2" >synchronous
    </td>
-   <td>completeExceptionally​(throwable)
+   <td>completeExceptionally(throwable)
    </td>
    <td>completes this `CompletableFuture` with the given exception if not already completed
    </td>
   </tr>
   <tr>
-   <td>cancel​(mayInterruptIfRunning)
+   <td>cancel(mayInterruptIfRunning)
    </td>
    <td>completes this `CompletableFuture` with a `CancellationException`, if not already completed 
    </td>
@@ -974,7 +970,7 @@ Summary of the methods to retrieve results of futures
    </td>
    <td>throws checked exceptions
    </td>
-   <td>`get​(timeout, timeUnit)`
+   <td>`get(timeout, timeUnit)`
    </td>
    <td>returns the result value when complete (waits for at most the given time) or throws an exception if completed exceptionally
    </td>
@@ -992,8 +988,7 @@ Summary of the methods to retrieve results of futures
 </table>
 
 
-
-##### >If this `CompletableFuture` is canceled, all these methods throw an unchecked `CancellationException`.
+>If this `CompletableFuture` is canceled, all these methods throw an unchecked `CancellationException`.
 
 
 #### Methods for bulk operations
@@ -1015,7 +1010,7 @@ Summary of the methods for bulk futures operations
   <tr>
    <td>
    </td>
-   <td>`allOf​(completableFuture..)`
+   <td>`allOf(completableFuture..)`
    </td>
    <td>returns a new CompletableFuture&lt;Void> that is completed when all of the given `CompletableFuture`s complete; if any of the given `CompletableFutures` complete exceptionally, then the returned `CompletableFuture` also does so 
    </td>
@@ -1023,7 +1018,7 @@ Summary of the methods for bulk futures operations
   <tr>
    <td>
    </td>
-   <td>`anyOf​​(completableFuture..)`
+   <td>`anyOf(completableFuture..)`
    </td>
    <td>returns a new `CompletableFuture&lt;Object>` that is completed when any of the given `CompletableFutures` complete, with the same result; if any of the given `CompletableFuture`s complete exceptionally, then the returned CompletableFuture also does so 
    </td>
