@@ -1,3 +1,4 @@
+https://community.oracle.com/tech/developers/discussion/4418058/completablefuture-for-asynchronous-programming-in-java-8
     https://www.jrebel.com/blog/java-completablefuture-api
     https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
 https://blog.softwaremill.com/synchronous-or-asynchronous-and-why-wrestle-with-wrappers-2c5667eb7acf
@@ -32,11 +33,6 @@ https://www.youtube.com/watch?v=W7iK74YA5NM&ab_channel=JUGNsk   Сергей К�
 https://www.youtube.com/watch?v=-MBPQ7NIL_Y&ab_channel=JUG.ru   Tomasz Nurkiewicz — CompletableFuture in Java 8, asynchronous processing done right
 https://www.youtube.com/watch?v=x5akmCWgGY0&ab_channel=Java     Parallel Streams, CompletableFuture, and All That: Concurrency in Java 8
 https://www.youtube.com/watch?v=Q_0_1mKTlnY&ab_channel=GOTOConferences  GOTO 2014 • New Concurrency Utilities in Java 8 • Angelika Langer
-
-
-CompletableFuture gives you a way to attach a callback which will get called when the task completes, that way we can write the transformation logic that will execute after the completion of the task.
-
-The computation stage may be expressed as a Function, Consumer or Runnable. Usually, the completion of one stage triggers the execution of others. The CompletionStage interface has several methods which can be employed to chain several computations or tasks to achieve end result, to name a few, thenAccept(), thenApply(), thenCombine(), thenRun(), whenComplete().
 
 https://i-rant.arnaudbos.com/loom-part-2-blocking/
 https://www.jrebel.com/blog/types-of-concurrency-in-java-by-oleg-shelajev
