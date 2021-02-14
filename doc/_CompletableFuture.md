@@ -92,14 +92,14 @@ Pros of async calls with Java futures
     * Can be canceled & tested to see if a task is done
 
 Cons of async calls with Java futures
-    * Limited feature set
-    * Cannot be completed explicitly
-        * e.g., additional mechanisms like FutureTask are needed
-    * Cannot be chained fluently to handle async results
-    * Cannot be triggered reactively
-        * i.e., must (timed-)wait or poll
-    * Cannot be treated efficiently as a collection of futures
-        Can’t wait efficiently for the completion of whichever async computation finishes first
+* Limited feature set
+* Cannot be completed explicitly
+    * e.g., additional mechanisms like FutureTask are needed
+* Cannot be chained fluently to handle async results
+* Cannot be triggered reactively
+    * i.e., must (timed-)wait or poll
+* Cannot be treated efficiently as a collection of futures
+* Can’t wait efficiently for the completion of whichever async computation finishes first
 
 In general, it’s awkward & inefficient to “compose” multiple futures
 These limitations with Java futures motivate the need for the Java completable futures framework!
