@@ -13,7 +13,6 @@ public class AnyOf extends Demo1 {
 
     @Test
     public void testAnyOf() throws InterruptedException, ExecutionException {
-
         CompletableFuture<Object> future = CompletableFuture.anyOf(
                 supplyAsync(() -> sleepAndGet(1, "parallel1")),
                 supplyAsync(() -> sleepAndGet(2, "parallel2")),

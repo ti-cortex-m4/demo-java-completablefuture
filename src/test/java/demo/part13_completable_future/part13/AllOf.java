@@ -27,8 +27,8 @@ public class AllOf extends Demo1 {
         String result = Stream.of(futures)
                 .map(CompletableFuture::join)
                 .map(Object::toString)
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(" "));
 
-        assertEquals("parallel1, parallel2, parallel3", result);
+        assertEquals("parallel1 parallel2 parallel3", result);
     }
 }
