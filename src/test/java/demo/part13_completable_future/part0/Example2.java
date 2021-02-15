@@ -64,7 +64,7 @@ public class Example2 extends Demo1 {
         CompletableFuture<String> stage1 = supplyAsync(() -> sleepAndGet("single"));
 
         CompletionStage<Void> stage = stage1.thenAccept(
-                s -> logger.info("consumed single: {}", s));
+                s -> logger.info("consumes single: {}", s));
 
         assertNull(stage.toCompletableFuture().get());
     }
@@ -75,7 +75,7 @@ public class Example2 extends Demo1 {
         CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
 
         CompletionStage<Void> stage = stage1.acceptEither(stage2,
-                s -> logger.info("consumed first: {}", s));
+                s -> logger.info("consumes first: {}", s));
 
         assertNull(stage.toCompletableFuture().get());
     }
@@ -86,7 +86,7 @@ public class Example2 extends Demo1 {
         CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
 
         CompletionStage<Void> stage = stage1.thenAcceptBoth(stage2,
-                (s1, s2) -> logger.info("consumed both: {} {}", s1, s2));
+                (s1, s2) -> logger.info("consumes both: {} {}", s1, s2));
 
         assertNull(stage.toCompletableFuture().get());
     }
@@ -97,7 +97,7 @@ public class Example2 extends Demo1 {
         CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet("single"));
 
         CompletionStage<Void> stage = stage1.thenRun(
-                () -> logger.info("run after single"));
+                () -> logger.info("runs after single"));
 
         assertNull(stage.toCompletableFuture().get());
     }
@@ -108,7 +108,7 @@ public class Example2 extends Demo1 {
         CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
 
         CompletionStage<Void> stage = stage1.runAfterEither(stage2,
-                () -> logger.info("run after first"));
+                () -> logger.info("runs after first"));
 
         assertNull(stage.toCompletableFuture().get());
     }
@@ -119,7 +119,7 @@ public class Example2 extends Demo1 {
         CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
 
         CompletionStage<Void> stage = stage1.runAfterBoth(stage2,
-                () -> logger.info("run after both"));
+                () -> logger.info("runs after both"));
 
         assertNull(stage.toCompletableFuture().get());
     }
