@@ -8,41 +8,24 @@ skinparam NoteBackgroundColor white
 
 rectangle "get the second\nprice in the EUR" as step4
 rectangle "get the EUR/USD\nexchange rate" as step5
-storage  "thenCombine" as step6
-note left of step6: the second price\nin the USD
-
-rectangle "get the first price\nin the GBP" as step1
-rectangle "get the GBP/USD\nexchange rate" as step2
-storage  "thenCombine" as step3
-note right of step3: the first price\nin the USD
 
 storage  "thenCombine" as step7
-note right of step7: the net price
+note right of step7: the net price\nin the USD
 
 rectangle "get the tax" as step7b
 
 storage  "thenCompose" as step8
-note right of step8: the gross price
+note right of step8: the gross price\nin the USD
 
 storage  "whenComplete" as step9
 
-step1 --> step3
-step2 --> step3
-
-step4 --> step6
-step5 --> step6
-
-step3 --> step7
-step6 --> step7
+step4 --> step7
+step5 --> step7
 
 step7 --> step7b
 step7 --> step8
 step7b --> step8
 
 step8 --> step9
-'step3 -[dashed]-> step9
-'step6 -[dashed]-> step9
-'step7 -[dashed]-> step9
-'step8 -[dashed]-> step9
 
 @enduml
