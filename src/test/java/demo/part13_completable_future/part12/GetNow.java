@@ -7,6 +7,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class GetNow extends Demo1 {
 
@@ -14,11 +16,13 @@ public class GetNow extends Demo1 {
     public void getNow() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.completedFuture("value");
         assertEquals("value", future.getNow("value2"));
+        assertTrue(future.isDone());
     }
 
     @Test
     public void getNowValueIfAbsent() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
-        assertEquals("value2", future.getNow("value2"));
+        assertEquals("fallback", future.getNow("fallback"));
+        assertFalse(future.isDone());
     }
 }

@@ -2,7 +2,7 @@ https://community.oracle.com/tech/developers/discussion/4418058/completablefutur
     https://www.jrebel.com/blog/java-completablefuture-api
     https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
 https://blog.softwaremill.com/synchronous-or-asynchronous-and-why-wrestle-with-wrappers-2c5667eb7acf
-https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
+    https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
 
 https://www.nurkiewicz.com/2013/05/java-8-definitive-guide-to.html
     https://www.nurkiewicz.com/2013/05/java-8-completablefuture-in-action.html
