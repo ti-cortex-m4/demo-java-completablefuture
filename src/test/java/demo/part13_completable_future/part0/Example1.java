@@ -18,9 +18,7 @@ public class Example1 extends Demo1 {
     public void testSynchronous() {
         logger.info("this task started");
 
-        int amountInUsd1 = getPriceInGbp() * getExchangeRateGbpToUsd(); // blocking
-        int amountInUsd2 = getPriceInEur() * getExchangeRateEurToUsd(); // blocking
-        int netAmountInUsd = amountInUsd1 + amountInUsd2;
+        int netAmountInUsd = getPriceInEur() * getExchangeRateEurToUsd(); // blocking
         float grossAmountInUsd = netAmountInUsd * (1 + getTax(netAmountInUsd)); // blocking
 
         logger.info("this task finished: {}", grossAmountInUsd);
@@ -34,21 +32,15 @@ public class Example1 extends Demo1 {
 
         logger.info("this task started");
 
-        Future<Integer> priceInGbp = executorService.submit(this::getPriceInGbp);
-        Future<Integer> exchangeRateGbpToUsd = executorService.submit(this::getExchangeRateGbpToUsd);
         Future<Integer> priceInEur = executorService.submit(this::getPriceInEur);
         Future<Integer> exchangeRateEurToUsd = executorService.submit(this::getExchangeRateEurToUsd);
 
-        while (!priceInGbp.isDone() || !exchangeRateGbpToUsd.isDone()
-                || !priceInEur.isDone() || !exchangeRateEurToUsd.isDone()) { // non-blocking
+        while (!priceInEur.isDone() || !exchangeRateEurToUsd.isDone()) { // non-blocking
             Thread.sleep(100);
             logger.info("another task is running");
         }
 
-        int amountInUsd1 = priceInGbp.get() * exchangeRateGbpToUsd.get(); // actually non-blocking
-        int amountInUsd2 = priceInEur.get() * exchangeRateEurToUsd.get(); // actually non-blocking
-        int netAmountInUsd = amountInUsd1 + amountInUsd2;
-
+        int netAmountInUsd = priceInEur.get() * exchangeRateEurToUsd.get(); // actually non-blocking
         Future<Float> tax = executorService.submit(() -> getTax(netAmountInUsd));
 
         while (!tax.isDone()) { // non-blocking
@@ -68,21 +60,16 @@ public class Example1 extends Demo1 {
 
     @Test
     public void testAsynchronousWithCompletableFuture() throws InterruptedException {
-        CompletableFuture<Integer> priceInGbp = supplyAsync(this::getPriceInGbp);
-        CompletableFuture<Integer> exchangeRateGbpToUsd = supplyAsync(this::getExchangeRateGbpToUsd);
         CompletableFuture<Integer> priceInEur = supplyAsync(this::getPriceInEur);
         CompletableFuture<Integer> exchangeRateEurToUsd = supplyAsync(this::getExchangeRateEurToUsd);
 
-        CompletableFuture<Integer> amountInUsd1 = priceInGbp
-                .thenCombine(exchangeRateGbpToUsd, (price, exchangeRate) -> price * exchangeRate);
-        CompletableFuture<Integer> amountInUsd2 = priceInEur
+        CompletableFuture<Integer> netAmountInUsd = priceInEur
                 .thenCombine(exchangeRateEurToUsd, (price, exchangeRate) -> price * exchangeRate);
 
         logger.info("this task started");
 
-        amountInUsd1
-                .thenCombine(amountInUsd2, (amount1, amount2) -> amount1 + amount2)
-                .thenCompose(netAmountInUsd -> supplyAsync(() -> netAmountInUsd * (1 + getTax(netAmountInUsd))))
+        netAmountInUsd
+                .thenCompose(amount -> supplyAsync(() -> amount * (1 + getTax(amount))))
                 .whenComplete((grossAmountInUsd, throwable) -> {
                     if (throwable == null) {
                         logger.info("this task finished: {}", grossAmountInUsd);
