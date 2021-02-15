@@ -1,6 +1,6 @@
 @startuml
 
-scale 0.95
+scale 0.90
 skinparam monochrome true
 skinparam RectangleBackgroundColor white
 skinparam StorageBackgroundColor white

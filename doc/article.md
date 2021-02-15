@@ -5,7 +5,7 @@
 
 The CompletableFuture API is a high-level API for asynchronous programming in Java. This API supports _pipelining_ (also known as _chaining_ or _combining_) multiple asynchronous and synchronous computations into a single result without the mess of nested callbacks (‘callback hell`). This API also is an implementation of the Future/Promise design pattern in Java.
 
-Before adding these classes, Java already had much simpler classes to manage asynchronous tasks. In Java 5 were added the `Future` interface and its base implementation the `FutureTask` class. 
+Before adding these classes, Java already had much simpler classes to manage asynchronous tasks. In Java 5 were added the `Future` interface and its base implementation the `FutureTask` class.
 
 The `Future` interface represents a possibly uncompleted result of an asynchronous computation. The `Future` interface has few methods:
 
@@ -15,7 +15,7 @@ The `Future` interface represents a possibly uncompleted result of an asynchrono
 *   to cancel the task
 *   to wait if necessary for the task to complete, and then to retrieve its result
 
-However, the `Future` interface has significant limitations in building multi-step asynchronous computations: 
+However, the `Future` interface has significant limitations in building multi-step asynchronous computations:
 
 
 
@@ -43,15 +43,15 @@ A _future/promise_ represents an object that changes its state during the time. 
 
 >In a broader sense, the terms _future_ and _promise_ are used interchangeably, as a placeholder for a parallel-running task that has not yet been completed but is expected in the future.
 
->In a narrower sense, a _future_ is a read-only placeholder view of a result (that is yet unavailable), while a _promise_ is a writable, single-assignment object that sets the value of the _future_. 
+>In a narrower sense, a _future_ is a read-only placeholder view of a result (that is yet unavailable), while a _promise_ is a writable, single-assignment object that sets the value of the _future_.
 
 The following workflow example can help you to understand the idea of future/promise. A consumer sends a long-running task to a producer to execute asynchronously. The producer creates a promise when it starts that task and sends a future to a consumer. The consumer receives the future that is not completed and waits for its completion. During waiting, the consumer is not blocked and can execute other tasks. When the producer completes the task, it fulfills the promise and thereby provides the future its value. Essentially the promise represents the producing end of the future/promise relationship, while the future represents the consuming end.
 
 ![Future and Promise](/images/future_and_promise.png)
 
-The most important part of futures/promises is the possibility to define a pipeline of operations to be invoked upon completion of the task represented by the future/promise. In comparison with _asynchronous callbacks_, this allows writing more fluent code that supports the composition of nested success and failure handlers without ‘callback hell`. 
+The most important part of futures/promises is the possibility to define a pipeline of operations to be invoked upon completion of the task represented by the future/promise. In comparison with _asynchronous callbacks_, this allows writing more fluent code that supports the composition of nested success and failure handlers without ‘callback hell`.
 
-In Java, the `Future` interface represents a _future_: it has methods to check if the task is complete, to wait for its completion, and to retrieve the result of the task when it is complete. The `CompletableFuture` class represents a _promise_ since their value can be explicitly set by the `complete` and `completeExceptionally` methods. However, `CompletableFuture` also implements the `Future` interface allowing it to be used as a _future_ as well. 
+In Java, the `Future` interface represents a _future_: it has methods to check if the task is complete, to wait for its completion, and to retrieve the result of the task when it is complete. The `CompletableFuture` class represents a _promise_ since their value can be explicitly set by the `complete` and `completeExceptionally` methods. However, `CompletableFuture` also implements the `Future` interface allowing it to be used as a _future_ as well.
 
 ![class diagram](/images/class_diagram.png)
 
@@ -70,7 +70,7 @@ In the given workflow it is necessary to calculate the net price in the USD of a
 4. to get the value of the tax (a long-running task, depends on tasks 3)
 5. to calculate the gross price of the product in the USD (depends on tasks 3, 4)
 
-Notice that some tasks are long-running (for example, they make remote calls), so it is worth executing them asynchronously. Also, some tasks here depend on other tasks (they must be executed sequentially) but some are independent (they can be executed in parallel).
+Notice that some tasks are long-running (for example, they make remote calls), so it is worth executing them asynchronously. Also, some tasks here depend on other tasks (they have to be executed sequentially) but some are independent (they can be executed in parallel).
 
 The proposed workflow is implemented below in three styles: synchronous, asynchronous `Future`-based and asynchronous `CompletableFuture`-based.
 
@@ -188,7 +188,7 @@ The _second_ naming pattern explains _what computations perform_ the new stage:
 
 
 
-*   if a method name has fragment `apply`, then the new stage applies an argument by a `Function` (takes argument(s) and returns one result)
+*   if a method name has fragment `apply`, then the new stage transforms an argument by a `Function` (takes argument(s) and returns one result)
 *   if a method name has fragment `accept`, then the new stage accepts an argument by a `Consumer` (takes argument(s) and returns no result)
 *   if a method name has fragment `run`, then the new stage runs an action by a `Runnable` (takes no argument and returns no result)
 
@@ -288,55 +288,81 @@ Note that _the default facility_ and _the default asynchronous facility_ are spe
 
 ##### Code examples
 
-The `thenApply` method creates a new stage that upon completion applies the given `Function` to the result of the single previous stage.
+The `thenApply` method creates a new stage that upon completion transforms the given `Function` to the result of the single previous stage.
 
 
 ```
-CompletableFuture<String> future = supplyAsync(() -> sleepAndGet("single"))
-        .thenApply(s -> "applied: " + s);
-assertEquals("applied: single", future.get());
+CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet("single"));
+
+CompletionStage<String> stage = stage1.thenApply(
+       s -> s.toUpperCase());
+
+assertEquals("SINGLE", stage.toCompletableFuture().get());
 ```
 
 
-The `thenCompose` method creates a new stage that upon completion applies the given `Function` to the result of the single previous stage. This method is similar to the `thenApply` method described above. The difference is that the result of the `Function` is a subclass of `CompletionStage`, which is useful when a functional transformation is a long operation that is reasonable to execute as a separate stage (possible asynchronously).
+The `thenCompose` method creates a new stage that upon completion transforms the given `Function` to the result of the single previous stage. This method is similar to the `thenApply` method described above. The difference is that the result of the `Function` is a subclass of `CompletionStage`, which is useful when a functional transformation is a long operation that is reasonable to execute as a separate stage (possible asynchronously).
 
 
 ```
-CompletableFuture<String> future = supplyAsync(() -> sleepAndGet("sequential1"))
-        .thenCompose(s -> supplyAsync(() -> sleepAndGet("applied: " + s + " sequential2")));
-assertEquals("applied: sequential1 sequential2", future.get());
+CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet("sequential1"));
+
+CompletionStage<String> stage = stage1.thenCompose(
+       s -> {
+           CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet((s + " " + "sequential2").toUpperCase()));
+           return stage2;
+       });
+
+assertEquals("SEQUENTIAL1 SEQUENTIAL2", stage.toCompletableFuture().get());
 ```
 
 
-The `applyToEither` method creates a new stage that upon completion applies the given `Function` to the result of this stage _or_ another stage (which completes first).
+>You should use the `thenApply` method if you want to transform one `CompletionStage`s with a _fast_ function.
+
+>You should use the `thenCompose` method if you want to transform one `CompletionStage`s with a _slow_ function.
+
+The `applyToEither` method creates a new stage that upon completion transforms the given `Function` to the result of this stage _or_ another stage (which completes first).
 
 
 ```
-CompletableFuture<String> future = supplyAsync(() -> sleepAndGet(1, "parallel1"))
-        .applyToEither(supplyAsync(() -> sleepAndGet(2, "parallel2")),
-                s -> "applied first: " + s);
-assertEquals("applied first: parallel1", future.get());
+CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
+CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
+
+CompletionStage<String> stage = stage1.applyToEither(stage2,
+       s -> s.toUpperCase());
+
+assertEquals("PARALLEL1", stage.toCompletableFuture().get());
 ```
 
 
-The `thenCombine` method creates a new stage that upon completion applies the given `BiFunction` to the results of this stage _and_ another stage. 
+The `thenCombine` method creates a new stage that upon completion transforms the given `BiFunction` to the results of this stage _and_ another stage.
 
 
 ```
-CompletableFuture<String> future = supplyAsync(() -> sleepAndGet("parallel1"))
-        .thenCombine(supplyAsync(() -> sleepAndGet("parallel2")),
-                 (s1, s2) -> "applied both: " + s1 + " " + s2);
-assertEquals("applied both: parallel1 parallel2", future.get());
+CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet("parallel1"));
+CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet("parallel2"));
+
+CompletionStage<String> stage = stage1.thenCombine(stage2,
+       (s1, s2) -> (s1 + " " + s2).toUpperCase());
+
+assertEquals("PARALLEL1 PARALLEL2", stage.toCompletableFuture().get());
 ```
 
+
+>You should use the `thenCombine` method if you want to transform two `CompletionStage`s _in parallel_.
+
+>You should use the `thenCompose` method if you want to transform two `CompletionStage`s _sequentially_.
 
 The `thenAccept` method creates a new stage that upon completion supplies the result of this stage to the given `Consumer`.
 
 
 ```
-CompletableFuture<Void> future = supplyAsync(() -> sleepAndGet("single"))
-        .thenAccept(s -> logger.info("consumed: " + s));
-assertNull(future.get());
+CompletableFuture<String> stage1 = supplyAsync(() -> sleepAndGet("single"));
+
+CompletionStage<Void> stage = stage1.thenAccept(
+       s -> logger.info("consumes single: {}", s));
+
+assertNull(stage.toCompletableFuture().get());
 ```
 
 
@@ -344,10 +370,13 @@ The `acceptEither` method creates a new stage that upon completion supplies the 
 
 
 ```
-CompletableFuture<Void> future = supplyAsync(() -> sleepAndGet(1, "parallel1"))
-        .acceptEither(supplyAsync(() -> sleepAndGet(2, "parallel2")),
-                s -> logger.info("consumed first: " + s));
-assertNull(future.get());
+CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
+CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
+
+CompletionStage<Void> stage = stage1.acceptEither(stage2,
+       s -> logger.info("consumes first: {}", s));
+
+assertNull(stage.toCompletableFuture().get());
 ```
 
 
@@ -355,10 +384,13 @@ The `thenAcceptBoth` method creates a new stage that upon completion supplies th
 
 
 ```
-CompletableFuture<Void> future = supplyAsync(() -> sleepAndGet(1, "parallel1"))
-        .thenAcceptBoth(supplyAsync(() -> sleepAndGet(2, "parallel2")),
-                (s1, s2) -> logger.info("consumed both: " + s1 + " " + s2));
-assertNull(future.get());
+CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
+CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
+
+CompletionStage<Void> stage = stage1.thenAcceptBoth(stage2,
+       (s1, s2) -> logger.info("consumes both: {} {}", s1, s2));
+
+assertNull(stage.toCompletableFuture().get());
 ```
 
 
@@ -366,9 +398,12 @@ The `thenRun` method creates a new stage that upon completion runs the given `Ru
 
 
 ```
-CompletableFuture<Void> future = supplyAsync(() -> sleepAndGet("single"))
-        .thenRun(() -> logger.info("run"));
-assertNull(future.get());
+CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet("single"));
+
+CompletionStage<Void> stage = stage1.thenRun(
+       () -> logger.info("runs after single"));
+
+assertNull(stage.toCompletableFuture().get());
 ```
 
 
@@ -376,10 +411,13 @@ The `runAfterEither` method creates a new stage that upon completion runs the gi
 
 
 ```
-CompletableFuture<Void> future = supplyAsync(() -> sleepAndGet(1, "parallel1"))
-        .runAfterEither(supplyAsync(() -> sleepAndGet(2, "parallel2")),
-                () -> logger.info("run after first"));
-assertNull(future.get());
+CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
+CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
+
+CompletionStage<Void> stage = stage1.runAfterEither(stage2,
+       () -> logger.info("runs after first"));
+
+assertNull(stage.toCompletableFuture().get());
 ```
 
 
@@ -387,17 +425,20 @@ The `runAfterBoth` method creates a new stage that upon completion runs the give
 
 
 ```
-CompletableFuture<Void> future = supplyAsync(() -> sleepAndGet(1, "parallel1"))
-        .runAfterBoth(supplyAsync(() -> sleepAndGet(2, "parallel2")),
-                () -> logger.info("run after both"));
-assertNull(future.get());
+CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
+CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
+
+CompletionStage<Void> stage = stage1.runAfterBoth(stage2,
+       () -> logger.info("runs after both"));
+
+assertNull(stage.toCompletableFuture().get());
 ```
 
 
 
 ### Methods to handle exceptions
 
-Synchronous computation can be completed normally or exceptionally. To recover from these exceptions, it is possible to use `try-catch-finally` statements. Asynchronous computation can be completed normally or exceptionally as well. However, because the pipelined stages can be executed in different threads, the `CompletionStage` interface has special specifications to handle exceptions. 
+Synchronous computation can be completed normally or exceptionally. To recover from these exceptions, it is possible to use `try-catch-finally` statements. Asynchronous computation can be completed normally or exceptionally as well. However, because the pipelined stages can be executed in different threads, the `CompletionStage` interface has special specifications to handle exceptions.
 
 Each stage has two completion types of equal importance: the normal completion and the exceptional completion. If a stage completes normally, the dependent stages start executing. If a stage completes exceptionally, all dependent stages complete exceptionally, unless there is an exception recovery method in the pipeline.
 
@@ -468,7 +509,7 @@ assertTrue(future.isCompletedExceptionally());
 ```
 
 
-The `handle` method applies a nullable result and an exception and converts the result from being completed exceptionally to completed normally.
+The `handle` method transforms a nullable result and an exception and converts the result from being completed exceptionally to completed normally.
 
 
 ```
@@ -486,7 +527,7 @@ assertEquals("failure: exception", future.get());
 ```
 
 
-The `exceptionally` method applies an exception and converts the result from being completed exceptionally to completed normally.
+The `exceptionally` method transforms an exception and converts the result from being completed exceptionally to completed normally.
 
 
 ```
@@ -503,7 +544,7 @@ assertEquals("failure: exception", future.get());
 
 The `CompletableFuture` class is the main implementation of the `CompletionStage` interface. However, it also implements the `Future` interface. That means the `CompletableFuture` class can simultaneously represent a step in a multi-step computation and the result of an asynchronous task.
 
-In comparing with the `FutureTask` class the `CompletableFuture` class has significant capabilities: 
+In comparing with the `FutureTask` class the `CompletableFuture` class has significant capabilities:
 
 
 
@@ -743,7 +784,7 @@ assertTrue(future.isCancelled());
 
 #### Methods to complete futures
 
-The `CompletableFuture` class has methods to complete futures - to transit uncompleted futures in one of the completion states: completed normally, exceptionally on canceled. 
+The `CompletableFuture` class has methods to complete futures - to transit uncompleted futures in one of the completion states: completed normally, exceptionally on canceled.
 
 Summary of the methods to complete futures
 
@@ -995,14 +1036,14 @@ assertFalse(future.isDone());
 
 #### Methods for bulk operations
 
-The `CompletableFuture` class has two static methods to wait for the completion of many futures, not just two of them. Note that all the argument futures can have different generic types (`CompletableFuture&lt;?>`).
+The `CompletableFuture` class has two static methods for waiting for _all_ and _the first_ of many `CompletableFuture`s to complete, not just two of them.
 
 Summary of the methods for bulk futures operations
 
 
 <table>
   <tr>
-   <td>
+   <td>Similarity
    </td>
    <td>Method name
    </td>
@@ -1010,7 +1051,7 @@ Summary of the methods for bulk futures operations
    </td>
   </tr>
   <tr>
-   <td>
+   <td>similar to `runAfterBoth`
    </td>
    <td>`allOf(completableFuture..)`
    </td>
@@ -1018,7 +1059,7 @@ Summary of the methods for bulk futures operations
    </td>
   </tr>
   <tr>
-   <td>
+   <td>similar to `applyToEither`
    </td>
    <td>`anyOf(completableFuture..)`
    </td>
@@ -1028,10 +1069,12 @@ Summary of the methods for bulk futures operations
 </table>
 
 
+>Note that all futures can be of different generic types: `CompletableFuture&lt;?>`.
+
 
 ##### Code examples
 
-The static `allOf` method returns a new incomplete future that is completed when _all_ of the given `CompletableFuture`s complete. Note that the result of this method is `CompletableFuture&lt;Void>` and you should get results of each given future by inspecting them individually.
+The static `allOf` method returns a new incomplete future that is completed when all of the given `CompletableFuture`s complete. Note that the result of this method is `CompletableFuture&lt;Void>` and you should get results of each given future by inspecting them individually.
 
 
 ```
@@ -1053,7 +1096,26 @@ assertEquals("parallel1 parallel2 parallel3", result);
 ```
 
 
-The static `anyOf` method returns a new incomplete future that is completed when _any_ of the given `CompletableFuture`s complete. Note that the result of this method is `CompletableFuture&lt;Object>` and you should cast the result to the required type manually.
+The `allOf` method can be seen as an extended version of the `runAfterBoth` method.
+
+
+```
+CompletableFuture<String> future1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
+CompletableFuture<String> future2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
+
+CompletableFuture<Void> future = future1.runAfterBoth(future2, () -> {});
+future.get();
+
+String result = Stream.of(future1, future2)
+       .map(CompletableFuture::join)
+       .map(Object::toString)
+       .collect(Collectors.joining(" "));
+
+assertEquals("parallel1 parallel2", result);
+```
+
+
+The static `anyOf` method returns a new incomplete future that is completed when any of the given `CompletableFuture`s complete. Note that the result of this method is `CompletableFuture&lt;Object>` and you should cast the result to the required type manually.
 
 
 ```
@@ -1062,6 +1124,20 @@ CompletableFuture<Object> future = CompletableFuture.anyOf(
        supplyAsync(() -> sleepAndGet(2, "parallel2")),
        supplyAsync(() -> sleepAndGet(3, "parallel3"))
 );
+
+assertEquals("parallel1", future.get());
+```
+
+
+The `anyOf` method can be seen as an extended version of the `applyToEither` method.
+
+
+```
+CompletableFuture<String> future1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
+CompletableFuture<String> future2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
+
+CompletableFuture<String> future = future1.applyToEither(future2, value -> value);
+
 assertEquals("parallel1", future.get());
 ```
 
