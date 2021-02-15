@@ -22,7 +22,7 @@ public class IsCompletedExceptionally extends Demo1 {
     }
 
     @Test
-    public void testIsCompletedExceptionallyTrue() throws InterruptedException, ExecutionException {
+    public void testIsCompletedExceptionallyTrue() {
         CompletableFuture<String> future = CompletableFuture.failedFuture(new RuntimeException("exception"));
         assertTrue(future.isDone());
         assertTrue(future.isCompletedExceptionally());

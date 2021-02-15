@@ -22,7 +22,7 @@ public class IsDone extends Demo1 {
     }
 
     @Test
-    public void testIsDoneFalse() throws InterruptedException, ExecutionException {
+    public void testIsDoneFalse() {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
         assertFalse(future.isDone());
         assertFalse(future.isCompletedExceptionally());
