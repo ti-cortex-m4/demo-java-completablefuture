@@ -3,6 +3,7 @@ package demo.part13_completable_future.part0;
 import demo.common.Demo1;
 import org.junit.Test;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
 
@@ -14,8 +15,10 @@ public class Example2 extends Demo1 {
 
     @Test
     public void testThenApply() throws InterruptedException, ExecutionException {
-        CompletionStage<String> stage = supplyAsync(() -> sleepAndGet("single"))
-                .thenApply(s -> s.toUpperCase());
+        CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet("single"));
+
+        CompletionStage<String> stage = stage1.thenApply(
+                s -> s.toUpperCase());
 
         assertEquals("SINGLE", stage.toCompletableFuture().get());
     }
@@ -58,8 +61,10 @@ public class Example2 extends Demo1 {
 
     @Test
     public void testThenAccept() throws InterruptedException, ExecutionException {
-        CompletionStage<Void> stage = supplyAsync(() -> sleepAndGet("single"))
-                .thenAccept(s -> logger.info("consumed single: {}", s));
+        CompletableFuture<String> stage1 = supplyAsync(() -> sleepAndGet("single"));
+
+        CompletionStage<Void> stage = stage1.thenAccept(
+                s -> logger.info("consumed single: {}", s));
 
         assertNull(stage.toCompletableFuture().get());
     }
@@ -89,8 +94,10 @@ public class Example2 extends Demo1 {
 
     @Test
     public void testThenRun() throws InterruptedException, ExecutionException {
-        CompletionStage<Void> stage = supplyAsync(() -> sleepAndGet("single"))
-                .thenRun(() -> logger.info("run after single"));
+        CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet("single"));
+
+        CompletionStage<Void> stage = stage1.thenRun(
+                () -> logger.info("run after single"));
 
         assertNull(stage.toCompletableFuture().get());
     }
