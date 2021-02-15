@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertNull;
 
-// The runAsync methods are useful if you don’t need to return anything
 public class RunAsync extends Demo1 {
 
     @Test
