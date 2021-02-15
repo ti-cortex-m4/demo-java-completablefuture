@@ -29,11 +29,11 @@ public class Example2 extends Demo1 {
 
         CompletionStage<String> stage = stage1.thenCompose(
                 s -> {
-                    CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(s + " " + "sequential2"));
+                    CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet((s + " " + "sequential2").toUpperCase()));
                     return stage2;
                 });
 
-        assertEquals("sequential1 sequential2", stage.toCompletableFuture().get());
+        assertEquals("SEQUENTIAL1 SEQUENTIAL2", stage.toCompletableFuture().get());
     }
 
     @Test
