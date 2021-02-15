@@ -27,8 +27,8 @@ public class Example2 extends Demo1 {
     public void testThenCompose() throws InterruptedException, ExecutionException {
         CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet("sequential1"));
 
-        CompletionStage<String> stage = stage1
-                .thenCompose(s -> {
+        CompletionStage<String> stage = stage1.thenCompose(
+                s -> {
                     CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(s + " " + "sequential2"));
                     return stage2;
                 });
