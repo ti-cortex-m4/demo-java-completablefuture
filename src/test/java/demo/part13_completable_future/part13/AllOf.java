@@ -39,7 +39,7 @@ public class AllOf extends Demo1 {
         CompletableFuture<String> future2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
 
         CompletableFuture<Void> future = future1
-                .runAfterBoth(future2, () -> logger.info("run after both"));
+                .runAfterBoth(future2, () -> {});
         future.get();
 
         String result = Stream.of(future1, future2)
