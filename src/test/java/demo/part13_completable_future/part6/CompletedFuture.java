@@ -11,7 +11,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-// The completedFuture method is a factory method that creates a CompletableFuture with an already-computed value
 public class CompletedFuture extends Demo1 {
 
     @Test

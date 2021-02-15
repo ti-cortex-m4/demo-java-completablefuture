@@ -10,20 +10,19 @@ import java.util.concurrent.TimeoutException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 public class OrTimeout extends Demo1 {
 
     @Test
     public void getNow() throws InterruptedException, ExecutionException {
-        CompletableFuture<String> future = supplyAsync(() -> sleepAndGet(2, "value"))
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet(2, "value"))
                 .orTimeout(3, TimeUnit.SECONDS);
         assertEquals("value", future.get());
     }
 
     @Test
-    public void getNowValueIfAbsent() throws InterruptedException, ExecutionException {
-        CompletableFuture<String> future = supplyAsync(() -> sleepAndGet(2, "value"))
+    public void getNowValueIfAbsent() throws InterruptedException {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet(2, "value"))
                 .orTimeout(1, TimeUnit.SECONDS);
         try {
             future.get();
