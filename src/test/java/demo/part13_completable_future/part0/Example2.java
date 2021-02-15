@@ -25,9 +25,12 @@ public class Example2 extends Demo1 {
         CompletableFuture<String> future1 = supplyAsync(() -> sleepAndGet("sequential1"));
 
         CompletableFuture<String> future = future1
-                .thenCompose(s -> supplyAsync(() -> sleepAndGet("applied: " + s + " sequential2")));
+                .thenCompose(value -> {
+                    CompletableFuture<String> future2 = supplyAsync(() -> sleepAndGet(value + " " + "sequential2"));
+                    return future2;
+                });
 
-        assertEquals("applied: sequential1 sequential2", future.get());
+        assertEquals("sequential1 sequential2", future.get());
     }
 
     @Test
@@ -35,9 +38,8 @@ public class Example2 extends Demo1 {
         CompletableFuture<String> future1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
         CompletableFuture<String> future2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
 
-        CompletableFuture<String> future = future1
-                .applyToEither(future2,
-                        value -> value.toUpperCase());
+        CompletableFuture<String> future = future1.applyToEither(future2,
+                value -> value.toUpperCase());
 
         assertEquals("PARALLEL1", future.get());
     }
@@ -47,9 +49,8 @@ public class Example2 extends Demo1 {
         CompletableFuture<String> future1 = supplyAsync(() -> sleepAndGet("parallel1"));
         CompletableFuture<String> future2 = supplyAsync(() -> sleepAndGet("parallel2"));
 
-        CompletableFuture<String> future = future1
-                .thenCombine(future2,
-                        (value1, value2) -> (value1 + " " + value2).toUpperCase());
+        CompletableFuture<String> future = future1.thenCombine(future2,
+                (value1, value2) -> (value1 + " " + value2).toUpperCase());
 
         assertEquals("PARALLEL1 PARALLEL2", future.get());
     }
