@@ -6,12 +6,10 @@ import org.junit.Test;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
-// cancel future, cause CancellationException
 public class Cancel extends Demo1 {
 
     @Test
@@ -28,7 +26,6 @@ public class Cancel extends Demo1 {
             fail();
         } catch (CancellationException e) {
             assertTrue(true);
-            //assertEquals(TimeoutException.class, e.getCause().getClass());
         }
     }
 }

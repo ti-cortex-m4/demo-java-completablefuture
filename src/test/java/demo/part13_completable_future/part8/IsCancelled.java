@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class IsCancelled extends Demo1 {
 
     @Test
-    public void testIsDoneTrue() throws InterruptedException, ExecutionException {
+    public void testIsCancelledTrue() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.completedFuture("value");
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
@@ -22,7 +22,7 @@ public class IsCancelled extends Demo1 {
     }
 
     @Test
-    public void testIsDoneFalse() throws InterruptedException, ExecutionException {
+    public void testIsCancelledFalse() {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
         assertFalse(future.isDone());
         assertFalse(future.isCompletedExceptionally());

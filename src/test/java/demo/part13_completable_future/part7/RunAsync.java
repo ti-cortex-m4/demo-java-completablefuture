@@ -8,12 +8,11 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertNull;
 
-// The runAsync methods are useful if you don’t need to return anything
 public class RunAsync extends Demo1 {
 
     @Test
     public void testRunAsync() throws InterruptedException, ExecutionException {
-        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> logger.info(sleepAndGet("value")));
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> logger.info("runnable"));
         assertNull(future.get());
     }
 }
