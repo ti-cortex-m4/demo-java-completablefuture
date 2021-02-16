@@ -7,8 +7,10 @@ skinparam RectangleBackgroundColor white
 rectangle "Methods of the CompletionStage interface" as Methods
 rectangle "methods to\npipeline computations \n  \n thenApply, thenCompose \n thenAccept \n thenRun \n\n applyToEither \n acceptEither \n runAfterEither \n\n thenCombine \n thenAcceptBoth \n runAfterBoth" as Pipelining
 rectangle "methods to\nhandle exceptions \n  \n whenComplete \n handle \n exceptionally \n exceptionallyCompose" as ExceptionHandling
+rectangle "methods to\nget instance \n  \n toCompletableFuture" as Instance
 
 Methods --> ExceptionHandling
 Methods --> Pipelining
+Methods --> Instance
 
 @enduml
