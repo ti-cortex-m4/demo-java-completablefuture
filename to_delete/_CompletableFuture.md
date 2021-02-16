@@ -185,7 +185,7 @@ However, a pre- or user-defined thread pool can also be given
 runAsync
 supplyAsync
 
-* supplyAsync() allows twoway calls via a supplier
+* supplyAsync() allows two way calls via a supplier
 * Can be passed params & returns a value
 * supplyAsync() does not create a new thread!
 * Instead, it return a future that’s completed by a worker thread running in common fork-join pool
@@ -194,11 +194,11 @@ Methods Params Returns Behavior
 supplyAsync
 Supplier 
 Completable Future with result of Supplier
-Asynchronouslyrun supplier incommon fork/join pool
+Asynchronously run supplier incommon fork/join pool
 
 supplyAsync
 Supplier,Executor
-CompletableFuture withresult ofSupplier
+CompletableFuture with result ofSupplier
 Asynchronously run supplier in given executor pool
 
 * runAsync() enables oneway calls via a runnable
