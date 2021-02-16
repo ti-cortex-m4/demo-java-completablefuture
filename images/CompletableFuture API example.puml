@@ -6,7 +6,7 @@ skinparam RectangleBackgroundColor white
 skinparam StorageBackgroundColor white
 skinparam NoteBackgroundColor white
 
-rectangle "get the second\nprice in the EUR" as step4
+rectangle "get the price\nin the EUR" as step4
 rectangle "get the EUR/USD\nexchange rate" as step5
 
 storage  "thenCombine" as step7
