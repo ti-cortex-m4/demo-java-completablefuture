@@ -3,34 +3,34 @@
 
 ## Introduction
 
-The CompletableFuture API is a high-level API for asynchronous programming in Java. This API supports _pipelining_ (also known as _chaining_ or _combining_) multiple asynchronous and synchronous computations into a single result without the mess of nested callbacks (‘callback hell`). This API also is an implementation of the Future/Promise design pattern in Java.
+The CompletableFuture API is a high-level API for asynchronous programming in Java. This API supports _pipelining_ (also known as _chaining_ or _combining_) of multiple asynchronous and synchronous computations into a single result without the mess of nested callbacks (“callback hell“). This API also is an implementation of the _future/promise_ high-level concurrency constructs in Java.
 
-Before adding these classes, Java already had much more simple classes to manage asynchronous tasks. In Java 5 were added the `Future` interface and its base implementation the `FutureTask` class. 
-
-The `Future` interface represents a possibly uncompleted result of an asynchronous computation. The `Future` interface has few methods:
+Since Java 5 there is a much simpler API for asynchronous programming: the `Future` interface and its base implementation, the `FutureTask` class. The `Future` interface represents the result of an asynchronous computation and has only a few methods:
 
 
 
-*   to check whether the task is completed or canceled
-*   to cancel the task
-*   to wait if necessary for the task to complete, and then to retrieve its result
+*   to check if a task is completed or canceled
+*   to cancel a task
+*   to wait for a task to complete (if necessary) and then to get its result
 
-However, the `Future` interface has significant limitations in building multi-step asynchronous computations: 
+However, the `Future` interface has significant limitations in building non-trivial asynchronous computations: 
 
 
 
-*   it is impossible to register a callback for future competition
-*   it is impossible to pipeline computations in a non-blocking way
-*   it is impossible to manually complete a future (either with a result or with an exception)
+*   it is impossible to register a callback for a future competition
+*   it is impossible to pipeline futures in a non-blocking way
+*   it is impossible to manually complete a future
 
-To overcome these limitations, in Java 8 were added (and in Java 9 and Java 12 were updated) the `CompletionStage` interface and its base implementation the `CompletableFuture` class. These classes allow building effective and fluent multi-step asynchronous computations (when the steps can be forked, chained, and joined) of a single result.
+To overcome these limitations, Java 8 added (and Java 9 and Java 12 updated) the `CompletionStage` interface and its base implementation, the `CompletableFuture` class. These classes allow building efficient and fluid multi-stage asynchronous computation, where stages can be forked, chained, and joined.
 
-The CompletableFuture API is not simple. The `CompletionStage` interface has 43 public methods. The `CompletableFuture` class implements 5 methods from the `Future` interface, 43 methods from the `CompletionStage` interface, and has 30 own public methods.
+However, the CompletableFuture API is not simple. The `CompletionStage` interface has 43 public methods. The `CompletableFuture` class implements 5 methods from the `Future` interface, 43 methods from the `CompletionStage` interface, and implements 30 of its public methods.
 
 
 ## Futures and promises
 
-The concept of a _future/promise_ as an eventual result of an asynchronous task exists in many programming languages and allows writing asynchronous code that still has a _fluent interface_ as synchronous code:
+Future/promise is a high-level concurrency construct that decouples a value (a future) from how it was computed (a promise). That allows writing more fluent concurrent programs that transfer objects between threads without using any of the explicit synchronization mechanisms for _shared mutable objects_ like mutexes. The futures/promises mechanism works very well when there are multiple threads working on different tasks and the results need to be combined together by the main thread. 
+
+Implementations of future/promise exist in many programming languages:
 
 
 
@@ -39,21 +39,27 @@ The concept of a _future/promise_ as an eventual result of an asynchronous task 
 *   Scala: `scala.concurrent.Future`
 *   C#: `Task`, `TaskCompletionSource`
 
-A _future/promise_ represents an object that changes its state during the time. A _future/promise_ can be in two states: uncompleted and completed, and completion can be performed either with a result to indicate success or with an exception to indicate failure.
+Concepts of futures and promises are often used interchangeably, but in reality, they are separate objects that encapsulate the two different sets of functionality. 
 
->In a broader sense, the terms _future_ and _promise_ are used interchangeably, as a placeholder for a parallel-running task that has not yet been completed but is expected in the future.
+A _future_ is a read-only object to encapsulate a value that may not be available yet but will be provided at some point. The future is used by a consumer to retrieve the result which was computed. A _promise_ is a writable, single-assignment object to guarantee that some task will compute some result and make it available in the corresponding future object. The promise is used by a producer in order to store the success value or exception in the corresponding future. 
 
->In a narrower sense, a _future_ is a read-only placeholder view of a result (that is yet unavailable), while a _promise_ is a writable, single-assignment object that sets the value of the _future_. 
+This is why a method for reading a value only exists in the future, and a method for writing a value only exists in a promise.
 
-The following workflow example can help you to understand the idea of future/promise. A consumer sends a long-running task to a producer to execute asynchronously. The producer creates a promise when it starts that task and sends a future to a consumer. The consumer receives the future that is not completed and waits for its completion. During waiting, the consumer is not blocked and can execute other tasks. When the producer completes the task, it fulfills the promise and thereby provides the future its value. Essentially the promise represents the producing end of the future/promise relationship, while the future represents the consuming end.
+The following workflow example can help you to understand the idea of future/promise. A consumer sends a task to a producer to execute it asynchronously. The producer creates a promise that starts the given task. From the promise, the producer extracts the future and sends it to the consumer. The consumer receives the future that is not completed and waits for its completion. While waiting for future completion, the consumer can use blocking and non-blocking methods.
 
-![Future and Promise](/images/future_and_promise.png)
+The consumer can call the _getter_ method of the future object to wait for the data in the future to be available. if the future is already available, the call to the _getter_ method will return the result immediately. Otherwise, the call to the _getter_ method will wait until the future is finished. 
 
-The most important part of futures/promises is the possibility to define a pipeline of operations to be invoked upon completion of the task represented by the future/promise. In comparison with _asynchronous callbacks_, this allows writing more fluent code that supports the composition of nested success and failure handlers without ‘callback hell`. 
+Also, the consumer can use a non-blocking _checking_ method that verifies whether the future has already completed. If the future is not yet available, the call to the _checking_ method returns immediately and the consumer can execute other tasks. Otherwise, the consumer calls the _getter_ method that returns the result immediately.
 
-In Java, the `Future` interface represents a _future_: it has methods to check if the task is complete, to wait for its completion, and to retrieve the result of the task when it is complete. The `CompletableFuture` class represents a _promise_ since their value can be explicitly set by the `complete` and `completeExceptionally` methods. However, `CompletableFuture` also implements the `Future` interface allowing it to be used as a _future_ as well. 
+Once the task has finished, the producer sets the value of the promise and the future becomes available. But when the task fails, the future will contain an exception instead of a success value. So when the consumer calls the _getter_ method, the exception in the future will be thrown. 
 
-![class diagram](/images/class_diagram.png)
+![future and promise workflow](/images/future_and_promise_workflow.png)
+
+One of the important features of a future/promise implementation is the ability to chain futures together. The idea is that when one future/promise is ready another future/promise is created that accepts the result of the previous one. This means the consumer is not blocked by calling the getter method on a future and in fact once the future becomes completed the result of the previous task is automatically passed to the next task in the chain. In comparison with callbacks, this allows writing more fluent asynchronous code that supports the composition of nested success and failure handlers without ”callback hell”.
+
+In Java, the `Future` interface represents a _future_: it has the `isDone` method to check if the task is complete, the `get` method to wait for its completion, and get the result of the task when it is complete. The `CompletableFuture` class represents a _promise_: it has the `complete` and `completeExceptionally` methods to sets the value with a successful result or with an exception. However, the `CompletableFuture` class also implements the `Future` interface allowing it to be used as a _future_ as well. 
+
+![Java future and promise class diagram](/images/Java_future_and_promise_class_diagram.png)
 
 
 ## CompletableFuture in practice
@@ -1096,25 +1102,6 @@ assertEquals("parallel1 parallel2 parallel3", result);
 ```
 
 
-The `allOf` method can be seen as an extended version of the `runAfterBoth` method.
-
-
-```
-CompletableFuture<String> future1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
-CompletableFuture<String> future2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
-
-CompletableFuture<Void> future = future1.runAfterBoth(future2, () -> {});
-future.get();
-
-String result = Stream.of(future1, future2)
-       .map(CompletableFuture::join)
-       .map(Object::toString)
-       .collect(Collectors.joining(" "));
-
-assertEquals("parallel1 parallel2", result);
-```
-
-
 The static `anyOf` method returns a new incomplete future that is completed when any of the given `CompletableFuture`s complete. Note that the result of this method is `CompletableFuture&lt;Object>` and you should cast the result to the required type manually.
 
 
@@ -1124,19 +1111,6 @@ CompletableFuture<Object> future = CompletableFuture.anyOf(
        supplyAsync(() -> sleepAndGet(2, "parallel2")),
        supplyAsync(() -> sleepAndGet(3, "parallel3"))
 );
-
-assertEquals("parallel1", future.get());
-```
-
-
-The `anyOf` method can be seen as an extended version of the `applyToEither` method.
-
-
-```
-CompletableFuture<String> future1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
-CompletableFuture<String> future2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
-
-CompletableFuture<String> future = future1.applyToEither(future2, value -> value);
 
 assertEquals("parallel1", future.get());
 ```
