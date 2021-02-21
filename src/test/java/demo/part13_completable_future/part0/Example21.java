@@ -46,15 +46,15 @@ public class Example21 extends Demo1 {
     @Test
     public void testThenAccept() throws InterruptedException, ExecutionException {
         CompletionStage<Void> stage = supplyAsync(() -> 2)
-                .thenAccept(s -> System.out.println("consumes: " + s));
+                .thenAccept(i -> logger.info("consumes: {}", i));
         assertNull(stage.toCompletableFuture().get());
     }
 
     @Test
     public void testAcceptEither() throws InterruptedException, ExecutionException {
-        CompletionStage<Void> stage = (supplyAsync(() -> 2))
+        CompletionStage<Void> stage = (supplyAsync(() -> sleepAndGet(2)))
                 .acceptEither(supplyAsync(() -> 3),
-                        i -> System.out.println("consumes: " + i));
+                        i -> logger.info("consumes: {}", i));
         assertNull(stage.toCompletableFuture().get());
     }
 
@@ -62,7 +62,7 @@ public class Example21 extends Demo1 {
     public void testThenAcceptBoth() throws InterruptedException, ExecutionException {
         CompletionStage<Void> stage = supplyAsync(() -> sleepAndGet(2))
                 .thenAcceptBoth(supplyAsync(() -> 3),
-                        (i, j) -> System.out.println("consumes: " + i + ", " + j));
+                        (i, j) -> logger.info("consumes: {}, {}", i, j));
         assertNull(stage.toCompletableFuture().get());
     }
 
