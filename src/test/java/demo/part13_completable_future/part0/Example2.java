@@ -61,7 +61,7 @@ public class Example2 extends Demo1 {
         CompletableFuture<String> stage1 = supplyAsync(() -> sleepAndGet("single"));
 
         CompletionStage<Void> stage = stage1.thenAccept(
-                s -> logger.info("consumes single: {}", s));
+                s -> logger.info("consumes the single: {}", s));
 
         assertNull(stage.toCompletableFuture().get());
     }
@@ -72,7 +72,7 @@ public class Example2 extends Demo1 {
         CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
 
         CompletionStage<Void> stage = stage1.acceptEither(stage2,
-                s -> logger.info("consumes first: {}", s));
+                s -> logger.info("consumes the first: {}", s));
 
         assertNull(stage.toCompletableFuture().get());
     }
@@ -94,7 +94,7 @@ public class Example2 extends Demo1 {
         CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet("single"));
 
         CompletionStage<Void> stage = stage1.thenRun(
-                () -> logger.info("runs after single"));
+                () -> logger.info("runs after the single"));
 
         assertNull(stage.toCompletableFuture().get());
     }
@@ -105,7 +105,7 @@ public class Example2 extends Demo1 {
         CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
 
         CompletionStage<Void> stage = stage1.runAfterEither(stage2,
-                () -> logger.info("runs after first"));
+                () -> logger.info("runs after the first"));
 
         assertNull(stage.toCompletableFuture().get());
     }
