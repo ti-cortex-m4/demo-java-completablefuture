@@ -28,10 +28,7 @@ public class Example2 extends Demo1 {
         CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet("sequential1"));
 
         CompletionStage<String> stage = stage1.thenCompose(
-                s -> {
-                    CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet((s + " " + "sequential2").toUpperCase()));
-                    return stage2;
-                });
+                s -> supplyAsync(() -> sleepAndGet((s + " " + "sequential2").toUpperCase())));
 
         assertEquals("SEQUENTIAL1 SEQUENTIAL2", stage.toCompletableFuture().get());
     }
@@ -86,7 +83,7 @@ public class Example2 extends Demo1 {
         CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
 
         CompletionStage<Void> stage = stage1.thenAcceptBoth(stage2,
-                (s1, s2) -> logger.info("consumes both: {} {}", s1, s2));
+                (s1, s2) -> logger.info("consumes both: {}, {}", s1, s2));
 
         assertNull(stage.toCompletableFuture().get());
     }
