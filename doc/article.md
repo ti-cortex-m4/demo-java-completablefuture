@@ -85,7 +85,7 @@ The mentioned workflow is implemented below in three programming styles: synchro
 1) The advantage of the synchronous implementation is the simplest and most reliable code. The disadvantage of this implementation is the longest execution time (because all tasks run sequentially).
 
 
-```
+```java
 logger.info("this task started");
 
 int netAmountInUsd = getPriceInEur() * getExchangeRateEurToUsd(); // blocking
@@ -99,7 +99,7 @@ logger.info("another task started");
 2) The advantage of the asynchronous implementation based on `Future` is shorter execution time (because some tasks run in parallel). The disadvantage of this implementation is the most complicated code (because the `Future` interface lacks methods for tasks pipelining).
 
 
-```
+```java
 logger.info("this task started");
 
 Future<Integer> priceInEur = executorService.submit(this::getPriceInEur);
@@ -128,7 +128,7 @@ logger.info("another task is running");
 3) The advantage of the asynchronous implementation based on `CompletableFuture` is shorter execution time (because some tasks run in parallel too) and more fluent code. The disadvantage of this implementation is that the more powerful CompletableFuture API is at the same time more difficult to learn.
 
 
-```
+```java
 CompletableFuture<Integer> priceInEur = supplyAsync(this::getPriceInEur);
 CompletableFuture<Integer> exchangeRateEurToUsd = supplyAsync(this::getExchangeRateEurToUsd);
 
@@ -184,52 +184,50 @@ The `CompletionStage` interface contains methods for stages pipelining. But this
 
 ### Methods to pipeline computations
 
-The `CompletionStage` interface has 43 public methods that form three distinguished naming patterns.
+The `CompletionStage` interface has 43 public methods, most of which follow three naming patterns.
 
-The _first_ naming pattern explains _how_ a new stage is started:
+The first naming pattern explains _how the new stage is started_:
 
 
 
 *   if a method name has fragment `then`, then the new stage is started after completion of a single previous stage
-*   if a method name has fragment `either`, then the new stage is started after completion of the first of two previous stages previous stages
+*   if a method name has fragment `either`, then the new stage is started after completion of the first of two previous stages
 *   if a method name has fragment `both`, then the new stage is started after completion of both of two previous stages
 
-The _second_ naming pattern explains _what computations perform_ the new stage:
+The second naming pattern explains _what computations perform the new stage_:
 
 
 
-*   if a method name has fragment `apply`, then the new stage transforms an argument by a `Function` (takes argument(s) and returns one result)
-*   if a method name has fragment `accept`, then the new stage accepts an argument by a `Consumer` (takes argument(s) and returns no result)
-*   if a method name has fragment `run`, then the new stage runs an action by a `Runnable` (takes no argument and returns no result)
+*   if a method name has fragment `apply`, then the new stage transforms an argument by the given `Function`
+*   if a method name has fragment `accept`, then the new stage consumes an argument by the given `Consumer`
+*   if a method name has fragment `run`, then the new stage runs an action by the given `Runnable`
 
->If the new stage depends on both previous stages, it uses `BiFunction` instead of `Function` and `BiConsumer` instead of `Consumer`.
+>If the new stage depends on both of the two previous stages, it uses `BiFunction` instead of `Function` and `BiConsumer` instead of `Consumer`.
 
-Summary of the methods to pipeline computations:
+Summary of methods to pipeline computations:
 
 
 <table>
   <tr>
-   <td rowspan="2" >
+   <td>
    </td>
-   <td>takes an argument and 
-<p>
-returns a result
-   </td>
-   <td>takes an argument and 
-<p>
-returns no result
-   </td>
-   <td>takes no argument and 
-<p>
-returns no result
-   </td>
-  </tr>
-  <tr>
    <td>Function
+<p>
+(takes an argument and 
+<p>
+returns a result)
    </td>
    <td>Consumer
+<p>
+(takes an argument and 
+<p>
+returns no result)
    </td>
    <td>Runnable
+<p>
+(takes no argument and 
+<p>
+returns no result)
    </td>
   </tr>
   <tr>
@@ -265,23 +263,17 @@ returns no result
   <tr>
    <td>
    </td>
-   <td>takes two arguments and 
-<p>
-returns a result
-   </td>
-   <td>takes two arguments and 
-<p>
-returns no result
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>
-   </td>
    <td>BiFunction
+<p>
+(takes two arguments and 
+<p>
+returns a result)
    </td>
    <td>BiConsumer
+<p>
+(takes two arguments and 
+<p>
+returns no result)
    </td>
    <td>
    </td>
@@ -299,24 +291,24 @@ returns no result
 </table>
 
 
-The methods that have `Function`, `BiFunction` arguments return `CompletionStage&lt;T>` that can be used to pass values. The methods that have `Consumer`, `BiConsumer`, `Runnable` return `CompletionStage&lt;Void>` that can be used to perform computations with _side-effects_ and can signalize the fact of completion of computation either with the result or with an exception.
+>If a method accepts a functional interface that does not return a result (`Consumer`, `BiConsumer`, `Runnable`) it can be used to perform computations with _side-effects_ and to signal that the computation has completed either with a result or with an exception.
 
-The _third_ naming pattern explains _what thread executes_ the new stage:
-
-
-
-*   if a method has fragment `something(...)`, then the new stage is executed by _the default facility_ (that can be synchronous or asynchronous).
-*   if a method has fragment `somethingAsync(...)`, then the new stage is executed by _the default asynchronous facility_.
-*   if a method has fragment `somethingAsync(..., Executor)`, then the new stage is executed by the supplied `Executor`.
-
-Note that _the default facility_ and _the default asynchronous facility_ are specified by `CompletionStage` implementations, not by the interface itself. Looking ahead, the `CompletableFuture` implementation of the `CompletionStage` interface uses the thread that completes the stage as _the default facility_ and `ForkJoinPool.commonPool()` as _the default asynchronous facility_.
-
->ForkJoinPool.commonPool() is shared across the JVM, it is implicitly used by the `CompletableFuture` class and Parallel Streams.
+The third naming pattern explains _what thread executes the new stage_:
 
 
-##### Code examples
 
-The `thenApply` method creates a new stage, that upon completion transforms the given `Function` to the result of the single previous stage.
+*   if a method has fragment `something(...)`, then the new stage is executed by _the default facility_ (that can be synchronous or asynchronous)
+*   if a method has fragment `somethingAsync(...)`, then the new stage is executed by _the default asynchronous facility_
+*   if a method has fragment `somethingAsync(..., Executor)`, then the new stage is executed by the given `Executor`
+
+Note that _the default facility_ and _the default asynchronous facility_ are defined by the `CompletionStage` implementations, not by this interface. Looking ahead, the `CompletableFuture` class uses threads that try to complete the stage as _the default facility_ and `ForkJoinPool.commonPool()` as _the default asynchronous facility_.
+
+>Note that the thread pool returned by the `ForkJoinPool.commonPool()` method is shared across the whole JVM by all the `CompletableFuture` objects and all Parallel Streams.
+
+
+#### Code examples
+
+The `thenApply` method creates a new stage, that upon completion transforms the result of the single previous stage by the given `Function`.
 
 
 ```
@@ -329,27 +321,24 @@ assertEquals("SINGLE", stage.toCompletableFuture().get());
 ```
 
 
-The `thenCompose` method creates a new stage, that upon completion transforms the given `Function` to the result of the single previous stage. This method is similar to the `thenApply` method described above. The difference is that the result of the `Function` is a subclass of `CompletionStage`, which is useful when a functional transformation is a long operation that is reasonable to execute as a separate stage (possible asynchronously).
+The `thenCompose` method creates a new stage, that upon completion also transforms the result of the single previous stage by the given `Function`. This method is similar to the `thenApply` method described above. The difference is that the result of the `Function` is a subclass of `CompletionStage`, which is useful when a transformation is a long operation that is reasonable to execute as a separate stage (possible asynchronously).
 
 
 ```
 CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet("sequential1"));
 
 CompletionStage<String> stage = stage1.thenCompose(
-       s -> {
-           CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet((s + " " + "sequential2").toUpperCase()));
-           return stage2;
-       });
+       s -> supplyAsync(() -> sleepAndGet((s + " " + "sequential2").toUpperCase())));
 
 assertEquals("SEQUENTIAL1 SEQUENTIAL2", stage.toCompletableFuture().get());
 ```
 
 
->You should use the `thenApply` method if you want to transform one `CompletionStage`s with a _fast_ function.
+>You should use the `thenApply` method if you want to transform a `CompletionStage` with a _fast_ function.
 
->You should use the `thenCompose` method if you want to transform one `CompletionStage`s with a _slow_ function.
+>You should use the `thenCompose` method if you want to transform a `CompletionStage` with a _slow_ function.
 
-The `applyToEither` method creates a new stage, that upon completion transforms the given `Function` to the result of this stage _or_ another stage (which completes first).
+The `applyToEither` method creates a new stage, that upon completion transforms the first result of the previous two stages by the given `Function`.
 
 
 ```
@@ -363,7 +352,7 @@ assertEquals("PARALLEL1", stage.toCompletableFuture().get());
 ```
 
 
-The `thenCombine` method creates a new stage, that upon completion transforms the given `BiFunction` to the results of this stage _and_ another stage.
+The `thenCombine` method creates a new stage, that upon completion transforms the two results of the previous two stages by the given `BiFunction`.
 
 
 ```
@@ -377,11 +366,11 @@ assertEquals("PARALLEL1 PARALLEL2", stage.toCompletableFuture().get());
 ```
 
 
->You should use the `thenCombine` method if you want to transform two `CompletionStage`s _in parallel_.
-
 >You should use the `thenCompose` method if you want to transform two `CompletionStage`s _sequentially_.
 
-The `thenAccept` method creates a new stage, that upon completion consumes the result of this stage to the given `Consumer`.
+>You should use the `thenCombine` method if you want to transform two `CompletionStage`s _in parallel_.
+
+The `thenAccept` method creates a new stage, that upon completion consumes the single previous stage by the given `Consumer`.
 
 
 ```
@@ -394,7 +383,7 @@ assertNull(stage.toCompletableFuture().get());
 ```
 
 
-The `acceptEither` method creates a new stage, that upon completion consumes the result of this stage _or_ another stage the given `Consumer`(which completes first).
+The `acceptEither` method creates a new stage, that upon completion consumes the first result of the previous two stages by the given `Consumer`.
 
 
 ```
@@ -408,7 +397,7 @@ assertNull(stage.toCompletableFuture().get());
 ```
 
 
-The `thenAcceptBoth` method creates a new stage, that upon completion consumes the result of this stage _and_ another stage the given `BiConsumer`.
+The `thenAcceptBoth` method creates a new stage,  that upon completion consumes the two results of the previous two stages by the given `BiConsumer`.
 
 
 ```
@@ -416,13 +405,13 @@ CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
 CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
 
 CompletionStage<Void> stage = stage1.thenAcceptBoth(stage2,
-       (s1, s2) -> logger.info("consumes both: {} {}", s1, s2));
+       (s1, s2) -> logger.info("consumes both: {}, {}", s1, s2));
 
 assertNull(stage.toCompletableFuture().get());
 ```
 
 
-The `thenRun` method creates a new stage, that upon completion runs the given `Runnable` after the execution of this stage.
+The `thenRun` method creates a new stage, that upon completion of the single previous stage runs the given `Runnable`.
 
 
 ```
@@ -435,7 +424,7 @@ assertNull(stage.toCompletableFuture().get());
 ```
 
 
-The `runAfterEither` method creates a new stage, that upon completion runs the given `Runnable` after the execution of this stage _or_ other stage.
+The `runAfterEither` method creates a new stage, that upon completion of the first of the previous two stages, runs the given `Runnable`.
 
 
 ```
@@ -449,7 +438,7 @@ assertNull(stage.toCompletableFuture().get());
 ```
 
 
-The `runAfterBoth` method creates a new stage, that upon completion runs the given `Runnable` after the execution of this stage _and_ another stage.
+The `runAfterBoth` method creates a new stage, that upon completion of the previous two stages, runs the given `Runnable`.
 
 
 ```
@@ -601,7 +590,7 @@ Besides 5 methods implemented from the `Future` interface and 43 methods impleme
 ![methods of the CompletableFuture class](/images/methods_of_the_CompletableFuture_class.png)
 
 
-#### Methods to create futures
+### Methods to create futures
 
 By the general workflow, a future is created uncompleted in a _creating_ thread, is completed in a _completing_ thread, and gets its value in the _reading_ thread. However, in some cases, one on many of the threads can be the same. For that purpose, the `CompletableFuture` class has a set of methods to create futures in different states:
 
@@ -727,7 +716,7 @@ assertTrue(future.isCompletedExceptionally());
 
 
 
-#### Methods to verify futures
+### Methods to verify futures
 
 To verify futures, the `CompletableFuture` class has _non-blocking_ methods to check whether the future is uncompleted or completed normally exceptionally on canceled.
 
@@ -810,7 +799,7 @@ assertTrue(future.isCancelled());
 
 
 
-#### Methods to complete futures
+### Methods to complete futures
 
 The `CompletableFuture` class has methods to complete futures - to transit uncompleted futures in one of the completion states: completed normally, exceptionally on canceled.
 
@@ -960,7 +949,7 @@ future.get(); // throws CancellationException
 
 
 
-#### Methods to get results of futures
+### Methods to get results of futures
 
 To get the result of a `CompletableFuture`, it is possible to use the following blocking and non-blocking methods. In most cases, these methods should be used as the last computation step, do not use them inside pipelined stages.
 
@@ -1062,7 +1051,7 @@ assertFalse(future.isDone());
 
 
 
-#### Methods for bulk operations
+### Methods for bulk operations
 
 The `CompletableFuture` class has two static methods for waiting for _all_ or _any_ of many `CompletableFuture`s to complete, not just two of them.
 
