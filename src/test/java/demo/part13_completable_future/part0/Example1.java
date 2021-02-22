@@ -19,7 +19,8 @@ public class Example1 extends Demo1 {
         logger.info("this task started");
 
         int netAmountInUsd = getPriceInEur() * getExchangeRateEurToUsd(); // blocking
-        float grossAmountInUsd = netAmountInUsd * (1 + getTax(netAmountInUsd)); // blocking
+        float tax = getTax(netAmountInUsd); // blocking
+        float grossAmountInUsd = netAmountInUsd * (1 + tax);
 
         logger.info("this task finished: {}", grossAmountInUsd);
 
