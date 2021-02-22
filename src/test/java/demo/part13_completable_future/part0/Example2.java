@@ -83,7 +83,7 @@ public class Example2 extends Demo1 {
         CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
 
         CompletionStage<Void> stage = stage1.thenAcceptBoth(stage2,
-                (s1, s2) -> logger.info("consumes both: {}, {}", s1, s2));
+                (s1, s2) -> logger.info("consumes both: {} {}", s1, s2));
 
         assertNull(stage.toCompletableFuture().get());
     }
