@@ -12,7 +12,7 @@ public class RunAsync extends Demo1 {
 
     @Test
     public void testRunAsync() throws InterruptedException, ExecutionException {
-        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> logger.info("runnable"));
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> logger.info("action"));
         assertNull(future.get());
     }
 }
