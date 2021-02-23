@@ -1,0 +1,329 @@
+<table>
+    <tr>
+        <td>
+        </td>
+        <td>Function
+            <p>
+                (takes an argument and returns a result)
+        </td>
+        <td>Consumer
+            <p>
+                (takes an argument and returns no result)
+        </td>
+        <td>Runnable
+            <p>
+                (takes no argument and returns no result)
+        </td>
+    </tr>
+    <tr>
+        <td><em>then</em>
+        </td>
+        <td>thenApply, thenCompose
+        </td>
+        <td>thenAccept
+        </td>
+        <td>thenRun
+        </td>
+    </tr>
+    <tr>
+        <td><em>either</em>
+        </td>
+        <td>applyToEither
+        </td>
+        <td>acceptEither
+        </td>
+        <td>runAfterEither
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>BiFunction
+            <p>
+                (takes two arguments and returns a result)
+        </td>
+        <td>BiConsumer
+            <p>
+                (takes two arguments and returns no result)
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td><em>both</em>
+        </td>
+        <td>thenCombine
+        </td>
+        <td>thenAcceptBoth
+        </td>
+        <td>runAfterBoth
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td>When the method is called
+        </td>
+        <td>What the method returns
+        </td>
+        <td>Method
+        </td>
+        <td>Method description
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="2" >called on success or exception
+        </td>
+        <td>the same result or exception
+        </td>
+        <td>`whenComplete(biConsumer)`
+        </td>
+        <td>returns a new `CompletionStage` that upon <em>norman or exceptional</em> completion consumes the result or exception of this stage and returns <em>the same result or exception without modifying them</em>
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="2" >a new result
+        </td>
+        <td>`handle(biFunction)`
+        </td>
+        <td>returns a new `CompletionStage` that upon <em>norman or exceptional</em> completion transforms the result or exception of this stage and returns <em>the new result</em>
+        </td>
+    </tr>
+    <tr>
+        <td>called on exception
+        </td>
+        <td>`exceptionally(function)`
+        </td>
+        <td>returns a new `CompletionStage` that upon <em>exceptional</em> completion transforms the exception of this stage and returns <em>the new result</em>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td>Future status
+        </td>
+        <td>Method name
+        </td>
+        <td>Method description
+        </td>
+    </tr>
+    <tr>
+        <td>incomplete
+        </td>
+        <td>`newIncompleteFuture()`
+        </td>
+        <td>returns a new incomplete `CompletableFuture`
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="2" >asynchronously completing
+        </td>
+        <td>`supplyAsync(supplier)`
+        </td>
+        <td>returns a new `CompletableFuture` that is asynchronously completed after it obtains a value from the given `Supplier`
+        </td>
+    </tr>
+    <tr>
+        <td>`runAsync(runnable)`
+        </td>
+        <td>returns a new `CompletableFuture` of that is asynchronously completed after it runs an action from the given `Runnable`
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="2" >completed
+        </td>
+        <td>`completedFuture(value)​`
+        </td>
+        <td>returns a new `CompletableFuture` that is already completed with the given value
+        </td>
+    </tr>
+    <tr>
+        <td>`failedFuture(throwable)`
+        </td>
+        <td>returns a new `CompletableFuture` that is already completed exceptionally with the given exception
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td>Method behavior
+        </td>
+        <td>Method name
+        </td>
+        <td>Method description
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="3" >non-blocking
+        </td>
+        <td>`isDone`
+        </td>
+        <td>returns `true` if the `CompletableFuture` is completed in any manner: normally, exceptionally, or via cancellation
+        </td>
+    </tr>
+    <tr>
+        <td>`isCompletedExceptionally`
+        </td>
+        <td>returns `true` if this `CompletableFuture` is completed exceptionally, including cancellation
+        </td>
+    </tr>
+    <tr>
+        <td>`isCancelled`
+        </td>
+        <td>returns `true` if this `CompletableFuture` is canceled <em>before it completed normally</em>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td>Future action
+        </td>
+        <td>Method behavior
+        </td>
+        <td>Method name
+        </td>
+        <td>Method description
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="3" >complete normally
+        </td>
+        <td>synchronous
+        </td>
+        <td>complete(value)
+        </td>
+        <td>completes this `CompletableFuture` with the given value if not already completed
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="3" >asynchronous
+        </td>
+        <td>completeAsync(supplier)​
+        </td>
+        <td>completes this `CompletableFuture` with the result of the given `Supplier`
+        </td>
+    </tr>
+    <tr>
+        <td>completeOnTimeout(value, timeout, timeUnit)
+        </td>
+        <td>completes this `CompletableFuture` with the given value if not already completed before the given timeout
+        </td>
+    </tr>
+    <tr>
+        <td>complete normally or exceptionally depends on timeout
+        </td>
+        <td>orTimeout(timeout, timeUnit)
+        </td>
+        <td>exceptionally completes this `CompletableFuture` with a `TimeoutException` if not already completed before the given timeout
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="2" >complete exceptionally
+        </td>
+        <td rowspan="2" >synchronous
+        </td>
+        <td>completeExceptionally(throwable)
+        </td>
+        <td>completes this `CompletableFuture` with the given exception if not already completed
+        </td>
+    </tr>
+    <tr>
+        <td>cancel(mayInterruptIfRunning)
+        </td>
+        <td>completes this `CompletableFuture` with a `CancellationException`, if not already completed
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td>Method behavior
+        </td>
+        <td>Thrown exceptions
+        </td>
+        <td>Method name
+        </td>
+        <td>Method description
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="2" >blocking
+        </td>
+        <td>throws checked and unchecked exceptions
+        </td>
+        <td>`get()`
+        </td>
+        <td>returns the result value when complete (waits if necessary) or throws an exception if completed exceptionally
+        </td>
+    </tr>
+    <tr>
+        <td><em>only</em> throws unchecked exceptions
+        </td>
+        <td>`join()`
+        </td>
+        <td>returns the result value when complete (waits if necessary) or throws an <em>unchecked</em> if completed exceptionally
+        </td>
+    </tr>
+    <tr>
+        <td>time-blocking
+        </td>
+        <td>throws checked and unchecked exceptions
+        </td>
+        <td>`get(timeout, timeUnit)`
+        </td>
+        <td>returns the result value when complete (waits for at most the given time) or throws an exception if completed exceptionally
+        </td>
+    </tr>
+    <tr>
+        <td>non-blocking
+        </td>
+        <td><em>only</em> throws unchecked exceptions
+        </td>
+        <td>`getNow(valueIfAbsent)`
+        </td>
+        <td>returns the result value (or throws an <em>unchecked</em> exception if completed exceptionally) if completed, else returns the given <em>valueIfAbsent</em>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td>Similarity
+        </td>
+        <td>Method name
+        </td>
+        <td>Method description
+        </td>
+    </tr>
+    <tr>
+        <td>similar to `runAfterBoth`
+        </td>
+        <td>`allOf(completableFuture..)`
+        </td>
+        <td>returns a new CompletableFuture&lt;Void> that is completed when <em>all</em> of the given `CompletableFuture`s complete
+        </td>
+    </tr>
+    <tr>
+        <td>similar to `applyToEither`
+        </td>
+        <td>`anyOf(completableFuture..)`
+        </td>
+        <td>returns a new `CompletableFuture&lt;Object>` that is completed when <em>any</em> of the given `CompletableFutures` complete, with the same result
+        </td>
+    </tr>
+</table>
+
