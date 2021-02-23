@@ -1,7 +1,3 @@
-<!-- Output copied to clipboard! -->
-
-
-
 # Asynchronous programming in Java with CompletableFuture
 
 
@@ -17,7 +13,7 @@ Since Java 5 there is a much simpler API for asynchronous programming: the `Futu
 *   to cancel a task
 *   to wait for a task to complete (if necessary) and then to get its result
 
-However, the `Future` interface has significant limitations in building non-trivial asynchronous computations: 
+However, the `Future` interface has significant limitations in building non-trivial asynchronous computations:
 
 
 
@@ -32,7 +28,7 @@ However, the CompletableFuture API is not simple. The `CompletionStage` interfac
 
 ## Futures and promises
 
-Future/promise is high-level concurrency constructs that decouples a value (a future) from how it is computed (a promise). That allows writing more fluent concurrent programs that transfer objects between threads without using any explicit synchronization mechanisms for _shared mutable objects_ like mutexes. The futures/promises construct works very well when multiple threads work on different tasks and the results need to be combined by the main thread. 
+Future/promise is high-level concurrency constructs that decouples a value (a future) from how it is computed (a promise). That allows writing more fluent concurrent programs that transfer objects between threads without using any explicit synchronization mechanisms for _shared mutable objects_ like mutexes. The futures/promises construct works very well when multiple threads work on different tasks and the results need to be combined by the main thread.
 
 Implementations of future/promise exist in many programming languages:
 
@@ -43,30 +39,30 @@ Implementations of future/promise exist in many programming languages:
 *   Scala: `scala.concurrent.Future`
 *   C#: `Task`, `TaskCompletionSource`
 
-Concepts of futures and promises are often used interchangeably. In reality, they are separate objects that encapsulate the two different sets of functionality. 
+Concepts of futures and promises are often used interchangeably. In reality, they are separate objects that encapsulate the two different sets of functionality.
 
-A future is a read-only object to encapsulate a value that may not be available yet but will be provided at some point. The future is used by a consumer to retrieve the result which was computed. A promise is a writable, single-assignment object to guarantee that some task will compute some result and make it available in the future. The promise is used by a producer to store the success value or exception in the corresponding future. 
+A future is a read-only object to encapsulate a value that may not be available yet but will be provided at some point. The future is used by a consumer to retrieve the result which was computed. A promise is a writable, single-assignment object to guarantee that some task will compute some result and make it available in the future. The promise is used by a producer to store the success value or exception in the corresponding future.
 
-The following workflow example can help you to understand the idea of future/promise. A consumer sends a task to a producer to execute it asynchronously. The producer creates a promise that starts the given task. From the promise, the producer extracts the future and sends it to the consumer. The consumer receives the future that is not completed and waits for its completion. 
+The following workflow example can help you to understand the idea of future/promise. A consumer sends a task to a producer to execute it asynchronously. The producer creates a promise that starts the given task. From the promise, the producer extracts the future and sends it to the consumer. The consumer receives the future that is not completed and waits for its completion.
 
 The consumer can call a blocking getter of the future to wait for the data to be available. If the future has already been completed, the call to the getter will return the result immediately. Otherwise, the call to the getter will wait until the future is finished. (Also, the consumer can use a non-blocking validation method to verify whether the future has already been completed or not).
 
-Once the task has finished, the producer sets the value of the promise and the future becomes available. But when the task fails, the future will contain an exception instead of a success value. So when the consumer calls the getter method, the exception in the future will be thrown. 
+Once the task has finished, the producer sets the value of the promise and the future becomes available. But when the task fails, the future will contain an exception instead of a success value. So when the consumer calls the getter method, the exception in the future will be thrown.
 
 ![future and promise workflow](/images/future_and_promise_workflow.png)
 
 One of the important features of future/promise implementations can be the ability to chain computations together. The idea is that when one future/promise is finished another future/promise is created that takes the result of the previous one. This means that the consumer is not blocked by calling the getter on a future and once the future is completed, the result of the previous computation is automatically passed to the next computation in the chain. Compared to callbacks, this allows writing more fluent asynchronous code that supports the composition of nested success and failure handlers without ”callback hell”.
 
-In Java, the `Future` interface represents a future: it has the `isDone` method to check if the task is completed and the `get` method to wait for the task to complete and get its result. The `CompletableFuture` class represents a promise: it has the `complete` and `completeExceptionally` methods to set the result of the task with a successful value or with an exception, respectively. However, the `CompletableFuture` class also implements the `Future` interface allowing it to be used as a future as well. 
+In Java, the `Future` interface represents a future: it has the `isDone` method to check if the task is completed and the `get` method to wait for the task to complete and get its result. The `CompletableFuture` class represents a promise: it has the `complete` and `completeExceptionally` methods to set the result of the task with a successful value or with an exception, respectively. However, the `CompletableFuture` class also implements the `Future` interface allowing it to be used as a future as well.
 
-![Java future and promise class diagram](/images/Java_future_and_promise_class_diagram.png)
+![Java futures class diagram](/images/Java_futures_class_diagram.png)
 
 
 ## CompletableFuture in practice
 
 The following code example can help you to understand the use of the `CompletableFuture` class as a future/promise implementation in Java.
 
-Let’s implement the following simplified multi-stage workflow. There are two long-running methods that return a product price in the EUR and the EUR/USD exchange rate. The net product price is calculated from the results of these methods. There is a third long-running method that takes the net product price and returns the tax amount. The gross value is calculated from the net product price and the tax amount. 
+Let’s implement the following simplified multi-stage workflow. There are two long-running methods that return a product price in the EUR and the EUR/USD exchange rate. The net product price is calculated from the results of these methods. There is a third long-running method that takes the net product price and returns the tax amount. The gross value is calculated from the net product price and the tax amount.
 
 To implement this workflow, it is necessary to execute the following tasks:
 
@@ -161,14 +157,14 @@ logger.info("another task started");
 
 ## The [CompletionStage](https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/util/concurrent/CompletionStage.html) interface
 
-The `CompletionStage` interface represents a stage in a multi-stage (possibly asynchronous) computation where stages can be _forked, chained, and joined_. 
+The `CompletionStage` interface represents a stage in a multi-stage (possibly asynchronous) computation where stages can be _forked, chained, and joined_.
 
 This interface specifies _the pipelining_ of the future/promise implementation in the CompletableFuture API:
 
 
 
-1. Each stage performs a computation. A stage can or can not require arguments. A stage can either compute a value (returns a single result) or performs an action (returns no result). 
-2. Stages can be chained in a pipeline. A stage can be started by finishing a single previous stage (or two previous stages) in the pipeline. A stage finishes when its computation is completed. Finishing a stage can start a single next stage in the pipeline. 
+1. Each stage performs a computation. A stage can or can not require arguments. A stage can either compute a value (returns a single result) or performs an action (returns no result).
+2. Stages can be chained in a pipeline. A stage can be started by finishing a single previous stage (or two previous stages) in the pipeline. A stage finishes when its computation is completed. Finishing a stage can start a single next stage in the pipeline.
 3. A stage can be executed synchronously or asynchronously. The appropriate execution type should be selected depending on the nature of the computation.
 
 The methods of the `CompletionStage` interface can be divided into two groups according to their purpose:
@@ -212,15 +208,15 @@ Summary of methods to pipeline computations:
   <tr>
    <td>
    </td>
-   <td>Function
+   <td><code>Function</code>
 <p>
 (takes an argument and returns a result)
    </td>
-   <td>Consumer
+   <td><code>Consumer</code>
 <p>
 (takes an argument and returns no result)
    </td>
-   <td>Runnable
+   <td><code>Runnable</code>
 <p>
 (takes no argument and returns no result)
    </td>
@@ -228,41 +224,41 @@ Summary of methods to pipeline computations:
   <tr>
    <td><em>then</em>
    </td>
-   <td>thenApply, thenCompose
+   <td><code>thenApply</code>, <code>thenCompose</code>
    </td>
-   <td>thenAccept
+   <td><code>thenAccept</code>
    </td>
-   <td>thenRun
+   <td><code>thenRun</code>
    </td>
   </tr>
   <tr>
    <td><em>either</em>
    </td>
-   <td>applyToEither
+   <td><code>applyToEither</code>
    </td>
-   <td>acceptEither
+   <td><code>acceptEither</code>
    </td>
-   <td>runAfterEither
-   </td>
-  </tr>
-  <tr>
-   <td>
-   </td>
-   <td>
-   </td>
-   <td>
-   </td>
-   <td>
+   <td><code>runAfterEither</code>
    </td>
   </tr>
   <tr>
    <td>
    </td>
-   <td>BiFunction
+   <td>
+   </td>
+   <td>
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td>
+   </td>
+   <td><code>BiFunction</code>
 <p>
 (takes two arguments and returns a result)
    </td>
-   <td>BiConsumer
+   <td><code>BiConsumer</code>
 <p>
 (takes two arguments and returns no result)
    </td>
@@ -272,11 +268,11 @@ Summary of methods to pipeline computations:
   <tr>
    <td><em>both</em>
    </td>
-   <td>thenCombine
+   <td><code>thenCombine</code>
    </td>
-   <td>thenAcceptBoth
+   <td><code>thenAcceptBoth</code>
    </td>
-   <td>runAfterBoth
+   <td><code>runAfterBoth</code>
    </td>
   </tr>
 </table>
@@ -337,7 +333,7 @@ assertEquals("PARALLEL1", stage.toCompletableFuture().get());
 ```
 
 
-The `thenCombine` method creates a new stage, that upon completion transforms the two results of the previous two stages by the given `BiFunction`. 
+The `thenCombine` method creates a new stage, that upon completion transforms the two results of the previous two stages by the given `BiFunction`.
 
 
 ```
@@ -351,7 +347,7 @@ assertEquals("PARALLEL1 PARALLEL2", stage.toCompletableFuture().get());
 
 >You should use the `thenCompose` method if you want to transform two `CompletionStage`s _sequentially_.
 
->You should use the `thenCombine` method if you want to transform two `CompletionStage`s _in parallel_. 
+>You should use the `thenCombine` method if you want to transform two `CompletionStage`s _in parallel_.
 
 The `thenAccept` method creates a new stage, that upon completion consumes the single previous stage by the given `Consumer`.
 
@@ -376,7 +372,7 @@ assertNull(stage.toCompletableFuture().get());
 ```
 
 
-The `thenAcceptBoth` method creates a new stage,  that upon completion consumes the two results of the previous two stages by the given `BiConsumer`. 
+The `thenAcceptBoth` method creates a new stage,  that upon completion consumes the two results of the previous two stages by the given `BiConsumer`.
 
 
 ```
@@ -449,7 +445,7 @@ Summary of methods to handle exceptions:
    </td>
    <td>the same result or exception
    </td>
-   <td>`whenComplete(biConsumer)`
+   <td><code>whenComplete(biConsumer)</code>
    </td>
    <td>returns a new `CompletionStage` that upon <em>norman or exceptional</em> completion consumes the result or exception of this stage and returns <em>the same result or exception without modifying them</em>
    </td>
@@ -457,7 +453,7 @@ Summary of methods to handle exceptions:
   <tr>
    <td rowspan="2" >a new result
    </td>
-   <td>`handle(biFunction)`
+   <td><code>handle(biFunction)</code>
    </td>
    <td>returns a new `CompletionStage` that upon <em>norman or exceptional</em> completion transforms the result or exception of this stage and returns <em>the new result</em>
    </td>
@@ -465,7 +461,7 @@ Summary of methods to handle exceptions:
   <tr>
    <td>called on exception
    </td>
-   <td>`exceptionally(function)`
+   <td><code>exceptionally(function)</code>
    </td>
    <td>returns a new `CompletionStage` that upon <em>exceptional</em> completion transforms the exception of this stage and returns <em>the new result</em>
    </td>
@@ -555,7 +551,7 @@ The methods of the `CompletionStage` interface can be divided into five groups a
 
 ### Methods to create futures
 
-By the most general case, a future is created incomplete in a _creating_ thread, is completed in a _completing_ thread, and is read in the _reading_ thread. However, in some cases, one or many threads may be the same. 
+By the most general case, a future is created incomplete in a _creating_ thread, is completed in a _completing_ thread, and is read in the _reading_ thread. However, in some cases, one or many threads may be the same.
 
 For that purpose, the `CompletableFuture` class has methods to create futures in different states:
 
@@ -580,7 +576,7 @@ Summary of methods to create futures
   <tr>
    <td>incomplete
    </td>
-   <td>`newIncompleteFuture()`
+   <td><code>newIncompleteFuture()</code>
    </td>
    <td>returns a new incomplete `CompletableFuture`
    </td>
@@ -588,13 +584,13 @@ Summary of methods to create futures
   <tr>
    <td rowspan="2" >asynchronously completing
    </td>
-   <td>`supplyAsync(supplier)`
+   <td><code>supplyAsync(supplier)</code>
    </td>
    <td>returns a new `CompletableFuture` that is asynchronously completed after it obtains a value from the given `Supplier`
    </td>
   </tr>
   <tr>
-   <td>`runAsync(runnable)`
+   <td><code>runAsync(runnable)</code>
    </td>
    <td>returns a new `CompletableFuture` of that is asynchronously completed after it runs an action from the given `Runnable`
    </td>
@@ -602,13 +598,13 @@ Summary of methods to create futures
   <tr>
    <td rowspan="2" >completed
    </td>
-   <td>`completedFuture(value)​`
+   <td><code>completedFuture(value)​</code>
    </td>
    <td>returns a new `CompletableFuture` that is already completed with the given value
    </td>
   </tr>
   <tr>
-   <td>`failedFuture(throwable)`
+   <td><code>failedFuture(throwable)</code>
    </td>
    <td>returns a new `CompletableFuture` that is already completed exceptionally with the given exception
    </td>
@@ -700,21 +696,21 @@ Summary of the methods to check futures
   <tr>
    <td rowspan="3" >non-blocking
    </td>
-   <td>`isDone`
+   <td><code>isDone</code>
    </td>
-   <td>returns `true` if the `CompletableFuture` is completed in any manner: normally, exceptionally, or via cancellation
-   </td>
-  </tr>
-  <tr>
-   <td>`isCompletedExceptionally`
-   </td>
-   <td>returns `true` if this `CompletableFuture` is completed exceptionally, including cancellation
+   <td>returns <code>true</code> if the <code>CompletableFuture</code> is completed in any manner: normally, exceptionally, or via cancellation
    </td>
   </tr>
   <tr>
-   <td>`isCancelled`
+   <td><code>isCompletedExceptionally</code>
    </td>
-   <td>returns `true` if this `CompletableFuture` is canceled <em>before it completed normally</em>
+   <td>returns <code>true</code> if this <code>CompletableFuture</code> is completed exceptionally, including cancellation
+   </td>
+  </tr>
+  <tr>
+   <td><code>isCancelled</code>
+   </td>
+   <td>returns <code>true</code> if this <code>CompletableFuture</code> is canceled <em>before it completed normally</em>
    </td>
   </tr>
 </table>
@@ -787,31 +783,31 @@ Summary of methods to complete futures
    </td>
    <td>synchronous
    </td>
-   <td>complete(value)
+   <td><code>complete(value)</code>
    </td>
-   <td>completes this `CompletableFuture` with the given value if not already completed
+   <td>completes this <code>CompletableFuture</code> with the given value if not already completed
    </td>
   </tr>
   <tr>
    <td rowspan="3" >asynchronous
    </td>
-   <td>completeAsync(supplier)​
+   <td><code>completeAsync(supplier)​</code>
    </td>
-   <td>completes this `CompletableFuture` with the result of the given `Supplier`
+   <td>completes this <code>CompletableFuture</code> with the result of the given `Supplier`
    </td>
   </tr>
   <tr>
-   <td>completeOnTimeout(value, timeout, timeUnit)
+   <td><code>completeOnTimeout(value, timeout, timeUnit)</code>
    </td>
-   <td>completes this `CompletableFuture` with the given value if not already completed before the given timeout
+   <td>completes this <code>CompletableFuture</code> with the given value if not already completed before the given timeout
    </td>
   </tr>
   <tr>
    <td>complete normally or exceptionally depends on timeout
    </td>
-   <td>orTimeout(timeout, timeUnit)
+   <td><code>orTimeout(timeout, timeUnit)</code>
    </td>
-   <td>exceptionally completes this `CompletableFuture` with a `TimeoutException` if not already completed before the given timeout
+   <td>exceptionally completes this <code>CompletableFuture</code> with a <code>TimeoutException</code> if not already completed before the given timeout
    </td>
   </tr>
   <tr>
@@ -819,15 +815,15 @@ Summary of methods to complete futures
    </td>
    <td rowspan="2" >synchronous
    </td>
-   <td>completeExceptionally(throwable)
+   <td><code>completeExceptionally(throwable)</code>
    </td>
-   <td>completes this `CompletableFuture` with the given exception if not already completed
+   <td>completes this <code>CompletableFuture</code> with the given exception if not already completed
    </td>
   </tr>
   <tr>
-   <td>cancel(mayInterruptIfRunning)
+   <td><code>cancel(mayInterruptIfRunning)</code>
    </td>
-   <td>completes this `CompletableFuture` with a `CancellationException`, if not already completed 
+   <td>completes this <code>CompletableFuture</code> with a <code>CancellationException</code>, if not already completed 
    </td>
   </tr>
 </table>
@@ -838,7 +834,7 @@ The `cancel(boolean mayInterruptIfRunning)` method has a special implementation 
 
 #### Code examples
 
-The `complete​` method completes this future normally because it has not yet completed.
+The `complete​` method completes the future normally because it has not yet completed.
 
 
 ```
@@ -851,7 +847,7 @@ assertEquals("value", future.get());
 ```
 
 
-The `completeAsync` method asynchronously completes this future normally with the result of the given Supplier.
+The `completeAsync` method asynchronously completes the future normally with the result of the given Supplier.
 
 
 ```
@@ -864,7 +860,7 @@ assertEquals("value", future2.get());
 ```
 
 
-The `completeOnTimeout​` method completes this future normally with the fallback value because it has not yet completed before the given timeout.
+The `completeOnTimeout​` method completes the future normally with the fallback value because it has not yet completed before the given timeout.
 
 
 ```
@@ -874,7 +870,7 @@ assertEquals("fallback", future.get());
 ```
 
 
-The `orTimeout​` method completes this future exceptionally because it has not yet completed before the given timeout.
+The `orTimeout​` method completes the future exceptionally because it has not yet completed before the given timeout.
 
 
 ```
@@ -884,7 +880,7 @@ future.get(); // throws ExecutionException caused by TimeoutException
 ```
 
 
-The `completeExceptionally​` method completes this future exceptionally because it has not yet completed.
+The `completeExceptionally​` method completes the future exceptionally because it has not yet completed.
 
 
 ```
@@ -898,7 +894,7 @@ assertTrue(future.isCompletedExceptionally());
 ```
 
 
-The `cancel​` method cancels this future (completes it exceptionally) because it has not yet completed.
+The `cancel​` method cancels the future (completes it exceptionally) because it has not yet completed.
 
 
 ```
@@ -916,7 +912,7 @@ future.get(); // throws CancellationException
 
 ### Methods to read futures
 
-The `CompletableFuture` class has methods to read futures, waiting if necessary. Note that in most cases these methods should be used as the last computation step, do not use them inside a computation pipeline. 
+The `CompletableFuture` class has methods to read futures, waiting if necessary. Note that in most cases these methods should be used as the last computation step, do not use them inside a computation pipeline.
 
 Summary of methods to read futures
 
@@ -937,15 +933,15 @@ Summary of methods to read futures
    </td>
    <td>throws checked and unchecked exceptions
    </td>
-   <td>`get()`
+   <td><code>get()</code>
    </td>
    <td>returns the result value when complete (waits if necessary) or throws an exception if completed exceptionally 
    </td>
   </tr>
   <tr>
-   <td><em>only</em> throws unchecked exceptions 
+   <td>throws <em>only</em> unchecked exceptions 
    </td>
-   <td>`join()`
+   <td><code>join()</code>
    </td>
    <td>returns the result value when complete (waits if necessary) or throws an <em>unchecked</em> if completed exceptionally 
    </td>
@@ -955,7 +951,7 @@ Summary of methods to read futures
    </td>
    <td>throws checked and unchecked exceptions
    </td>
-   <td>`get(timeout, timeUnit)`
+   <td><code>get(timeout, timeUnit)</code>
    </td>
    <td>returns the result value when complete (waits for at most the given time) or throws an exception if completed exceptionally
    </td>
@@ -963,9 +959,9 @@ Summary of methods to read futures
   <tr>
    <td>non-blocking
    </td>
-   <td><em>only</em> throws unchecked exceptions 
+   <td>throws <em>only</em> unchecked exceptions 
    </td>
-   <td>`getNow(valueIfAbsent)`
+   <td><code>getNow(valueIfAbsent)</code>
    </td>
    <td>returns the result value (or throws an <em>unchecked</em> exception if completed exceptionally) if completed, else returns the given <em>valueIfAbsent</em>
    </td>
@@ -1023,7 +1019,7 @@ Summary of methods for bulk futures operations
 
 <table>
   <tr>
-   <td>Similarity
+   <td>Analog
    </td>
    <td>Method name
    </td>
@@ -1031,19 +1027,19 @@ Summary of methods for bulk futures operations
    </td>
   </tr>
   <tr>
-   <td>similar to `runAfterBoth`
+   <td>similar to <code>runAfterBoth</code>
    </td>
-   <td>`allOf(completableFuture..)`
+   <td><code>allOf(completableFuture..)</code>
    </td>
-   <td>returns a new CompletableFuture&lt;Void> that is completed when <em>all</em> of the given `CompletableFuture`s complete
+   <td>returns a new <code>CompletableFuture&lt;Void></code> that is completed when <em>all</em> of the given <code>CompletableFuture</code>s complete
    </td>
   </tr>
   <tr>
-   <td>similar to `applyToEither`
+   <td>similar to <code>applyToEither</code>
    </td>
-   <td>`anyOf(completableFuture..)`
+   <td><code>anyOf(completableFuture..)</code>
    </td>
-   <td>returns a new `CompletableFuture&lt;Object>` that is completed when <em>any</em> of the given `CompletableFutures` complete, with the same result
+   <td>returns a new <code>CompletableFuture&lt;Object></code> that is completed when <em>any</em> of the given <code>CompletableFuture</code>s complete, with the same result
    </td>
   </tr>
 </table>
