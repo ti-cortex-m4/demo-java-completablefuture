@@ -111,25 +111,25 @@
         </td>
         <td>the same result or exception
         </td>
-        <td>`whenComplete(biConsumer)`
+        <td><code>whenComplete(biConsumer)</code>
         </td>
-        <td>returns a new `CompletionStage` that upon <em>norman or exceptional</em> completion consumes the result or exception of this stage and returns <em>the same result or exception without modifying them</em>
+        <td>returns a new <code>CompletionStage</code> that upon <em>norman or exceptional</em> completion consumes the result or exception of this stage and returns <em>the same result or exception without modifying them</em>
         </td>
     </tr>
     <tr>
         <td rowspan="2" >a new result
         </td>
-        <td>`handle(biFunction)`
+        <td><code>handle(biFunction)</code>
         </td>
-        <td>returns a new `CompletionStage` that upon <em>norman or exceptional</em> completion transforms the result or exception of this stage and returns <em>the new result</em>
+        <td>returns a new <code>CompletionStage</code> that upon <em>norman or exceptional</em> completion transforms the result or exception of this stage and returns <em>the new result</em>
         </td>
     </tr>
     <tr>
         <td>called on exception
         </td>
-        <td>`exceptionally(function)`
+        <td><code>exceptionally(function)</code>
         </td>
-        <td>returns a new `CompletionStage` that upon <em>exceptional</em> completion transforms the exception of this stage and returns <em>the new result</em>
+        <td>returns a new <code>CompletionStage</code> that upon <em>exceptional</em> completion transforms the exception of this stage and returns <em>the new result</em>
         </td>
     </tr>
     </tbody>
@@ -152,37 +152,37 @@
     <tr>
         <td>incomplete
         </td>
-        <td>`newIncompleteFuture()`
+        <td><code>newIncompleteFuture()</code>
         </td>
-        <td>returns a new incomplete `CompletableFuture`
+        <td>returns a new incomplete <code>CompletableFuture</code>
         </td>
     </tr>
     <tr>
         <td rowspan="2" >asynchronously completing
         </td>
-        <td>`supplyAsync(supplier)`
+        <td><code>supplyAsync(supplier)</code>
         </td>
-        <td>returns a new `CompletableFuture` that is asynchronously completed after it obtains a value from the given `Supplier`
+        <td>returns a new <code>CompletableFuture</code> that is asynchronously completed after it obtains a value from the given <code>Supplier</code>
         </td>
     </tr>
     <tr>
-        <td>`runAsync(runnable)`
+        <td><code>runAsync(runnable)</code>
         </td>
-        <td>returns a new `CompletableFuture` of that is asynchronously completed after it runs an action from the given `Runnable`
+        <td>returns a new <code>CompletableFuture</code> of that is asynchronously completed after it runs an action from the given <code>Runnable</code>
         </td>
     </tr>
     <tr>
         <td rowspan="2" >completed
         </td>
-        <td>`completedFuture(value)​`
+        <td><code>completedFuture(value)​</code>
         </td>
-        <td>returns a new `CompletableFuture` that is already completed with the given value
+        <td>returns a new <code>CompletableFuture</code> that is already completed with the given value
         </td>
     </tr>
     <tr>
-        <td>`failedFuture(throwable)`
+        <td><code>failedFuture(throwable)</code>
         </td>
-        <td>returns a new `CompletableFuture` that is already completed exceptionally with the given exception
+        <td>returns a new <code>CompletableFuture</code> that is already completed exceptionally with the given exception
         </td>
     </tr>
     </tbody>
@@ -205,21 +205,21 @@
     <tr>
         <td rowspan="3" >non-blocking
         </td>
-        <td>`isDone`
+        <td><code>isDone</code>
         </td>
-        <td>returns `true` if the `CompletableFuture` is completed in any manner: normally, exceptionally, or via cancellation
-        </td>
-    </tr>
-    <tr>
-        <td>`isCompletedExceptionally`
-        </td>
-        <td>returns `true` if this `CompletableFuture` is completed exceptionally, including cancellation
+        <td>returns <code>true</code> if the <code>CompletableFuture</code> is completed in any manner: normally, exceptionally, or via cancellation
         </td>
     </tr>
     <tr>
-        <td>`isCancelled`
+        <td><code>isCompletedExceptionally</code>
         </td>
-        <td>returns `true` if this `CompletableFuture` is canceled <em>before it completed normally</em>
+        <td>returns <code>true</code> if this <code>CompletableFuture</code> is completed exceptionally, including cancellation
+        </td>
+    </tr>
+    <tr>
+        <td><code>isCancelled</code>
+        </td>
+        <td>returns <code>true</code> if this <code>CompletableFuture</code> is canceled <em>before it completed normally</em>
         </td>
     </tr>
     </tbody>
@@ -248,7 +248,7 @@
         </td>
         <td>complete(value)
         </td>
-        <td>completes this `CompletableFuture` with the given value if not already completed
+        <td>completes this <code>CompletableFuture</code> with the given value if not already completed
         </td>
     </tr>
     <tr>
@@ -256,13 +256,13 @@
         </td>
         <td>completeAsync(supplier)​
         </td>
-        <td>completes this `CompletableFuture` with the result of the given `Supplier`
+        <td>completes this <code>CompletableFuture</code> with the result of the given <code>Supplier</code>
         </td>
     </tr>
     <tr>
         <td>completeOnTimeout(value, timeout, timeUnit)
         </td>
-        <td>completes this `CompletableFuture` with the given value if not already completed before the given timeout
+        <td>completes this <code>CompletableFuture</code> with the given value if not already completed before the given timeout
         </td>
     </tr>
     <tr>
@@ -270,7 +270,7 @@
         </td>
         <td>orTimeout(timeout, timeUnit)
         </td>
-        <td>exceptionally completes this `CompletableFuture` with a `TimeoutException` if not already completed before the given timeout
+        <td>exceptionally completes this <code>CompletableFuture</code> with a <code>TimeoutException</code> if not already completed before the given timeout
         </td>
     </tr>
     <tr>
@@ -280,13 +280,13 @@
         </td>
         <td>completeExceptionally(throwable)
         </td>
-        <td>completes this `CompletableFuture` with the given exception if not already completed
+        <td>completes this <code>CompletableFuture</code> with the given exception if not already completed
         </td>
     </tr>
     <tr>
         <td>cancel(mayInterruptIfRunning)
         </td>
-        <td>completes this `CompletableFuture` with a `CancellationException`, if not already completed
+        <td>completes this <code>CompletableFuture</code> with a <code>CancellationException</code>, if not already completed
         </td>
     </tr>
     </tbody>
@@ -313,7 +313,7 @@
         </td>
         <td>throws checked and unchecked exceptions
         </td>
-        <td>`get()`
+        <td><code>get()</code>
         </td>
         <td>returns the result value when complete (waits if necessary) or throws an exception if completed exceptionally
         </td>
@@ -321,7 +321,7 @@
     <tr>
         <td><em>only</em> throws unchecked exceptions
         </td>
-        <td>`join()`
+        <td><code>join()</code>
         </td>
         <td>returns the result value when complete (waits if necessary) or throws an <em>unchecked</em> if completed exceptionally
         </td>
@@ -331,7 +331,7 @@
         </td>
         <td>throws checked and unchecked exceptions
         </td>
-        <td>`get(timeout, timeUnit)`
+        <td><code>get(timeout, timeUnit)</code>
         </td>
         <td>returns the result value when complete (waits for at most the given time) or throws an exception if completed exceptionally
         </td>
@@ -341,7 +341,7 @@
         </td>
         <td><em>only</em> throws unchecked exceptions
         </td>
-        <td>`getNow(valueIfAbsent)`
+        <td><code>getNow(valueIfAbsent)</code>
         </td>
         <td>returns the result value (or throws an <em>unchecked</em> exception if completed exceptionally) if completed, else returns the given <em>valueIfAbsent</em>
         </td>
@@ -364,19 +364,19 @@
     </thead>
     <tbody>
     <tr>
-        <td>similar to `runAfterBoth`
+        <td>similar to <code>runAfterBoth</code>
         </td>
-        <td>`allOf(completableFuture..)`
+        <td><code>allOf(completableFuture..)</code>
         </td>
-        <td>returns a new CompletableFuture&lt;Void> that is completed when <em>all</em> of the given `CompletableFuture`s complete
+        <td>returns a new CompletableFuture&lt;Void> that is completed when <em>all</em> of the given <code>CompletableFuture</code>s complete
         </td>
     </tr>
     <tr>
-        <td>similar to `applyToEither`
+        <td>similar to <code>applyToEither</code>
         </td>
-        <td>`anyOf(completableFuture..)`
+        <td><code>anyOf(completableFuture..)</code>
         </td>
-        <td>returns a new `CompletableFuture&lt;Object>` that is completed when <em>any</em> of the given `CompletableFutures` complete, with the same result
+        <td>returns a new <code>CompletableFuture&lt;Object></code> that is completed when <em>any</em> of the given <code>CompletableFutures</code> complete, with the same result
         </td>
     </tr>
     </tbody>
