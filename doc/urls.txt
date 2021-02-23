@@ -37,3 +37,6 @@ https://www.youtube.com/watch?v=Q_0_1mKTlnY&ab_channel=GOTOConferences  GOTO 201
 https://i-rant.arnaudbos.com/loom-part-2-blocking/
 https://www.jrebel.com/blog/types-of-concurrency-in-java-by-oleg-shelajev
 https://www.jrebel.com/blog/concurrency-in-java
+
+https://nikgrozev.com/2017/10/01/async-await/
+https://www.overops.com/blog/back-to-the-completablefuture-java-8-feature-highlight/
