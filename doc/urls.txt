@@ -5,7 +5,6 @@ https://www.baeldung.com/java-completablefuture
     https://www.baeldung.com/java-9-completablefuture
 https://www.callicoder.com/java-8-completablefuture-tutorial/
 https://www.marccarre.com/2016/05/08/java-8-concurrency-completablefuture-in-practice.html
-https://www.overops.com/blog/back-to-the-completablefuture-java-8-feature-highlight/
 
 https://www.nurkiewicz.com/2013/05/java-8-definitive-guide-to.html
     https://www.nurkiewicz.com/2013/05/java-8-completablefuture-in-action.html
@@ -20,7 +19,7 @@ https://java-design-patterns.com/patterns/promise/
 https://www.ibm.com/developerworks/library/j-jvmc2/index.html
 https://www.infoq.com/articles/Functional-Style-Callbacks-Using-CompletableFuture/
 https://en.wikipedia.org/wiki/Futures_and_promises
-https://stackoverflow.com/questions/14541975/whats-the-difference-between-a-future-and-a-promise
+    https://stackoverflow.com/questions/14541975/whats-the-difference-between-a-future-and-a-promise
 https://www.infoq.com/presentations/Asynchronous-Scala-Java/
 http://www.labviewcraftsmen.com/blog/futures-promises-and-continuations-oh-my
 
