@@ -19,3 +19,8 @@ public class DelayedExecutor extends Demo1 {
         sleep(2);
     }
 }
+
+/*
+CompletableFuture<Object> future = new CompletableFuture<>();
+future.completeAsync(() -> input, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
+*/

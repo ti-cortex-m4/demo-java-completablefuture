@@ -1,8 +1,11 @@
 https://community.oracle.com/tech/developers/discussion/4418058/completablefuture-for-asynchronous-programming-in-java-8
-    https://www.jrebel.com/blog/java-completablefuture-api
-    https://medium.com/swlh/futures-in-java-completablefuture-69acc14fa71d
-https://blog.softwaremill.com/synchronous-or-asynchronous-and-why-wrestle-with-wrappers-2c5667eb7acf
-    https://levelup.gitconnected.com/completablefuture-a-new-era-of-asynchronous-programming-86c2fe23e246
+    https://www.jesperdj.com/2015/09/26/the-future-is-completable-in-java-8/
+https://www.deadcoderising.com/java8-writing-asynchronous-code-with-completablefuture/
+https://www.baeldung.com/java-completablefuture
+    https://www.baeldung.com/java-9-completablefuture
+https://www.callicoder.com/java-8-completablefuture-tutorial/
+https://www.marccarre.com/2016/05/08/java-8-concurrency-completablefuture-in-practice.html
+https://www.overops.com/blog/back-to-the-completablefuture-java-8-feature-highlight/
 
 https://www.nurkiewicz.com/2013/05/java-8-definitive-guide-to.html
     https://www.nurkiewicz.com/2013/05/java-8-completablefuture-in-action.html
@@ -11,13 +14,6 @@ https://www.nurkiewicz.com/2015/03/completablefuture-cant-be-interrupted.html
 -   https://www.nurkiewicz.com/2014/12/asynchronous-timeouts-with.html
 https://www.nurkiewicz.com/2015/11/which-thread-executes.html
 -   https://www.nurkiewicz.com/2014/11/converting-between-completablefuture.html
-
-    https://www.jesperdj.com/2015/09/26/the-future-is-completable-in-java-8/
-https://www.deadcoderising.com/java8-writing-asynchronous-code-with-completablefuture/
-https://www.baeldung.com/java-completablefuture
-https://www.baeldung.com/java-9-completablefuture
-https://www.callicoder.com/java-8-completablefuture-tutorial/
-https://www.marccarre.com/2016/05/08/java-8-concurrency-completablefuture-in-practice.html
 
 http://dist-prog-book.com/chapter/2/futures.html
 https://java-design-patterns.com/patterns/promise/
@@ -34,9 +30,8 @@ https://www.youtube.com/watch?v=-MBPQ7NIL_Y&ab_channel=JUG.ru   Tomasz Nurkiewic
 https://www.youtube.com/watch?v=x5akmCWgGY0&ab_channel=Java     Parallel Streams, CompletableFuture, and All That: Concurrency in Java 8
 https://www.youtube.com/watch?v=Q_0_1mKTlnY&ab_channel=GOTOConferences  GOTO 2014 • New Concurrency Utilities in Java 8 • Angelika Langer
 
+
+
 https://i-rant.arnaudbos.com/loom-part-2-blocking/
 https://www.jrebel.com/blog/types-of-concurrency-in-java-by-oleg-shelajev
 https://www.jrebel.com/blog/concurrency-in-java
-
-https://nikgrozev.com/2017/10/01/async-await/
-https://www.overops.com/blog/back-to-the-completablefuture-java-8-feature-highlight/
