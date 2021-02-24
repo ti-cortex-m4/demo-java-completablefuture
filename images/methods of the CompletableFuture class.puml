@@ -5,16 +5,16 @@ skinparam monochrome true
 skinparam RectangleBackgroundColor white
 
 rectangle "Methods of the CompletableFuture class" as Methods
-rectangle "methods to\ncreate futures \n\n newIncompleteFuture \n supplyAsync \n runAsync \n completedFuture \n completedStage \n failedFuture \n failedStage​" as MethodsToCreate
-rectangle "methods to\nverify futures \n\n isDone \n isCompletedExceptionally \n isCancelled" as MethodsToCheck
-rectangle "methods for\nbulk futures operations \n\n allOf \n anyOf" as MethodsForBulkOperation
-rectangle "methods to\ncomplete futures \n\n complete \n completeAsync \n completeOnTimeout \n orTimeout \n completeExceptionally \n cancel" as MethodsToComplete
-rectangle "methods to\nget results of futures \n\n get \n join \n get(timeout, timeUnit) \n getNow" as MethodsToGet
+rectangle "methods to\ncreate futures \n\n newIncompleteFuture \n supplyAsync \n runAsync \n completedFuture \n completedStage \n failedFuture \n failedStage​" as methods1
+rectangle "methods to\nverify futures \n\n isDone \n isCompletedExceptionally \n isCancelled" as methods2
+rectangle "methods for\nbulk futures operations \n\n allOf \n anyOf" as methods5
+rectangle "methods to\ncomplete futures \n\n complete \n completeAsync \n completeOnTimeout \n orTimeout \n completeExceptionally \n cancel" as methods3
+rectangle "methods to\nget results of futures \n\n get \n join \n get(timeout, timeUnit) \n getNow" as methods4
 
-Methods --> MethodsToCreate
-Methods --> MethodsToCheck
-Methods ---> MethodsForBulkOperation
-Methods --> MethodsToComplete
-Methods --> MethodsToGet
+Methods --> methods1
+Methods --> methods2
+Methods ---> methods5
+Methods --> methods3
+Methods --> methods4
 
 @enduml
