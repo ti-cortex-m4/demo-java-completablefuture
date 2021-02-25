@@ -1,4 +1,4 @@
-package demo.part13_completable_future.part9;
+package demo.completable_future.part5;
 
 import demo.common.Demo1;
 import org.junit.Test;
@@ -6,7 +6,6 @@ import org.junit.Test;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 
 import static org.junit.Assert.*;
 

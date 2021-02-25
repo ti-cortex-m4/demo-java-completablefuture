@@ -1,4 +1,4 @@
-package demo.part13_completable_future.part8;
+package demo.completable_future.part4;
 
 import demo.common.Demo1;
 import org.junit.Test;
@@ -10,10 +10,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class IsDone extends Demo1 {
+public class IsCompletedExceptionally extends Demo1 {
 
     @Test
-    public void testIsDoneTrue() throws InterruptedException, ExecutionException {
+    public void testIsCompletedExceptionallyFalse() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.completedFuture("value");
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
@@ -22,10 +22,10 @@ public class IsDone extends Demo1 {
     }
 
     @Test
-    public void testIsDoneFalse() {
-        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
-        assertFalse(future.isDone());
-        assertFalse(future.isCompletedExceptionally());
+    public void testIsCompletedExceptionallyTrue() {
+        CompletableFuture<String> future = CompletableFuture.failedFuture(new RuntimeException("exception"));
+        assertTrue(future.isDone());
+        assertTrue(future.isCompletedExceptionally());
         assertFalse(future.isCancelled());
     }
 }
