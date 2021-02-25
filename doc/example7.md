@@ -1,0 +1,36 @@
+#### Code examples
+
+The static _allOf_ method returns a new incomplete future that is completed when _all_ of the given _CompletableFuture_s complete. Note that the result of this method is _CompletableFuture&lt;Void>_ and you should get results of each given future by reading them individually.
+
+
+```
+CompletableFuture<?>[] futures = new CompletableFuture<?>[]{
+       supplyAsync(() -> sleepAndGet(1, "parallel1")),
+       supplyAsync(() -> sleepAndGet(2, "parallel2")),
+       supplyAsync(() -> sleepAndGet(3, "parallel3"))
+};
+
+CompletableFuture<Void> future = CompletableFuture.allOf(futures);
+future.get();
+
+String result = Stream.of(futures)
+       .map(CompletableFuture::join)
+       .map(Object::toString)
+       .collect(Collectors.joining(" "));
+
+assertEquals("parallel1 parallel2 parallel3", result);
+```
+
+
+The static _anyOf_ method returns a new incomplete future that is completed when _any_ of the given _CompletableFuture_s complete. Note that the result of this method is _CompletableFuture&lt;Object>_ and you should cast the result to the required type manually.
+
+
+```
+CompletableFuture<Object> future = CompletableFuture.anyOf(
+       supplyAsync(() -> sleepAndGet(1, "parallel1")),
+       supplyAsync(() -> sleepAndGet(2, "parallel2")),
+       supplyAsync(() -> sleepAndGet(3, "parallel3"))
+);
+
+assertEquals("parallel1", future.get());
+```
