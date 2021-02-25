@@ -1,4 +1,4 @@
-package demo.part13_completable_future.part0;
+package demo.completable_future.part1.apply;
 
 import demo.common.Demo1;
 import org.junit.Test;
@@ -10,7 +10,7 @@ import java.util.function.Function;
 import static org.junit.Assert.assertEquals;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
-public class Example3 extends Demo1 {
+public class ThenApply_vs_ThenCompose extends Demo1 {
 
     @Test
     public void testThenApplyFast() throws Exception {

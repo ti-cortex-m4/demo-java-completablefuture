@@ -4,16 +4,21 @@ import demo.common.Demo1;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
 
+import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static org.junit.Assert.assertNull;
 
 public class ThenAccept extends Demo1 {
 
     @Test
     public void testThenAccept() throws InterruptedException, ExecutionException {
-        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> sleepAndGet("single"))
-                .thenAccept(s -> logger.info("consumed: " + s));
-        assertNull(future.get());
+        CompletableFuture<String> stage1 = supplyAsync(() -> sleepAndGet("single"));
+
+        CompletionStage<Void> stage = stage1.thenAccept(
+                s -> logger.info("consumes the single: {}", s));
+
+        assertNull(stage.toCompletableFuture().get());
     }
 }
