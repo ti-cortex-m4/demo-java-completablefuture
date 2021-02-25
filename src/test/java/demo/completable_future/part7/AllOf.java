@@ -10,7 +10,6 @@ import java.util.stream.Stream;
 
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 public class AllOf extends Demo1 {
 
@@ -39,7 +38,8 @@ public class AllOf extends Demo1 {
         CompletableFuture<String> future2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
 
         CompletableFuture<Void> future = future1
-                .runAfterBoth(future2, () -> {});
+                .runAfterBoth(future2, () -> {
+                });
         future.get();
 
         String result = Stream.of(future1, future2)

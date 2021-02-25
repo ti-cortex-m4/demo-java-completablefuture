@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
-public class Example1 extends Demo1 {
+public class Example extends Demo1 {
 
     @Test
     public void testSynchronous() {
@@ -83,16 +83,8 @@ public class Example1 extends Demo1 {
         Thread.sleep(10000);
     }
 
-    private int getPriceInGbp() {
-        return sleepAndGet(1);
-    }
-
     private int getPriceInEur() {
         return sleepAndGet(2);
-    }
-
-    private int getExchangeRateGbpToUsd() {
-        return sleepAndGet(3);
     }
 
     private int getExchangeRateEurToUsd() {

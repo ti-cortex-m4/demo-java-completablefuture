@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertEquals;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
-import static org.junit.Assert.assertNull;
 
 public class AnyOf extends Demo1 {
 

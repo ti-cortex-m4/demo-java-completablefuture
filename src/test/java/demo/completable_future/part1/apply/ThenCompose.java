@@ -3,7 +3,6 @@ package demo.completable_future.part1.apply;
 import demo.common.Demo1;
 import org.junit.Test;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
 
