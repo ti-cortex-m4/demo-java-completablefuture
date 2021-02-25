@@ -22,7 +22,7 @@ public class GetNow extends Demo1 {
     @Test
     public void getNowValueIfAbsent() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
-        assertEquals("fallback", future.getNow("fallback"));
+        assertEquals("default", future.getNow("default"));
         assertFalse(future.isDone());
     }
 }
