@@ -551,7 +551,7 @@ The methods of the _CompletionStage_ interface can be divided into five groups a
 
 ### Methods to create futures
 
-In the most general case, a future is created incompleted in one_ _thread, and is completed in another thread. However, in some cases (for example, when testing), it may be necessary to create an already completed future.
+In the most general case, a future is created incompleted in one_ _thread and is completed in another thread. However, in some cases (for example, when testing), it may be necessary to create an already completed future.
 
 Summary of methods to create futures
 
@@ -754,7 +754,7 @@ assertTrue(future.isCancelled());
 
 ### Methods to complete futures
 
-The _CompletableFuture_ class has methods for completing futures, which means for transferring incomplete futures to one of the completed states: normal completion, exceptional completion, and cancellation.
+The _CompletableFuture_ class has methods for completing futures, which means transferring incomplete futures to one of the completed states: normal completion, exceptional completion, and cancellation.
 
 Summary of methods to complete futures
 
@@ -821,12 +821,12 @@ Summary of methods to complete futures
 </table>
 
 
-The _cancel(boolean mayInterruptIfRunning)_ method has a special implementation feature in the _CompletableFuture_ class. The parameter _mayInterruptIfRunning_ has no effect because thread interrupts are not used to control processing in this implementation of the _Future_ interface. When the _cancel_ method is called, the computation is canceled with the _CancellationException_, but the _Thread.interrupt()_ method is not called to interrupt the underlying thread.
+The _cancel(boolean mayInterruptIfRunning)_ method has a special implementation feature in the _CompletableFuture_ class. The parameter _mayInterruptIfRunning_ does not affect because thread interrupts are not used to control processing in this implementation of the _Future_ interface. When the _cancel_ method is called, the computation is canceled with the _CancellationException_, but the _Thread.interrupt()_ method is not called to interrupt the underlying thread.
 
 
 #### Code examples
 
-The _complete_ method completes the future normally because it has not yet completed.
+The _complete_ method completes the future normally because it is not completed.
 
 
 ```
@@ -852,7 +852,7 @@ assertEquals("value", future2.get());
 ```
 
 
-The _completeOnTimeout​_ method completes the future normally with the fallback value because it has not yet completed before the given timeout.
+The _completeOnTimeout​_ method completes the future normally with the fallback value because it is not completed before the given timeout.
 
 
 ```
@@ -862,7 +862,7 @@ assertEquals("fallback", future.get());
 ```
 
 
-The _orTimeout_ method completes the future exceptionally because it has not yet completed before the given timeout.
+The _orTimeout_ method completes the future exceptionally because it is not completed before the given timeout.
 
 
 ```
@@ -872,7 +872,7 @@ future.get(); // throws ExecutionException caused by TimeoutException
 ```
 
 
-The _completeExceptionally_ method completes the future exceptionally because it has not yet completed.
+The _completeExceptionally_ method completes the future exceptionally because it is not completed.
 
 
 ```
@@ -886,7 +886,7 @@ assertTrue(future.isCompletedExceptionally());
 ```
 
 
-The _cancel_ method cancels the future (completes it exceptionally) because it has not yet completed.
+The _cancel_ method cancels the future (completes it exceptionally) because it is not completed.
 
 
 ```
@@ -961,9 +961,9 @@ Summary of methods to read futures
 </table>
 
 
-The _get()_ and _get(timeout, timeUnit)_ methods can throw checked exceptions: _ExecutionException_ (if the future completed exceptionally) and _InterruptedException_ (if the current thread was interrupted). Also, the time-bounded _get(timeout, timeUnit)_ method can throw checked _TimeoutException_ (if the timeout occurred).
+The _get()_ and _get(timeout, timeUnit)_ methods can throw checked exceptions: _ExecutionException_ (if the future is completed exceptionally) and _InterruptedException_ (if the current thread was interrupted). Also, the time-bounded _get(timeout, timeUnit)_ method can throw checked _TimeoutException_ (if the timeout occurred).
 
-The _join_ and _getNow_ methods can throw unchecked _CompletionException_ (if the future completed exceptionally).
+The _join_ and _getNow_ methods can throw unchecked _CompletionException_ (if the future is completed exceptionally).
 
 All of these methods can also throw unchecked _CancellationException_ (if the computation was canceled).
 
@@ -997,7 +997,7 @@ future.get(1, TimeUnit.SECONDS); // throws TimeoutException
 ```
 
 
-The _getNow_ method does not wait and immediately returns the fallback value because the future has yet not completed. Note that this method does not cause the _CompletableFuture_ to complete.
+The _getNow_ method does not wait and immediately returns the fallback value because the future is not completed. Note that this method does not cause the _CompletableFuture_ to complete.
 
 
 ```
@@ -1017,7 +1017,7 @@ Summary of methods for bulk futures operations
 
 <table>
   <tr>
-   <td>Simularity
+   <td>Similarity
    </td>
    <td>Method name
    </td>
@@ -1087,16 +1087,18 @@ assertEquals("parallel1", future.get());
 
 ## Conclusion
 
-The CompletableFuture API is a high-level API that allows building _fluent_ concurrent code. The API is not easy and it is worth studying if you want to write _efficient_ concurrent code.
+The CompletableFuture API is a high-level API that allows you to develop _fluent_ asynchronous code. This API is not simple, but worth learning if you want to write _efficient_ asynchronous code.
 
-There are the following rules of thumb in using CompletableFuture API:
+There are the following rules of thumb for using CompletableFuture API:
 
 
 
-*   Know what executor service executes what computation, do not allow a high-priority thread to execute long-running low-priority tasks
-*   Avoid blocking methods inside a computation pipeline
-*   Avoid short (hundreds of milliseconds) asynchronous computations because frequent context switching can introduce significant overhead
-*   Be aware of new exception handling and recovery design that works differently than the _try-catch-finally_ statement
-*   Manage timeouts to do not wait too long (perhaps indefinitely) for a stuck computation
+*   Know which threads execute which stages, do not allow high-priority threads to execute long-running low-priority tasks
+*   Avoid blocking methods _inside_ a computation pipeline
+*   Avoid short (hundreds of milliseconds) _asynchronous_ computations because frequent context switching can introduce significant overhead
+*   Be aware of the new exception handling mechanism that works differently than the _try-catch-finally_ statements
+*   Manage timeouts not to wait too long (perhaps indefinitely) for a stuck stage
 
-The CompletableFuture API is rather complicated and is justified to use when the single result depends on many steps that form a complicated _Directed Acyclic Graph_ with parallel and sequential fragments. Try to use more simple tools - Parallel Streams or _ExecutorService_s. Be aware of the drawbacks of asynchronous programming - the asynchronous code is often much more difficult to implement, understand, and debug. Make sure that the CompletableFuture API is an appropriate tool for your job. 
+The CompletableFuture API is quite complex and justifiable to use when a single result depends on many stages that form a rather complicated _directed acyclic graph_. It is wise to try the simpler asynchronous APIs at the beginning, for example, Parallel Streams or _ExecutorService_s. Be aware of the disadvantages of asynchronous programming - asynchronous code is often much more difficult to implement, understand, and debug. Make sure that the CompletableFuture API is the right tool for your job. 
+
+Complete code examples are available in the GitHub repository.
