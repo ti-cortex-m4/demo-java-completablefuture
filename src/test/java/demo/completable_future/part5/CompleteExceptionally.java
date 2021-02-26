@@ -11,7 +11,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-// The completeExceptionally method completes the CompletableFuture with a given exception.
 public class CompleteExceptionally extends Demo1 {
 
     @Test
