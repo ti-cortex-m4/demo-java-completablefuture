@@ -10,7 +10,7 @@ public class Example3 extends Demo1 {
     @Test
     public void test() {
         CompletableFuture.supplyAsync(() -> 0)
-                .thenApply(i -> { logger.info("step 1: {}", i); return 1 / i; }) // step 1: 0
+                .thenApply(i -> { logger.info("step 1: {}", i); return 1 / i; }) // executed
                 .thenApply(i -> { logger.info("step 2: {}", i); return 1 / i; }) // skipped
                 .whenComplete((value, t) -> {
                     if (t == null) {
@@ -27,7 +27,7 @@ public class Example3 extends Demo1 {
                         return -1; // executed
                     }
                 })
-                .thenApply(i -> { logger.info("step 4: {}", i); return 1 / i; }) // step 4: -1
+                .thenApply(i -> { logger.info("step 4: {}", i); return 1 / i; }) // executed
                 .join();
     }
 }
