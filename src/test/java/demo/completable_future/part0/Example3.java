@@ -16,7 +16,7 @@ public class Example3 extends Demo1 {
                     if (t == null) {
                         logger.info("success: {}", value);
                     } else {
-                        logger.warn("failure: {}", t.getMessage()); // executed: java.lang.ArithmeticException: / by zero
+                        logger.warn("failure: {}", t.getMessage()); // executed, but still failed
                     }
                 })
                 .thenApply(i -> { logger.info("step 3: {}", i); return 1 / i; }) // skipped
