@@ -9,29 +9,25 @@ public class Example3 extends Demo1 {
 
     @Test
     public void test() {
-        CompletableFuture<Float> i = CompletableFuture.supplyAsync(() -> 0f);
-
-        float area = i
-                .thenApply(x -> {logger.info("step 1: {}",x); return 1 /x; })
-                .thenApply(x -> {logger.info("step 2: {}",x); return 1 /x; })
+        CompletableFuture.supplyAsync(() -> 0)
+                .thenApply(i -> { logger.info("step 1: {}", i); return 1 / i; }) // step 1: 0
+                .thenApply(i -> { logger.info("step 2: {}", i); return 1 / i; }) // skipped
                 .whenComplete((value, t) -> {
                     if (t == null) {
                         logger.info("success: {}", value);
                     } else {
-                        logger.warn("failure: {}", t.getMessage());
+                        logger.warn("failure: {}", t.getMessage()); // java.lang.ArithmeticException: / by zero
                     }
                 })
-                .thenApply(x -> {logger.info("step 3: {}",x); return 1 /x; })
+                .thenApply(i -> { logger.info("step 3: {}", i); return 1 / i; }) // skipped
                 .handle((value, t) -> {
                     if (t == null) {
                         return value + 1;
                     } else {
-                        return -1f;
+                        return -1; // executed
                     }
                 })
-                .thenApply(x -> {logger.info("step 4"); return 1 /x; })
+                .thenApply(i -> { logger.info("step 4: {}", i); return 1 / i; }) // step 4: -1
                 .join();
-
-
     }
 }
