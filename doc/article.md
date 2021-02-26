@@ -292,139 +292,36 @@ Note that _the default facility_ and _the default asynchronous facility_ are spe
 
 >Note that the thread pool returned by the _ForkJoinPool.commonPool()_ method is shared across a JVM by all _CompletableFuture_ objects and all Parallel Streams.
 
-
-#### Code examples
-
-The _thenApply_ method creates a new stage, that upon completion transforms the result of the single previous stage by the given _Function_.
+The following code example demonstrates the use of the methods to pipeline computations. To calculate the area of the circle, the pipeline takes the radius and squares it by the _thenApply_ method. Then the pipeline takes the squared radius and π and multiplies them in the _thenCombine_ method. Then the area is consumed by the _thenAccept_ method that logs it and returns no result. Finally, the _thenRun_ method that takes no argument and returns no result, logs a message about the finish of the pipeline.
 
 
 ```
-CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet("single"));
-CompletionStage<String> stage = stage1.thenApply(
-       s -> s.toUpperCase());
-assertEquals("SINGLE", stage.toCompletableFuture().get());
+CompletableFuture<Double> pi = CompletableFuture.supplyAsync(() -> Math.PI);
+CompletableFuture<Integer> radius = CompletableFuture.supplyAsync(() -> 1);
+
+// area of a circle = π * r^2
+CompletableFuture<Void> area = radius
+        .thenApply(r -> r * r)
+        .thenCombine(pi, (multiplier1, multiplier2) -> multiplier1 * multiplier2)
+        .thenAccept(a -> logger.info("area: {}", a))
+        .thenRun(() -> logger.info("operation completed"));
+
+area.join();
 ```
 
 
-The _thenCompose_ method creates a new stage, that upon completion also transforms the result of the single previous stage by the given _Function_. This method is similar to the _thenApply_ method described above. The difference is that the result of the _Function_ is a subclass of _CompletionStage_, which is useful when a transformation is a long operation that is reasonable to execute in a separate stage (possible asynchronously).
+>You should use the _thenApply_ method if you want to transform a _CompletionStage_ with a _fast_ function. You should use the _thenCompose_ method if you want to transform a _CompletionStage_ with a _slow_ function.
 
+>You should use the _thenCompose_ method if you want to transform two _CompletionStage_s _sequentially_. You should use the _thenCombine_ method if you want to transform two _CompletionStage_s _in parallel_.
 
-```
-CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet("sequential1"));
-CompletionStage<String> stage = stage1.thenCompose(
-       s -> supplyAsync(() -> sleepAndGet((s + " " + "sequential2").toUpperCase())));
-assertEquals("SEQUENTIAL1 SEQUENTIAL2", stage.toCompletableFuture().get());
-```
-
-
->You should use the _thenApply_ method if you want to transform a _CompletionStage_ with a _fast_ function.
-
->You should use the _thenCompose_ method if you want to transform a _CompletionStage_ with a _slow_ function.
-
-The _applyToEither_ method creates a new stage, that upon completion transforms the first result of the previous two stages by the given _Function_.
-
-
-```
-CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
-CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
-CompletionStage<String> stage = stage1.applyToEither(stage2,
-       s -> s.toUpperCase());
-assertEquals("PARALLEL1", stage.toCompletableFuture().get());
-```
-
-
-The _thenCombine_ method creates a new stage, that upon completion transforms the two results of the previous two stages by the given _BiFunction_.
-
-
-```
-CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet("parallel1"));
-CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet("parallel2"));
-CompletionStage<String> stage = stage1.thenCombine(stage2,
-       (s1, s2) -> (s1 + " " + s2).toUpperCase());
-assertEquals("PARALLEL1 PARALLEL2", stage.toCompletableFuture().get());
-```
-
-
->You should use the _thenCompose_ method if you want to transform two _CompletionStage_s _sequentially_.
-
->You should use the _thenCombine_ method if you want to transform two _CompletionStage_s _in parallel_.
-
-The _thenAccept_ method creates a new stage, that upon completion consumes the single previous stage by the given _Consumer_.
-
-
-```
-CompletableFuture<String> stage1 = supplyAsync(() -> sleepAndGet("single"));
-CompletionStage<Void> stage = stage1.thenAccept(
-       s -> logger.info("consumes the single: {}", s));
-assertNull(stage.toCompletableFuture().get());
-```
-
-
-The _acceptEither_ method creates a new stage, that upon completion consumes the first result of the previous two stages by the given _Consumer_.
-
-
-```
-CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
-CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
-CompletionStage<Void> stage = stage1.acceptEither(stage2,
-       s -> logger.info("consumes the first: {}", s));
-assertNull(stage.toCompletableFuture().get());
-```
-
-
-The _thenAcceptBoth_ method creates a new stage, that upon completion consumes the two results of the previous two stages by the given _BiConsumer_.
-
-
-```
-CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
-CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
-CompletionStage<Void> stage = stage1.thenAcceptBoth(stage2,
-       (s1, s2) -> logger.info("consumes both: {} {}", s1, s2));
-assertNull(stage.toCompletableFuture().get());
-```
-
-
-The _thenRun_ method creates a new stage, that upon completion of the single previous stage runs the given _Runnable_.
-
-
-```
-CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet("single"));
-CompletionStage<Void> stage = stage1.thenRun(
-       () -> logger.info("runs after the single"));
-assertNull(stage.toCompletableFuture().get());
-```
-
-
-The _runAfterEither_ method creates a new stage, that upon completion of the first of the previous two stages, runs the given _Runnable_.
-
-
-```
-CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
-CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
-CompletionStage<Void> stage = stage1.runAfterEither(stage2,
-       () -> logger.info("runs after the first"));
-assertNull(stage.toCompletableFuture().get());
-```
-
-
-The _runAfterBoth_ method creates a new stage, that upon completion of the previous two stages, runs the given _Runnable_.
-
-
-```
-CompletionStage<String> stage1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
-CompletionStage<String> stage2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
-CompletionStage<Void> stage = stage1.runAfterBoth(stage2,
-       () -> logger.info("runs after both"));
-assertNull(stage.toCompletableFuture().get());
-```
-
+[complete code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
 
 
 ### Methods to handle exceptions
 
 Each computation may complete normally or exceptionally. In asynchronous computations, the source of the exception and the recovery method can be in different threads. Therefore in this case it is not possible to use a _try-catch-finally_ statement to recover from exceptions. So the _CompletionStage_ interface has special methods to handle exceptions.
 
-Each stage has two types of completion of equal importance: normal completion and exceptional completion. If a stage completes normally, the dependent stages start to execute normally. If a stage completes exceptionally, the dependent stages complete exceptionally, unless there is an exception recovery method in the computation pipeline.
+Each stage has two types of completion of equal importance: normal completion and exceptional completion. If a stage completes normally, the dependent stages start to execute normally. If a stage completes exceptionally, the dependent stages complete exceptionally, unless there is an exception recovery stage in the computation pipeline.
 
 Summary of methods to handle exceptions:
 
@@ -437,7 +334,7 @@ Summary of methods to handle exceptions:
    </td>
    <td>Method
    </td>
-   <td>Method description
+   <td>Description
    </td>
   </tr>
   <tr>
@@ -473,55 +370,34 @@ If you need to perform some action, when the previous stage completes normally o
 
 If you need to recover from an exception (to replace the exception with some default value), then you should use the _handle_ and _exceptionally_ methods. A _BiFunction_ argument of the _handle_ method is called when the previous stage completes normally or exceptionally. A _Function_ argument of the _exceptionally_ method is called when the previous stage completes exceptionally. In both cases, an exception is not propagated to the next stage.
 
-
-#### Code examples
-
-The _whenComplete_ method accepts a nullable result and an exception but can not modify the return value, the stage is still completed exceptionally.
+The following code example demonstrates the use of the methods to handle exceptions. During the execution of stage 1 occurs an exception (division by zero). The execution of stage 2 is skipped because its previous stage is completed exceptionally. The _whenComplete_ method identifies that the previous stage completed exceptionally, but can not recovers from this state. The execution of stage 3 is also skipped because its previous stage is still completed exceptionally. The _handle_ method identifies that the previous stage completed exceptionally and replaces the exception with a default value. The execution of stage 4 is performed normally.
 
 
 ```
-CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException("exception"))
+CompletableFuture.supplyAsync(() -> 0)
+       .thenApply(i -> { logger.info("stage 1: {}", i); return 1 / i; }) // executed and failed
+       .thenApply(i -> { logger.info("stage 2: {}", i); return 1 / i; }) // skipped
        .whenComplete((value, t) -> {
            if (t == null) {
                logger.info("success: {}", value);
            } else {
-               logger.warn("failure: {}", t.getMessage());
+               logger.warn("failure: {}", t.getMessage()); // executed
            }
-       });
-assertTrue(future.isDone());
-assertTrue(future.isCompletedExceptionally());
-```
-
-
-The _handle_ method transforms a nullable result and an exception and converts the stage from completed exceptionally to completed normally.
-
-
-```
-CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException("exception"))
+       })
+       .thenApply(i -> { logger.info("stage 3: {}", i); return 1 / i; }) // skipped
        .handle((value, t) -> {
            if (t == null) {
-               return value.toUpperCase();
+               return value + 1;
            } else {
-               return "failure: " + t.getMessage();
+               return -1; // executed and recovered
            }
-       });
-assertTrue(future.isDone());
-assertFalse(future.isCompletedExceptionally());
-assertEquals("failure: exception", future.get());
+       })
+       .thenApply(i -> { logger.info("stage 4: {}", i); return 1 / i; }) // executed
+       .join();
 ```
 
 
-The _exceptionally_ method transforms an exception and converts the stage from completed exceptionally to completed normally.
-
-
-```
-CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException("exception"))
-       .exceptionally(t -> "failure: " + t.getMessage());
-assertTrue(future.isDone());
-assertFalse(future.isCompletedExceptionally());
-assertEquals("failure: exception", future.get());
-```
-
+[complete code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
 
 
 ## The [CompletableFuture](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CompletableFuture.html) class
@@ -546,6 +422,33 @@ The methods of the _CompletionStage_ interface can be divided into five groups a
 *   methods to read futures
 *   methods for bulk futures operations
 
+The following code example demonstrates the use of the methods to handle the _CompletableFuture_ lifecycle.
+
+The future is created incomplete in the first thread. After this, the same thread starts checking the future for completion. After a delay, simulating a long operation, the future is completed in the second thread. After this, the first thread finished the checking and reads the value of the future that is already been completed.
+
+
+```
+ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+CompletableFuture<String> future = new CompletableFuture<>(); // creating an incomplete future
+
+executorService.submit(() -> {
+   Thread.sleep(500);
+   future.complete("value"); // completing the incomplete future
+   return null;
+});
+
+while (!future.isDone()) { // checking the future completion
+   Thread.sleep(1000);
+}
+
+String result = future.get(); // reading value of the completed future
+logger.info("result: {}", result);
+
+executorService.shutdown();
+```
+
+
 ![methods of the CompletableFuture class](/images/methods_of_the_CompletableFuture_class.png)
 
 
@@ -562,7 +465,7 @@ Summary of methods to create futures
    </td>
    <td>Method name
    </td>
-   <td>Method description
+   <td>Description
    </td>
   </tr>
   <tr>
@@ -606,67 +509,7 @@ Summary of methods to create futures
 
 >The no-arg _CompletableFuture_ constructor also creates an incomplete future.
 
-
-#### Code examples
-
-The no-arg constructor creates an incomplete future.
-
-
-```
-CompletableFuture<String> future = new CompletableFuture<>();
-assertFalse(future.isDone());
-```
-
-
-The _newIncompleteFuture_ method creates an incomplete future of the same type as the called _CompletableFuture_ object. This method should be overridden if you are implementing a subclass of _CompletableFuture_.
-
-
-```
-CompletableFuture<String> future1 = CompletableFuture.completedFuture("value");
-assertTrue(future1.isDone());
-CompletableFuture<String> future2 = future1.newIncompleteFuture();
-assertFalse(future2.isDone());
-```
-
-
-The _supplyAsync_ method creates an incomplete future that is asynchronously completed after it obtains a value from the given _Supplier_.
-
-
-```
-CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
-assertEquals("value", future.get());
-```
-
-
-The _runAsync_ method creates an incomplete future that is asynchronously completed after it runs an action from the given _Runnable_.
-
-
-```
-CompletableFuture<Void> future = CompletableFuture.runAsync(() -> logger.info("action"));
-assertNull(future.get());
-```
-
-
-The _completedFuture_ method creates a normally completed future.
-
-
-```
-CompletableFuture<String> future = CompletableFuture.completedFuture("value");
-assertTrue(future.isDone());
-assertFalse(future.isCompletedExceptionally());
-assertEquals("value", future.get());
-```
-
-
-The _failedFuture_ method creates an exceptionally completed future.
-
-
-```
-CompletableFuture<String> future = CompletableFuture.failedFuture(new RuntimeException("exception"));
-assertTrue(future.isDone());
-assertTrue(future.isCompletedExceptionally());
-```
-
+[complete code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
 
 
 ### Methods to check futures
@@ -682,7 +525,7 @@ Summary of the methods to check futures
    </td>
    <td>Method name
    </td>
-   <td>Method description
+   <td>Description
    </td>
   </tr>
   <tr>
@@ -710,46 +553,7 @@ Summary of the methods to check futures
 
 >It is impossible to cancel an already completed future.
 
-
-#### Code examples
-
-The _isDone_ method returns _true_ because the future is completed.
-
-
-```
-CompletableFuture<String> future = CompletableFuture.completedFuture("value");
-assertTrue(future.isDone());
-assertFalse(future.isCompletedExceptionally());
-assertFalse(future.isCancelled());
-assertEquals("value", future.get());
-```
-
-
-The _isCompletedExceptionally_ method returns _true_ because the future is completed exceptionally. Note that a future _completed exceptionally_ is also considered _completed_.
-
-
-```
-CompletableFuture<String> future = CompletableFuture.failedFuture(new RuntimeException("exception"));
-assertTrue(future.isDone());
-assertTrue(future.isCompletedExceptionally());
-assertFalse(future.isCancelled());
-```
-
-
-The _isCancelled_ method returns _true_ because the future is canceled. Note that a _canceled_ future is also considered _completed exceptionally_ and _completed_.
-
-
-```
-CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
-assertFalse(future.isDone());
-assertFalse(future.isCompletedExceptionally());
-assertFalse(future.isCancelled());
-future.cancel(true);
-assertTrue(future.isDone());
-assertTrue(future.isCompletedExceptionally());
-assertTrue(future.isCancelled());
-```
-
+[complete code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
 
 
 ### Methods to complete futures
@@ -767,7 +571,7 @@ Summary of methods to complete futures
    </td>
    <td>Method name
    </td>
-   <td>Method description
+   <td>Description
    </td>
   </tr>
   <tr>
@@ -823,83 +627,7 @@ Summary of methods to complete futures
 
 The _cancel(boolean mayInterruptIfRunning)_ method has a special implementation feature in the _CompletableFuture_ class. The parameter _mayInterruptIfRunning_ does not affect because thread interrupts are not used to control processing. When the _cancel_ method is called, the computation is canceled with the _CancellationException_, but the _Thread.interrupt()_ method is not called to interrupt the underlying thread.
 
-
-#### Code examples
-
-The _complete_ method completes the future normally because it is not completed.
-
-
-```
-CompletableFuture<String> future = new CompletableFuture<>();
-assertFalse(future.isDone());
-boolean hasCompleted = future.complete("value");
-assertTrue(hasCompleted);
-assertTrue(future.isDone());
-assertEquals("value", future.get());
-```
-
-
-The _completeAsync_ method asynchronously completes the future normally with the result of the given Supplier.
-
-
-```
-CompletableFuture<String> future1 = new CompletableFuture<>();
-assertFalse(future1.isDone());
-CompletableFuture<String> future2 = future1.completeAsync(() -> "value");
-sleep(1);
-assertTrue(future2.isDone());
-assertEquals("value", future2.get());
-```
-
-
-The _completeOnTimeout​_ method completes the future normally with the default value because it is not completed before the given timeout.
-
-
-```
-CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet(2, "value"))
-       .completeOnTimeout("default", 1, TimeUnit.SECONDS);
-assertEquals("default", future.get());
-```
-
-
-The _orTimeout_ method completes the future exceptionally because it is not completed before the given timeout.
-
-
-```
-CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet(2, "value"))
-       .orTimeout(1, TimeUnit.SECONDS);
-future.get(); // throws ExecutionException caused by TimeoutException
-```
-
-
-The _completeExceptionally_ method completes the future exceptionally because it is not completed.
-
-
-```
-CompletableFuture<String> future = new CompletableFuture<>();
-assertFalse(future.isDone());
-assertFalse(future.isCompletedExceptionally());
-boolean hasCompleted = future.completeExceptionally(new RuntimeException("exception"));
-assertTrue(hasCompleted);
-assertTrue(future.isDone());
-assertTrue(future.isCompletedExceptionally());
-```
-
-
-The _cancel_ method cancels the future (completes it exceptionally) because it is not completed.
-
-
-```
-CompletableFuture<String> future = new CompletableFuture<>();
-assertFalse(future.isDone());
-assertFalse(future.isCancelled());
-boolean isCanceled = future.cancel(false);
-assertTrue(isCanceled);
-assertTrue(future.isDone());
-assertTrue(future.isCancelled());
-future.get(); // throws CancellationException
-```
-
+[complete code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
 
 
 ### Methods to read futures
@@ -917,7 +645,7 @@ Summary of methods to read futures
    </td>
    <td>Method name
    </td>
-   <td>Method description
+   <td>Description
    </td>
   </tr>
   <tr>
@@ -967,45 +695,7 @@ The _join_ and _getNow_ methods can throw unchecked _CompletionException_ (if th
 
 All of these methods can also throw unchecked _CancellationException_ (if the computation was canceled).
 
-
-#### Code examples
-
-The _get_ method waits until the future is completed and returns the result. This method can throw the checked _InterruptedException_, _ExecutionException_ exceptions.
-
-
-```
-CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
-assertEquals("value", future.get());
-```
-
-
-The _join_ method waits until the future is completed and returns the result. This method can not throw checked exceptions (it can be used as a method reference for example in Streams API).
-
-
-```
-CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
-assertEquals("value", future.join());
-```
-
-
-The _get(timeout, timeUnit)_ method waits for at most the given time and throws the checked _TimeoutException_ exception because the timeout occurs earlier than the future is completed.
-
-
-```
-CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet(2, "value"));
-future.get(1, TimeUnit.SECONDS); // throws TimeoutException
-```
-
-
-The _getNow_ method does not wait and immediately returns the default value because the future is not completed. Note that this method does not cause the _CompletableFuture_ to complete.
-
-
-```
-CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
-assertEquals("default", future.getNow("default"));
-assertFalse(future.isDone());
-```
-
+[complete code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
 
 
 ### Methods for bulk future operations
@@ -1021,7 +711,7 @@ Summary of methods for bulk futures operations
    </td>
    <td>Method name
    </td>
-   <td>Method description
+   <td>Description
    </td>
   </tr>
   <tr>
@@ -1045,78 +735,7 @@ Summary of methods for bulk futures operations
 
 >Note that all futures can be of different generic types - the methods have variable arguments of type _CompletableFuture&lt;?>_.
 
-
-#### Code examples
-
-The static _allOf_ method returns a new incomplete future that is completed when _all_ of the _given_ _CompletableFuture_s complete. Note that the result of this method is _CompletableFuture&lt;Void>_ and you should get results of each given future by reading them individually.
-
-
-```
-CompletableFuture<?>[] futures = new CompletableFuture<?>[]{
-       supplyAsync(() -> sleepAndGet(1, "parallel1")),
-       supplyAsync(() -> sleepAndGet(2, "parallel2")),
-       supplyAsync(() -> sleepAndGet(3, "parallel3"))
-};
-
-CompletableFuture<Void> future = CompletableFuture.allOf(futures);
-future.get();
-
-String result = Stream.of(futures)
-       .map(CompletableFuture::join)
-       .map(Object::toString)
-       .collect(Collectors.joining(" "));
-
-assertEquals("parallel1 parallel2 parallel3", result);
-```
-
-
-Compare the previous method with the _runAfterBoth_ method that returns a new incomplete future that is completed when _all_ of the _two_ _CompletableFuture_s complete.
-
-
-```
-CompletableFuture<String> future1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
-CompletableFuture<String> future2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
-
-CompletableFuture<Void> future = future1
-       .runAfterBoth(future2, () -> {});
-future.get();
-
-String result = Stream.of(future1, future2)
-       .map(CompletableFuture::join)
-       .map(Object::toString)
-       .collect(Collectors.joining(" "));
-
-assertEquals("parallel1 parallel2", result);
-```
-
-
-The static _anyOf_ method returns a new incomplete future that is completed when _any_ of the given _CompletableFuture_s complete. Note that the result of this method is _CompletableFuture&lt;Object>_ and you should cast the result to the required type manually.
-
-
-```
-CompletableFuture<Object> future = CompletableFuture.anyOf(
-       supplyAsync(() -> sleepAndGet(1, "parallel1")),
-       supplyAsync(() -> sleepAndGet(2, "parallel2")),
-       supplyAsync(() -> sleepAndGet(3, "parallel3"))
-);
-
-assertEquals("parallel1", future.get());
-```
-
-
-Compare the previous method with the _applyToEither_ that returns a new incomplete future that is completed when _any_ of the _two_ _CompletableFuture_s complete.
-
-
-```
-CompletableFuture<String> future1 = supplyAsync(() -> sleepAndGet(1, "parallel1"));
-CompletableFuture<String> future2 = supplyAsync(() -> sleepAndGet(2, "parallel2"));
-
-CompletableFuture<String> future = future1
-       .applyToEither(future2, value -> value);
-
-assertEquals("parallel1", future.get());
-```
-
+[complete code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
 
 
 ## Conclusion
