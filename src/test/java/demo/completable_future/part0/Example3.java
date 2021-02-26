@@ -10,13 +10,13 @@ public class Example3 extends Demo1 {
     @Test
     public void test() {
         CompletableFuture.supplyAsync(() -> 0)
-                .thenApply(i -> { logger.info("step 1: {}", i); return 1 / i; }) // executed
+                .thenApply(i -> { logger.info("step 1: {}", i); return 1 / i; }) // executed and failed
                 .thenApply(i -> { logger.info("step 2: {}", i); return 1 / i; }) // skipped
                 .whenComplete((value, t) -> {
                     if (t == null) {
                         logger.info("success: {}", value);
                     } else {
-                        logger.warn("failure: {}", t.getMessage()); // java.lang.ArithmeticException: / by zero
+                        logger.warn("failure: {}", t.getMessage()); // executed: java.lang.ArithmeticException: / by zero
                     }
                 })
                 .thenApply(i -> { logger.info("step 3: {}", i); return 1 / i; }) // skipped
@@ -24,7 +24,7 @@ public class Example3 extends Demo1 {
                     if (t == null) {
                         return value + 1;
                     } else {
-                        return -1; // executed
+                        return -1; // executed and recovered
                     }
                 })
                 .thenApply(i -> { logger.info("step 4: {}", i); return 1 / i; }) // executed
