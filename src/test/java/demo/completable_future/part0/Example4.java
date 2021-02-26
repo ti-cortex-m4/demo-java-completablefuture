@@ -16,7 +16,7 @@ public class Example4 extends Demo1 {
 
         executorService.submit(() -> {
             Thread.sleep(500);
-            future.complete("Hello"); // completing
+            future.complete("value"); // completing
             return null;
         });
 
