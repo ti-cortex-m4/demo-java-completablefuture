@@ -16,9 +16,9 @@ public class Example2 extends Demo1 {
 
         CompletableFuture<Void> result = radius
                 .thenApply(r -> r * r)
-                .thenCombine(pi, (aDouble, integer) -> aDouble * integer)
+                .thenCombine(pi, (multiplier1, multiplier2) -> multiplier1 * multiplier2)
                 .thenAccept(area -> logger.info("area: {}", area))
-                .thenRun(() -> logger.info("completed"));
+                .thenRun(() -> logger.info("operation completed"));
 
         result.join();
     }
