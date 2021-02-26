@@ -16,7 +16,7 @@ public class Example3 extends Demo1 {
                     if (t == null) {
                         logger.info("success: {}", value);
                     } else {
-                        logger.warn("failure: {}", t.getMessage()); // executed, but still failed
+                        logger.warn("failure: {}", t.getMessage()); // executed
                     }
                 })
                 .thenApply(i -> { logger.info("stage 3: {}", i); return 1 / i; }) // skipped
