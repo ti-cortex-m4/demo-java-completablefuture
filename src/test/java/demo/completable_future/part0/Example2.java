@@ -4,7 +4,6 @@ import demo.common.Demo1;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.BiFunction;
 
 public class Example2 extends Demo1 {
 
@@ -14,12 +13,12 @@ public class Example2 extends Demo1 {
         CompletableFuture<Double> pi = CompletableFuture.supplyAsync(() -> Math.PI);
         CompletableFuture<Integer> radius = CompletableFuture.supplyAsync(() -> 1);
 
-        CompletableFuture<Void> result = radius
+        CompletableFuture<Void> area = radius
                 .thenApply(r -> r * r)
                 .thenCombine(pi, (multiplier1, multiplier2) -> multiplier1 * multiplier2)
-                .thenAccept(area -> logger.info("area: {}", area))
+                .thenAccept(a -> logger.info("area: {}", a))
                 .thenRun(() -> logger.info("operation completed"));
 
-        result.join();
+        area.join();
     }
 }
