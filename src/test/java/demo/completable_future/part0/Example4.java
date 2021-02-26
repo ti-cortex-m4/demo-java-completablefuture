@@ -11,24 +11,21 @@ public class Example4 extends Demo1 {
     public void test() throws InterruptedException, ExecutionException {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-
-        CompletableFuture<String> future = new CompletableFuture<>(); // creating
+        CompletableFuture<String> future = new CompletableFuture<>(); // creating an incomplete future
 
         executorService.submit(() -> {
             Thread.sleep(500);
-            future.complete("value"); // completing
+            future.complete("value"); // completing the incomplete future
             return null;
         });
 
-        while (!future.isDone()) { // checking
+        while (!future.isDone()) { // checking the future completion
             Thread.sleep(1000);
         }
 
-        String result = future.get(); // reading
+        String result = future.get(); // reading value of the completed future
         logger.info("result: {}", result);
 
-
         executorService.shutdown();
-        executorService.awaitTermination(60, TimeUnit.SECONDS);
     }
 }
