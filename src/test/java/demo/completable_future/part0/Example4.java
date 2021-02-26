@@ -12,24 +12,19 @@ public class Example4 extends Demo1 {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
 
 
-        CompletableFuture<String> future = new CompletableFuture<>();
-        logger.info("future is incomplete");
+        CompletableFuture<String> future = new CompletableFuture<>(); // creating
 
         executorService.submit(() -> {
             Thread.sleep(500);
-            logger.info("future is completing");
-
-            future.complete("Hello");
+            future.complete("Hello"); // completing
             return null;
         });
 
-        while (!future.isDone()) {
+        while (!future.isDone()) { // checking
             Thread.sleep(1000);
-            logger.info("waiting");
         }
 
-        logger.info("future is completed");
-        String result = future.get();
+        String result = future.get(); // reading
         logger.info("result: {}", result);
 
 
