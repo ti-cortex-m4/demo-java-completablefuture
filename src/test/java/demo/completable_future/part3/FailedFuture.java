@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 public class FailedFuture extends Demo {
 
     @Test
-    public void testCompletedFuture() throws InterruptedException, ExecutionException {
+    public void testCompletedFuture() {
         CompletableFuture<String> future = CompletableFuture.failedFuture(new RuntimeException("exception"));
 
         assertTrue(future.isDone());
@@ -20,7 +20,7 @@ public class FailedFuture extends Demo {
     }
 
     @Test
-    public void testCompletedStage() throws InterruptedException, ExecutionException {
+    public void testCompletedStage() {
         CompletionStage<String> future = CompletableFuture.failedStage(new RuntimeException("exception"));
 
         assertTrue(future.toCompletableFuture().isDone());

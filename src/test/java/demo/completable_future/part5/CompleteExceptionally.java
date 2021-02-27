@@ -14,7 +14,7 @@ import static org.junit.Assert.fail;
 public class CompleteExceptionally extends Demo {
 
     @Test
-    public void testCompleteExceptionally() throws InterruptedException, ExecutionException {
+    public void testCompleteExceptionally() throws InterruptedException {
         CompletableFuture<String> future = new CompletableFuture<>();
 
         assertFalse(future.isDone());

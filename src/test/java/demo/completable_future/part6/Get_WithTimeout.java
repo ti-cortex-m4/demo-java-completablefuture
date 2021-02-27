@@ -21,7 +21,7 @@ public class Get_WithTimeout extends Demo {
     }
 
     @Test
-    public void testGetWithTimeoutFailure() throws InterruptedException, ExecutionException, TimeoutException {
+    public void testGetWithTimeoutFailure() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet(2, "value"));
         try {
             future.get(1, TimeUnit.SECONDS);

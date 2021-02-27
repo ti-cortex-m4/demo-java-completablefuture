@@ -13,14 +13,14 @@ import static org.junit.Assert.assertTrue;
 public class GetNow extends Demo {
 
     @Test
-    public void getNow() throws InterruptedException, ExecutionException {
+    public void getNow() {
         CompletableFuture<String> future = CompletableFuture.completedFuture("value");
-        assertEquals("value", future.getNow("value2"));
+        assertEquals("value", future.getNow("default"));
         assertTrue(future.isDone());
     }
 
     @Test
-    public void getNowValueIfAbsent() throws InterruptedException, ExecutionException {
+    public void getNowValueIfAbsent() {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
         assertEquals("default", future.getNow("default"));
         assertFalse(future.isDone());

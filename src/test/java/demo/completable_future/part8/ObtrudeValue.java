@@ -14,11 +14,11 @@ public class ObtrudeValue extends Demo {
 
     @Test
     public void testObtrudeValue1() throws InterruptedException, ExecutionException {
-        CompletableFuture<String> future = CompletableFuture.completedFuture("value");
+        CompletableFuture<String> future = CompletableFuture.completedFuture("value1");
 
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
-        assertEquals("value", future.get());
+        assertEquals("value1", future.get());
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
 

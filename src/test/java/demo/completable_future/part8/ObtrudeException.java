@@ -27,7 +27,7 @@ public class ObtrudeException extends Demo {
     }
 
     @Test
-    public void testObtrudeException2() throws InterruptedException, ExecutionException {
+    public void testObtrudeException2() {
         CompletableFuture<String> future = CompletableFuture.failedFuture(new RuntimeException("error1"));
 
         assertTrue(future.isDone());
