@@ -28,7 +28,7 @@ However, the CompletableFuture API is not simple. The _CompletionStage_ interfac
 
 ## Futures and promises
 
-Future/promise is the high-level concurrency constructs that decouple a value (a future) from how it is computed (a promise). That allows writing more fluent concurrent programs that transfer objects between threads without using any explicit synchronization mechanisms. The futures/promises construct works very well when multiple threads work on different tasks and the results need to be combined by the main thread.
+Future/promise is the high-level concurrency constructs that decouple a value (a future) from how it is computed (a promise). That allows writing more fluent concurrent programs that transfer objects between threads without using any explicit synchronization mechanisms. The future/promise constructs are often used when multiple threads work on different tasks and the results need to be combined by the main thread.
 
 Implementations of future/promise exist in many programming languages:
 
@@ -489,7 +489,7 @@ Summary of methods to create futures
   <tr>
    <td rowspan="2" >completed
    </td>
-   <td><em>completedFuture(value)​</em>
+   <td><em>completedFuture(value)</em>
    </td>
    <td>returns a new <em>CompletableFuture</em> that is already completed with the given value
    </td>
@@ -583,7 +583,7 @@ Summary of methods to complete futures
   <tr>
    <td rowspan="3" >asynchronous
    </td>
-   <td><em>completeAsync(supplier)​</em>
+   <td><em>completeAsync(supplier)</em>
    </td>
    <td>completes this <em>CompletableFuture</em> with the result of the given <em>Supplier</em>
    </td>
