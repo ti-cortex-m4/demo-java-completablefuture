@@ -1,6 +1,6 @@
 #### Code examples
 
-The static _allOf_ method returns a new incomplete future that completes when _all_ of the _given_ _CompletableFuture_s complete. Note that the result type of this method is _CompletableFuture&lt;Void>_ and you should get results of each future by reading them individually.
+The static _allOf_ method returns a new incomplete future that completes when _all_ of the _given_ _CompletableFutures_ complete. Note that the result type of this method is _CompletableFuture&lt;Void>_ and you should get results of each future by reading them individually.
 
 
 ```
@@ -22,7 +22,7 @@ assertEquals("parallel1 parallel2 parallel3", result);
 ```
 
 
-Compare the previous method with the _runAfterBoth_ method that returns a new incomplete future that completes when _all_ of the _two_ _CompletableFuture_s complete.
+Compare the previous method with the _runAfterBoth_ method that returns a new incomplete future that completes when _all_ of the _two_ _CompletableFutures_ complete.
 
 
 ```
@@ -42,7 +42,7 @@ assertEquals("parallel1 parallel2", result);
 ```
 
 
-The static _anyOf_ method returns a new incomplete future that is completed when _any_ of the given _CompletableFuture_s complete. Note that the result type of this method is _CompletableFuture&lt;Object>_ and you should cast the result to the required type manually.
+The static _anyOf_ method returns a new incomplete future that is completed when _any_ of the given _CompletableFutures_ complete. Note that the result type of this method is _CompletableFuture&lt;Object>_ and you should cast the result to the required type manually.
 
 
 ```
@@ -56,7 +56,7 @@ assertEquals("parallel1", future.get());
 ```
 
 
-Compare the previous method with the _applyToEither_ that returns a new incomplete future that is completed when _any_ of the _two_ _CompletableFuture_s complete.
+Compare the previous method with the _applyToEither_ that returns a new incomplete future that is completed when _any_ of the _two_ _CompletableFutures_ complete.
 
 
 ```
