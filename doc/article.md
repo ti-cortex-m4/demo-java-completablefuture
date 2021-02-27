@@ -76,7 +76,7 @@ To implement this workflow, it is necessary to execute the following tasks:
 
 Note that not all tasks are the same. Some of them are fast (they should be executed synchronously), and some of them are slow (they should be executed asynchronously). Some of them are independent (they can be executed in parallel), and some of them depend on the results of previous tasks (they have to be executed sequentially).
 
-The mentioned workflow is implemented below in three programming styles: synchronous, asynchronous based on _Future_, and asynchronous based on _CompletableFuture_.
+The mentioned workflow is implemented below in three programming styles: synchronous, asynchronous based on the _Future_ class, and asynchronous based on the _CompletableFuture_ class.
 
 >In _synchronous_ programming, the main thread starts an axillary task and blocks until this task is finished. When the axillary task is completed, the main thread continues the main task.
 
@@ -97,7 +97,7 @@ logger.info("another task started");
 ```
 
 
-2) The advantage of the asynchronous implementation based on the _Future_ interface is shorter execution time (because some tasks run in parallel). The disadvantage of this implementation is the most complicated code (because the _Future_ interface lacks methods for tasks pipelining).
+2) The advantage of the asynchronous implementation based on the _Future_ class is shorter execution time (because some tasks run in parallel). The disadvantage of this implementation is the most complicated code (because the _Future_ interface lacks methods for tasks pipelining).
 
 
 ```
@@ -163,7 +163,7 @@ This interface specifies _the pipelining_ of the future/promise implementation i
 
 1. Each stage performs a computation. A stage can or can not require arguments. A stage can either compute a value (returns a single result) or performs an action (returns no result).
 2. Stages can be chained in a pipeline. A stage can be started by finishing a single previous stage (or two previous stages) in the pipeline. A stage finishes when its computation is completed. Finishing a stage can start a single next stage in the pipeline.
-3. A stage can be executed synchronously or asynchronously. The appropriate execution type should be selected depending on the nature of the computation.
+3. A stage can be executed synchronously or asynchronously. The appropriate execution type should be selected depending on the parameters of the computation.
 
 The methods of the _CompletionStage_ interface can be divided into two groups according to their purpose:
 
@@ -310,7 +310,7 @@ area.join();
 
 >You should use the _thenApply_ method if you want to transform a _CompletionStage_ with a _fast_ function. You should use the _thenCompose_ method if you want to transform a _CompletionStage_ with a _slow_ function.
 
->You should use the _thenCompose_ method if you want to transform two _CompletionStage_s _sequentially_. You should use the _thenCombine_ method if you want to transform two _CompletionStage_s _in parallel_.
+>You should use the _thenCompose_ method if you want to transform two _CompletionStages_ _sequentially_. You should use the _thenCombine_ method if you want to transform two _CompletionStages_ _in parallel_.
 
 [code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
 
@@ -408,7 +408,7 @@ This class specifies _the general workflow_ of the future/promise implementation
 
 1. A _creating_ thread creates an incomplete future and adds computation handlers to it.
 2. A _reading_ thread waits (in a blocking or non-blocking manner) until the future is completed normally or exceptionally.
-3. A _completing_ thread completes the future and unblocks the _reading _thread.
+3. A _completing_ thread completes the future and unblocks the _reading_ thread.
 
 The methods of the _CompletionStage_ interface can be divided into five groups according to their purpose:
 
@@ -420,9 +420,7 @@ The methods of the _CompletionStage_ interface can be divided into five groups a
 *   methods to read futures
 *   methods for bulk futures operations
 
-The following code example demonstrates the use of the methods to handle the _CompletableFuture_ lifecycle.
-
-The future is created incomplete in the first thread. After this, the same thread starts checking the future for completion. After a delay, simulating a long operation, the future is completed in the second thread. After this, the first thread finished the checking and reads the value of the future that is already been completed.
+The following code example demonstrates the use of the methods to handle the lifecycle of the _CompletableFuture_ class. The future is created incomplete in the first thread. After this, the same thread starts checking the future for completion. After a delay, simulating a long operation, the future is completed in the second thread. After this, the first thread finished the checking and reads the value of the future that is already been completed.
 
 
 ```
@@ -452,7 +450,7 @@ executorService.shutdown();
 
 ### Methods to create futures
 
-In the most general case, a future is created incompleted in one_ _thread and is completed in another thread. However, in some cases (for example, when testing), it may be necessary to create an already completed future.
+In the most general case, a future is created incompleted in one thread and is completed in another thread. However, in some cases (for example, when testing), it may be necessary to create an already completed future.
 
 Summary of methods to create futures
 
@@ -750,6 +748,7 @@ There are the following rules of thumb for using CompletableFuture API:
 *   Be aware of the new exception handling mechanism that works differently than the _try-catch-finally_ statements
 *   Manage timeouts not to wait too long (perhaps indefinitely) for a stuck stage
 
-The CompletableFuture API is quite complex and justifiable to use when a single result depends on many stages that form a rather complicated _directed acyclic graph_. It is wise to try the simpler asynchronous APIs at the beginning, for example, Parallel Streams or _ExecutorService_s. Be aware of the disadvantages of asynchronous programming - asynchronous code is often much more difficult to implement, understand, and debug. Make sure that the CompletableFuture API is the right tool for your job.
+The CompletableFuture API is quite complex and justifiable to use when a single result depends on many stages that form a rather complicated _directed acyclic graph_. It is wise to try the simpler asynchronous APIs at the beginning, for example, Parallel Streams or _ExecutorServices_. Be aware of the disadvantages of asynchronous programming - asynchronous code is often much more difficult to implement, understand, and debug. Make sure that the CompletableFuture API is the right tool for your job.
 
 Complete code examples are available in the [GitHub repository](https://github.com/aliakh/demo-java-completablefuture).
+
