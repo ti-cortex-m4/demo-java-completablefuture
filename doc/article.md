@@ -97,7 +97,7 @@ logger.info("another task started");
 ```
 
 
-2) The advantage of the asynchronous implementation based on _Future_ is shorter execution time (because some tasks run in parallel). The disadvantage of this implementation is the most complicated code (because the _Future_ interface lacks methods for tasks pipelining).
+2) The advantage of the asynchronous implementation based on the _Future_ interface is shorter execution time (because some tasks run in parallel). The disadvantage of this implementation is the most complicated code (because the _Future_ interface lacks methods for tasks pipelining).
 
 
 ```
@@ -126,7 +126,7 @@ logger.info("another task is running");
 ```
 
 
-3) The advantage of the asynchronous implementation based on _CompletableFuture_ is shorter execution time (because some tasks run in parallel) and more fluent code. The disadvantage of this implementation is that the more advanced CompletableFuture API is at the same time more difficult to learn.
+3) The advantage of the asynchronous implementation based on the _CompletableFuture_ class is shorter execution time (because some tasks run in parallel) and more fluent code. The disadvantage of this implementation is that the more advanced CompletableFuture API is at the same time more difficult to learn.
 
 
 ```
@@ -152,10 +152,8 @@ logger.info("another task started");
 ```
 
 
-![CompletableFuture API example](/images/CompletableFuture_API_example.png)
 
-
-## The [CompletionStage](https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/util/concurrent/CompletionStage.html) interface
+## The CompletionStage interface
 
 The _CompletionStage_ interface represents a stage in a multi-stage (possibly asynchronous) computation where stages can be _forked, chained, and joined_.
 
@@ -183,7 +181,7 @@ The _CompletionStage_ interface contains only methods for stages pipelining. But
 
 The _CompletionStage_ interface has 43 public methods, most of which follow three naming patterns.
 
-The first naming pattern explains _how the new stage is started_:
+The first naming pattern explains _how the new stage starts_:
 
 
 
@@ -210,11 +208,11 @@ Summary of methods to pipeline computations:
    </td>
    <td><em>Function</em>
 <p>
-(takes an argument and returns a result)
+(takes one argument and returns a result)
    </td>
    <td><em>Consumer</em>
 <p>
-(takes an argument and returns no result)
+(takes one argument and returns no result)
    </td>
    <td><em>Runnable</em>
 <p>
@@ -314,7 +312,7 @@ area.join();
 
 >You should use the _thenCompose_ method if you want to transform two _CompletionStage_s _sequentially_. You should use the _thenCombine_ method if you want to transform two _CompletionStage_s _in parallel_.
 
-[complete code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
+[code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
 
 
 ### Methods to handle exceptions
@@ -397,10 +395,10 @@ CompletableFuture.supplyAsync(() -> 0)
 ```
 
 
-[complete code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
+[code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part2)
 
 
-## The [CompletableFuture](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CompletableFuture.html) class
+## The CompletableFuture class
 
 The _CompletableFuture_ class represents a stage in a multi-stage (possibly asynchronous) computation where stages can be _created, checked, completed_, and _read_. The _CompletableFuture_ class is the main implementation of the _CompletionStage_ interface, it also implements the _Future_ interface. That means the _CompletableFuture_ class can simultaneously represent _a stage_ in a multi-stage computation and _the result_ of such a computation.
 
@@ -463,7 +461,7 @@ Summary of methods to create futures
   <tr>
    <td>Future status
    </td>
-   <td>Method name
+   <td>Method
    </td>
    <td>Description
    </td>
@@ -509,7 +507,7 @@ Summary of methods to create futures
 
 >The no-arg _CompletableFuture_ constructor also creates an incomplete future.
 
-[complete code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
+[code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part3)
 
 
 ### Methods to check futures
@@ -523,7 +521,7 @@ Summary of the methods to check futures
   <tr>
    <td>Method behavior
    </td>
-   <td>Method name
+   <td>Method
    </td>
    <td>Description
    </td>
@@ -553,7 +551,7 @@ Summary of the methods to check futures
 
 >It is impossible to cancel an already completed future.
 
-[complete code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
+[code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part4)
 
 
 ### Methods to complete futures
@@ -569,7 +567,7 @@ Summary of methods to complete futures
    </td>
    <td>Method behavior
    </td>
-   <td>Method name
+   <td>Method
    </td>
    <td>Description
    </td>
@@ -627,7 +625,7 @@ Summary of methods to complete futures
 
 The _cancel(boolean mayInterruptIfRunning)_ method has a special implementation feature in the _CompletableFuture_ class. The parameter _mayInterruptIfRunning_ does not affect because thread interrupts are not used to control processing. When the _cancel_ method is called, the computation is canceled with the _CancellationException_, but the _Thread.interrupt()_ method is not called to interrupt the underlying thread.
 
-[complete code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
+[code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part5)
 
 
 ### Methods to read futures
@@ -643,7 +641,7 @@ Summary of methods to read futures
    </td>
    <td>Thrown exceptions
    </td>
-   <td>Method name
+   <td>Method
    </td>
    <td>Description
    </td>
@@ -695,7 +693,7 @@ The _join_ and _getNow_ methods can throw unchecked _CompletionException_ (if th
 
 All of these methods can also throw unchecked _CancellationException_ (if the computation was canceled).
 
-[complete code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
+[code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part6)
 
 
 ### Methods for bulk future operations
@@ -709,7 +707,7 @@ Summary of methods for bulk futures operations
   <tr>
    <td>Similarity
    </td>
-   <td>Method name
+   <td>Method
    </td>
    <td>Description
    </td>
@@ -735,7 +733,7 @@ Summary of methods for bulk futures operations
 
 >Note that all futures can be of different generic types - the methods have variable arguments of type _CompletableFuture&lt;?>_.
 
-[complete code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part1)
+[code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part7)
 
 
 ## Conclusion
@@ -754,4 +752,4 @@ There are the following rules of thumb for using CompletableFuture API:
 
 The CompletableFuture API is quite complex and justifiable to use when a single result depends on many stages that form a rather complicated _directed acyclic graph_. It is wise to try the simpler asynchronous APIs at the beginning, for example, Parallel Streams or _ExecutorService_s. Be aware of the disadvantages of asynchronous programming - asynchronous code is often much more difficult to implement, understand, and debug. Make sure that the CompletableFuture API is the right tool for your job.
 
-Complete code examples are available in the GitHub repository.
+Complete code examples are available in the [GitHub repository](https://github.com/aliakh/demo-java-completablefuture).
