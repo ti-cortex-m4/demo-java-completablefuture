@@ -14,6 +14,7 @@ public class Exceptionally extends Demo1 {
     public void testExceptionallySuccess() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.completedFuture("value")
                 .exceptionally(t -> "failure: " + t.getMessage());
+
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
         assertEquals("value", future.get());
@@ -23,6 +24,7 @@ public class Exceptionally extends Demo1 {
     public void testExceptionallyError() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException("exception"))
                 .exceptionally(t -> "failure: " + t.getMessage());
+
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
         assertEquals("failure: exception", future.get());

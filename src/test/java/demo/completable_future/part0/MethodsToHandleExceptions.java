@@ -10,8 +10,14 @@ public class MethodsToHandleExceptions extends Demo1 {
     @Test
     public void test() {
         CompletableFuture.supplyAsync(() -> 0)
-                .thenApply(i -> { logger.info("stage 1: {}", i); return 1 / i; }) // executed and failed
-                .thenApply(i -> { logger.info("stage 2: {}", i); return 1 / i; }) // skipped
+                .thenApply(i -> {
+                    logger.info("stage 1: {}", i);
+                    return 1 / i;
+                }) // executed and failed
+                .thenApply(i -> {
+                    logger.info("stage 2: {}", i);
+                    return 1 / i;
+                }) // skipped
                 .whenComplete((value, t) -> {
                     if (t == null) {
                         logger.info("success: {}", value);
@@ -19,7 +25,10 @@ public class MethodsToHandleExceptions extends Demo1 {
                         logger.warn("failure: {}", t.getMessage()); // executed
                     }
                 })
-                .thenApply(i -> { logger.info("stage 3: {}", i); return 1 / i; }) // skipped
+                .thenApply(i -> {
+                    logger.info("stage 3: {}", i);
+                    return 1 / i;
+                }) // skipped
                 .handle((value, t) -> {
                     if (t == null) {
                         return value + 1;
@@ -27,7 +36,10 @@ public class MethodsToHandleExceptions extends Demo1 {
                         return -1; // executed and recovered
                     }
                 })
-                .thenApply(i -> { logger.info("stage 4: {}", i); return 1 / i; }) // executed
+                .thenApply(i -> {
+                    logger.info("stage 4: {}", i);
+                    return 1 / i;
+                }) // executed
                 .join();
     }
 }

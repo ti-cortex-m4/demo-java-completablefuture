@@ -1,8 +1,13 @@
 package demo.common;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.TimeUnit;
 
-public class Demo1 extends Demo0 {
+public class Demo1 {
+
+    protected static final Logger logger = LoggerFactory.getLogger(Demo0.class);
 
     protected static void sleep(int seconds) {
         try {

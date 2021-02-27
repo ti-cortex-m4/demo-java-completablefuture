@@ -1,7 +1,7 @@
 #### Code examples
 
-The _whenComplete_ method accepts a nullable result and an exception but can not modify the return value, the stage is still completed exceptionally.
-
+The _whenComplete_ method accepts a nullable result and an exception but can not modify the return value, the stage is
+still completed exceptionally.
 
 ```
 CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException("exception"))
@@ -16,9 +16,8 @@ assertTrue(future.isDone());
 assertTrue(future.isCompletedExceptionally());
 ```
 
-
-The _handle_ method transforms a nullable result and an exception and converts the stage from completed exceptionally to completed normally.
-
+The _handle_ method transforms a nullable result and an exception and converts the stage from completed exceptionally to
+completed normally.
 
 ```
 CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException("exception"))
@@ -34,9 +33,8 @@ assertFalse(future.isCompletedExceptionally());
 assertEquals("failure: exception", future.get());
 ```
 
-
-The _exceptionally_ method transforms an exception and converts the stage from completed exceptionally to completed normally.
-
+The _exceptionally_ method transforms an exception and converts the stage from completed exceptionally to completed
+normally.
 
 ```
 CompletableFuture<String> future = CompletableFuture.<String>failedFuture(new RuntimeException("exception"))

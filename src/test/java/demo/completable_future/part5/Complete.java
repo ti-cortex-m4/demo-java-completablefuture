@@ -15,8 +15,11 @@ public class Complete extends Demo1 {
     @Test
     public void testComplete() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = new CompletableFuture<>();
+
         assertFalse(future.isDone());
+
         boolean hasCompleted = future.complete("value");
+
         assertTrue(hasCompleted);
         assertTrue(future.isDone());
         assertEquals("value", future.get());

@@ -20,6 +20,7 @@ public class WhenComplete extends Demo1 {
                         logger.warn("failure: {}", t.getMessage());
                     }
                 });
+
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
         assertEquals("value", future.get());
@@ -35,6 +36,7 @@ public class WhenComplete extends Demo1 {
                         logger.warn("failure: {}", t.getMessage());
                     }
                 });
+
         assertTrue(future.isDone());
         assertTrue(future.isCompletedExceptionally());
     }

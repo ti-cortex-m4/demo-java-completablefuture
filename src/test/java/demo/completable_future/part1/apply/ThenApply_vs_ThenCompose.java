@@ -5,8 +5,8 @@ import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 
-import static org.junit.Assert.assertEquals;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
+import static org.junit.Assert.assertEquals;
 
 public class ThenApply_vs_ThenCompose extends Demo1 {
 

@@ -16,12 +16,16 @@ public class CompleteExceptionally extends Demo1 {
     @Test
     public void testCompleteExceptionally() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = new CompletableFuture<>();
+
         assertFalse(future.isDone());
         assertFalse(future.isCompletedExceptionally());
+
         boolean hasCompleted = future.completeExceptionally(new RuntimeException("exception"));
+
         assertTrue(hasCompleted);
         assertTrue(future.isDone());
         assertTrue(future.isCompletedExceptionally());
+
         try {
             future.get();
             fail();

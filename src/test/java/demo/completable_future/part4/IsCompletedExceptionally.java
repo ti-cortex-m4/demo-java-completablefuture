@@ -15,6 +15,7 @@ public class IsCompletedExceptionally extends Demo1 {
     @Test
     public void testIsCompletedExceptionallyFalse() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.completedFuture("value");
+
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
         assertFalse(future.isCancelled());
@@ -24,6 +25,7 @@ public class IsCompletedExceptionally extends Demo1 {
     @Test
     public void testIsCompletedExceptionallyTrue() {
         CompletableFuture<String> future = CompletableFuture.failedFuture(new RuntimeException("exception"));
+
         assertTrue(future.isDone());
         assertTrue(future.isCompletedExceptionally());
         assertFalse(future.isCancelled());

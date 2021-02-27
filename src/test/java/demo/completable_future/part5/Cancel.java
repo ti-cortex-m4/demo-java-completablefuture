@@ -14,9 +14,12 @@ public class Cancel extends Demo1 {
     @Test
     public void testCancel() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = new CompletableFuture<>();
+
         assertFalse(future.isDone());
         assertFalse(future.isCancelled());
+
         boolean isCanceled = future.cancel(false);
+
         assertTrue(isCanceled);
         assertTrue(future.isDone());
         assertTrue(future.isCancelled());

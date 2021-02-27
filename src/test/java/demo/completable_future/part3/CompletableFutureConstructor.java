@@ -14,8 +14,11 @@ public class CompletableFutureConstructor {
     @Test
     public void testConstructor() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = new CompletableFuture<>();
+
         assertFalse(future.isDone());
+
         future.complete("value");
+
         assertTrue(future.isDone());
         assertEquals("value", future.get());
     }

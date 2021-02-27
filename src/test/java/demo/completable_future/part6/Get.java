@@ -19,22 +19,4 @@ public class Get extends Demo1 {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet(2, "value"));
         assertEquals("value", future.get());
     }
-
-    @Test
-    public void testGetWithTimeoutSuccess() throws InterruptedException, ExecutionException, TimeoutException {
-        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet(2, "value"));
-        assertEquals("value", future.get(3, TimeUnit.SECONDS));
-    }
-
-    @Test
-    public void testGetWithTimeoutFailure() throws InterruptedException, ExecutionException, TimeoutException {
-        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet(2, "value"));
-        try {
-            future.get(1, TimeUnit.SECONDS);
-            fail();
-        } catch (TimeoutException e) {
-            assertTrue(true);
-            //assertEquals(TimeoutException.class, e.getCause().getClass());
-        }
-    }
 }

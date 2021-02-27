@@ -20,6 +20,7 @@ public class Handle extends Demo1 {
                         return t.getMessage();
                     }
                 });
+
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
         assertEquals("VALUE", future.get());
@@ -35,6 +36,7 @@ public class Handle extends Demo1 {
                         return "failure: " + t.getMessage();
                     }
                 });
+
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
         assertEquals("failure: exception", future.get());

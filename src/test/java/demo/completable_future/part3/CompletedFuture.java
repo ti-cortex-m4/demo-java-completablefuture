@@ -16,6 +16,7 @@ public class CompletedFuture extends Demo1 {
     @Test
     public void testCompletedFuture() throws InterruptedException, ExecutionException {
         CompletableFuture<String> future = CompletableFuture.completedFuture("value");
+
         assertTrue(future.isDone());
         assertFalse(future.isCompletedExceptionally());
         assertEquals("value", future.get());
@@ -24,6 +25,7 @@ public class CompletedFuture extends Demo1 {
     @Test
     public void testCompletedStage() throws InterruptedException, ExecutionException {
         CompletionStage<String> future = CompletableFuture.completedStage("value");
+
         assertTrue(future.toCompletableFuture().isDone());
         assertFalse(future.toCompletableFuture().isCompletedExceptionally());
         assertEquals("value", future.toCompletableFuture().get());

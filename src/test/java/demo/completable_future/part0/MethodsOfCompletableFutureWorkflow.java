@@ -3,7 +3,10 @@ package demo.completable_future.part0;
 import demo.common.Demo1;
 import org.junit.Test;
 
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MethodsOfCompletableFutureWorkflow extends Demo1 {
 

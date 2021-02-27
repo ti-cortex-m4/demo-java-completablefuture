@@ -12,6 +12,6 @@ public class GetNumberOfDependents extends Demo1 {
     @Test
     public void testGetNumberOfDependents() {
         CompletableFuture<String> future = CompletableFuture.completedFuture("value");
-        assertEquals(1, future.getNumberOfDependents());
+        assertEquals(0, future.getNumberOfDependents());
     }
 }

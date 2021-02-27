@@ -12,6 +12,7 @@ public class DelayedExecutor extends Demo1 {
     @Test
     public void testDelayedExecutor() {
         Executor executor = CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS);
+
         System.out.println("begin");
         executor.execute(() -> System.out.println("Runnable"));
         System.out.println("end");
