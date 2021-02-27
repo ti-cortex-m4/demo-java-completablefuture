@@ -80,7 +80,7 @@ The mentioned workflow is implemented below in three programming styles: synchro
 
 >In _synchronous_ programming, the main thread starts an axillary task and blocks until this task is finished. When the axillary task is completed, the main thread continues the main task.
 
->In _asynchronous_ programming, the main thread starts an axillary task in a worker thread and continues its task. When the worker thread completes the auxiliary task, it notifies the main thread (for example) with a callback call.
+>In _asynchronous_ programming, the main thread starts an axillary task in a worker thread and continues its task. When the worker thread completes the auxiliary task, it notifies the main thread, for example, with a callback call.
 
 1) The advantage of the synchronous implementation is the simplest and most reliable code. The disadvantage of this implementation is the longest execution time (because all tasks run sequentially).
 
@@ -185,9 +185,9 @@ The first naming pattern explains _how the new stage starts_:
 
 
 
-*   if a method name has fragment “then“, then the new stage is started after completion of a single previous stage
-*   if a method name has fragment “either“, then the new stage is started after completion of the first of two previous stages
-*   if a method name has fragment “both“, then the new stage is started after completion of both of two previous stages
+*   if a method name has fragment “then“, then the new stage starts after completion of a single previous stage
+*   if a method name has fragment “either“, then the new stage starts after completion of the first of two previous stages
+*   if a method name has fragment “both“, then the new stage starts after completion of both of two previous stages
 
 The second naming pattern explains _what computations perform the new stage_:
 
@@ -276,7 +276,7 @@ Summary of methods to pipeline computations:
 </table>
 
 
->If a method accepts a functional interface that does not return a result (_Consumer_, _BiConsumer_, _Runnable_) it can be used to perform a computation with _side-effects_ and to signal that the computation has completed either with a result or with an exception.
+>If methods accept a functional interface that does not return a result (_Consumer_, _BiConsumer_, _Runnable_) it can be used to perform a computation with _side-effects_. Anso such methods can signal that the computation has completed either with a result or with an exception.
 
 The third naming pattern explains _what thread executes the new stage_:
 
@@ -286,7 +286,7 @@ The third naming pattern explains _what thread executes the new stage_:
 *   if a method has fragment “somethingAsync(...)“, then the new stage is executed by _the default asynchronous facility_
 *   if a method has fragment “somethingAsync(..., Executor)“, then the new stage is executed by the given _Executor_
 
-Note that _the default facility_ and _the default asynchronous facility_ are specified by the _CompletionStage_ implementations, not by this interface. Looking ahead, the _CompletableFuture_ class uses the thread that completes the future (or any other thread that simultaneously is trying to do the same) as _the default facility_ and the thread pool returned by the _ForkJoinPool.commonPool()_ method as _the default asynchronous facility_.
+Note that _the default facility_ and _the default asynchronous facility_ are specified by the _CompletionStage_ implementations, not by this interface. Looking ahead, the _CompletableFuture_ class uses the thread that completes the future (or any other threads that simultaneously are trying to do the same) as _the default facility_ and the thread pool returned by the _ForkJoinPool.commonPool()_ method as _the default asynchronous facility_.
 
 >Note that the thread pool returned by the _ForkJoinPool.commonPool()_ method is shared across a JVM by all _CompletableFuture_ objects and all Parallel Streams.
 
@@ -364,7 +364,7 @@ Summary of methods to handle exceptions:
 </table>
 
 
-If you need to perform some action, when the previous stage completes normally or exceptionally, you should use the _whenComplete_ method. A _BiConsumer_ argument of the _whenComplete_ method is called when the previous stage completes normally or exceptionally and allows to read both the result (or _null_ if none) and the exception (or _null_ if none), but does not allow to modify them.
+If you need to perform some action, when the previous stage completes normally or exceptionally, you should use the _whenComplete_ method. A _BiConsumer_ argument of the _whenComplete_ method is called when the previous stage completes normally or exceptionally and allows to read both the result (or _null_ if none) and the exception (or _null_ if none). But this method can not modify the result.
 
 If you need to recover from an exception (to replace the exception with some default value), then you should use the _handle_ and _exceptionally_ methods. A _BiFunction_ argument of the _handle_ method is called when the previous stage completes normally or exceptionally. A _Function_ argument of the _exceptionally_ method is called when the previous stage completes exceptionally. In both cases, an exception is not propagated to the next stage.
 
@@ -436,7 +436,7 @@ executorService.submit(() -> {
    return null;
 });
 
-while (!future.isDone()) { // checking the future completion
+while (!future.isDone()) { // checking for the future completion
    Thread.sleep(1000);
 }
 
@@ -519,7 +519,7 @@ Summary of the methods to check futures
 
 <table>
   <tr>
-   <td>Method behavior
+   <td>Behavior
    </td>
    <td>Method
    </td>
@@ -531,7 +531,7 @@ Summary of the methods to check futures
    </td>
    <td><em>isDone</em>
    </td>
-   <td>returns true if the <em>CompletableFuture</em> is completed in any manner: normally, exceptionally, or via cancellation
+   <td>returns true if the <em>CompletableFuture</em> is completed in any manner: normally, exceptionally, or by cancellation
    </td>
   </tr>
   <tr>
@@ -565,7 +565,7 @@ Summary of methods to complete futures
   <tr>
    <td>Future action
    </td>
-   <td>Method behavior
+   <td>Execution
    </td>
    <td>Method
    </td>
@@ -630,14 +630,14 @@ The _cancel(boolean mayInterruptIfRunning)_ method has a special implementation 
 
 ### Methods to read futures
 
-The _CompletableFuture_ class has methods for reading futures, waiting if necessary. Note that in most cases, these methods should be used as the last step, do not use them inside a computation pipeline.
+The _CompletableFuture_ class has methods for reading futures, waiting if necessary. Note that in most cases, these methods should be used as the last step in a computation pipeline.
 
 Summary of methods to read futures
 
 
 <table>
   <tr>
-   <td>Method behavior
+   <td>Behavior
    </td>
    <td>Thrown exceptions
    </td>
@@ -687,11 +687,11 @@ Summary of methods to read futures
 </table>
 
 
-The _get()_ and _get(timeout, timeUnit)_ methods can throw checked exceptions: _ExecutionException_ (if the future is completed exceptionally) and _InterruptedException_ (if the current thread was interrupted). Also, the time-bounded _get(timeout, timeUnit)_ method can throw checked _TimeoutException_ (if the timeout occurred).
+The _get()_ and _get(timeout, timeUnit)_ methods can throw checked exceptions: _ExecutionException_ (if the future is completed exceptionally) and _InterruptedException_ (if the current thread is interrupted). Also, the time-bounded _get(timeout, timeUnit)_ method can throw checked _TimeoutException_ (if the timeout occurs).
 
 The _join_ and _getNow_ methods can throw unchecked _CompletionException_ (if the future is completed exceptionally).
 
-All of these methods can also throw unchecked _CancellationException_ (if the computation was canceled).
+All of these methods can also throw unchecked _CancellationException_ (if the computation is canceled).
 
 [code examples](https://github.com/aliakh/demo-java-completablefuture/tree/main/src/test/java/demo/completable_future/part6)
 
