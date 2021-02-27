@@ -1,11 +1,11 @@
 package demo.completable_future.part8;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 
-public class DefaultExecutor extends Demo1 {
+public class DefaultExecutor extends Demo {
 
     @Test
     public void testDefaultExecutor() {

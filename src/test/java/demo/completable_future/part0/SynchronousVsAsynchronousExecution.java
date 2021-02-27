@@ -1,6 +1,6 @@
 package demo.completable_future.part0;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-public class SynchronousVsAsynchronousExecution extends Demo1 {
+public class SynchronousVsAsynchronousExecution extends Demo {
 
     @Test
     public void testSynchronous() {

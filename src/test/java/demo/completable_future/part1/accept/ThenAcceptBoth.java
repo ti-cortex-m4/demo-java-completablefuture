@@ -1,6 +1,6 @@
 package demo.completable_future.part1.accept;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletionStage;
@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutionException;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static org.junit.Assert.assertNull;
 
-public class ThenAcceptBoth extends Demo1 {
+public class ThenAcceptBoth extends Demo {
 
     @Test
     public void testThenAcceptBoth() throws InterruptedException, ExecutionException {

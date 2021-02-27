@@ -1,13 +1,13 @@
 package demo.completable_future.part8;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 
 import static org.junit.Assert.assertEquals;
 
-public class GetNumberOfDependents extends Demo1 {
+public class GetNumberOfDependents extends Demo {
 
     @Test
     public void testGetNumberOfDependents() {

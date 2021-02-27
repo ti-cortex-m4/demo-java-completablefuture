@@ -1,13 +1,13 @@
 package demo.completable_future.part6;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 
 import static org.junit.Assert.assertEquals;
 
-public class Join extends Demo1 {
+public class Join extends Demo {
 
     @Test
     public void testJoin() {

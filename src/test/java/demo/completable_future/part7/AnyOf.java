@@ -1,6 +1,6 @@
 package demo.completable_future.part7;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutionException;
 import static org.junit.Assert.assertEquals;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
-public class AnyOf extends Demo1 {
+public class AnyOf extends Demo {
 
     @Test
     public void testAnyOf() throws InterruptedException, ExecutionException {

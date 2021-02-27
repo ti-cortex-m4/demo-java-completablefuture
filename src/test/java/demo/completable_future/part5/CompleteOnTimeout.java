@@ -1,6 +1,6 @@
 package demo.completable_future.part5;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
-public class CompleteOnTimeout extends Demo1 {
+public class CompleteOnTimeout extends Demo {
 
     @Test
     public void testCompleteOnTimeout1() throws InterruptedException, ExecutionException {

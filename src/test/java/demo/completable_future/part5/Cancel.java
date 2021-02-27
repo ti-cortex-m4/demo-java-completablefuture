@@ -1,6 +1,6 @@
 package demo.completable_future.part5;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CancellationException;
@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.*;
 
-public class Cancel extends Demo1 {
+public class Cancel extends Demo {
 
     @Test
     public void testCancel() throws InterruptedException, ExecutionException {

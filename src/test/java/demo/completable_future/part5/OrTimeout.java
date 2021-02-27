@@ -1,6 +1,6 @@
 package demo.completable_future.part5;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeoutException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class OrTimeout extends Demo1 {
+public class OrTimeout extends Demo {
 
     @Test
     public void getNow() throws InterruptedException, ExecutionException {

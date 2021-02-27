@@ -1,11 +1,11 @@
 package demo.completable_future.part0;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 
-public class MethodsToPipelineComputations extends Demo1 {
+public class MethodsToPipelineComputations extends Demo {
 
     // area = π * r^2
     @Test

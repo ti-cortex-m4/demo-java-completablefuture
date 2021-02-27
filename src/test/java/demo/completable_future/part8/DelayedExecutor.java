@@ -1,13 +1,13 @@
 package demo.completable_future.part8;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
-public class DelayedExecutor extends Demo1 {
+public class DelayedExecutor extends Demo {
 
     @Test
     public void testDelayedExecutor() {

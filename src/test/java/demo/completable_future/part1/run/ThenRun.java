@@ -1,6 +1,6 @@
 package demo.completable_future.part1.run;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletionStage;
@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutionException;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static org.junit.Assert.assertNull;
 
-public class ThenRun extends Demo1 {
+public class ThenRun extends Demo {
 
     @Test
     public void testThenRun() throws InterruptedException, ExecutionException {

@@ -1,6 +1,6 @@
 package demo.completable_future.part7;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static org.junit.Assert.assertEquals;
 
-public class AllOf extends Demo1 {
+public class AllOf extends Demo {
 
     @Test
     public void testAllOf() throws InterruptedException, ExecutionException {

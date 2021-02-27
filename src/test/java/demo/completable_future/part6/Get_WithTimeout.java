@@ -1,6 +1,6 @@
 package demo.completable_future.part6;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-public class Get_WithTimeout extends Demo1 {
+public class Get_WithTimeout extends Demo {
 
     @Test
     public void testGetWithTimeoutSuccess() throws InterruptedException, ExecutionException, TimeoutException {

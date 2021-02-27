@@ -1,6 +1,6 @@
 package demo.completable_future.part1.apply;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletionStage;
@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutionException;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static org.junit.Assert.assertEquals;
 
-public class ThenCompose extends Demo1 {
+public class ThenCompose extends Demo {
 
     @Test
     public void testThenCompose() throws InterruptedException, ExecutionException {

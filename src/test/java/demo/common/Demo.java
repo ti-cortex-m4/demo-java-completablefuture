@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
-public class Demo1 {
+public class Demo {
 
-    protected static final Logger logger = LoggerFactory.getLogger(Demo0.class);
+    protected static final Logger logger = LoggerFactory.getLogger(Demo.class);
 
     protected static void sleep(int seconds) {
         try {

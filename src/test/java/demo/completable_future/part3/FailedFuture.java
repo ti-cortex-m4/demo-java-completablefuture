@@ -1,6 +1,6 @@
 package demo.completable_future.part3;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertTrue;
 
-public class FailedFuture extends Demo1 {
+public class FailedFuture extends Demo {
 
     @Test
     public void testCompletedFuture() throws InterruptedException, ExecutionException {

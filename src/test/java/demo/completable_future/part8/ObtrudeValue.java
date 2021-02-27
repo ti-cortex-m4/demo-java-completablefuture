@@ -1,6 +1,6 @@
 package demo.completable_future.part8;
 
-import demo.common.Demo1;
+import demo.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class ObtrudeValue extends Demo1 {
+public class ObtrudeValue extends Demo {
 
     @Test
     public void testObtrudeValue1() throws InterruptedException, ExecutionException {
