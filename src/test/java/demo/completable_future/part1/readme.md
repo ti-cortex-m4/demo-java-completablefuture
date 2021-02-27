@@ -11,7 +11,7 @@ assertEquals("SINGLE", stage.toCompletableFuture().get());
 ```
 
 
-The _thenCompose_ method creates a new stage, that upon completion also transforms the result of the single previous stage by the given _Function_. This method is similar to the _thenApply_ method described above. The difference is that the result of the _Function_ is a subclass of _CompletionStage_, which is useful when a transformation is a long operation that is reasonable to execute in a separate stage (possible asynchronously).
+The _thenCompose_ method creates a new stage, that upon completion also transforms the result of the single previous stage by the given _Function_. This method is similar to the _thenApply_ method described above. The difference is that the result of this _Function_ is a subclass of _CompletionStage_, which is useful when a transformation is a slow operation that is reasonable to execute in a separate stage (possible asynchronously).
 
 
 ```
@@ -21,10 +21,6 @@ CompletionStage<String> stage = stage1.thenCompose(
 assertEquals("SEQUENTIAL1 SEQUENTIAL2", stage.toCompletableFuture().get());
 ```
 
-
->You should use the _thenApply_ method if you want to transform a _CompletionStage_ with a _fast_ function.
-
->You should use the _thenCompose_ method if you want to transform a _CompletionStage_ with a _slow_ function.
 
 The _applyToEither_ method creates a new stage, that upon completion transforms the first result of the previous two stages by the given _Function_.
 
@@ -49,10 +45,6 @@ CompletionStage<String> stage = stage1.thenCombine(stage2,
 assertEquals("PARALLEL1 PARALLEL2", stage.toCompletableFuture().get());
 ```
 
-
->You should use the _thenCompose_ method if you want to transform two _CompletionStage_s _sequentially_.
-
->You should use the _thenCombine_ method if you want to transform two _CompletionStage_s _in parallel_.
 
 The _thenAccept_ method creates a new stage, that upon completion consumes the single previous stage by the given _Consumer_.
 
@@ -122,4 +114,3 @@ CompletionStage<Void> stage = stage1.runAfterBoth(stage2,
        () -> logger.info("runs after both"));
 assertNull(stage.toCompletableFuture().get());
 ```
-

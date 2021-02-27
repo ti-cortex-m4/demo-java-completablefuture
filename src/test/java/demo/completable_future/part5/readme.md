@@ -26,13 +26,13 @@ assertEquals("value", future2.get());
 ```
 
 
-The _completeOnTimeout​_ method completes the future normally with the fallback value because it is not completed before the given timeout.
+The _completeOnTimeout​_ method completes the future normally with the default value because it is not completed before the given timeout.
 
 
 ```
 CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet(2, "value"))
-       .completeOnTimeout("fallback", 1, TimeUnit.SECONDS);
-assertEquals("fallback", future.get());
+       .completeOnTimeout("default", 1, TimeUnit.SECONDS);
+assertEquals("default", future.get());
 ```
 
 
@@ -73,4 +73,3 @@ assertTrue(future.isDone());
 assertTrue(future.isCancelled());
 future.get(); // throws CancellationException
 ```
-

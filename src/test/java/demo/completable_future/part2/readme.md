@@ -45,4 +45,3 @@ assertTrue(future.isDone());
 assertFalse(future.isCompletedExceptionally());
 assertEquals("failure: exception", future.get());
 ```
-

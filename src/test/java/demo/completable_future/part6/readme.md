@@ -9,7 +9,7 @@ assertEquals("value", future.get());
 ```
 
 
-The _join_ method waits until the future is completed and returns the result. This method can not throw checked exceptions (it can be used as a method reference for example in Streams API).
+The _join_ method waits until the future is completed and returns the result. This method can not throw checked exceptions (it can be used as a method reference, for example, in Streams API).
 
 
 ```
@@ -27,12 +27,11 @@ future.get(1, TimeUnit.SECONDS); // throws TimeoutException
 ```
 
 
-The _getNow_ method does not wait and immediately returns the fallback value because the future is not completed. Note that this method does not cause the _CompletableFuture_ to complete.
+The _getNow_ method does not wait and immediately returns the default value because the future is not completed. Note that this method does not cause the _CompletableFuture_ to complete.
 
 
 ```
 CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> sleepAndGet("value"));
-assertEquals("fallback", future.getNow("fallback"));
+assertEquals("default", future.getNow("default"));
 assertFalse(future.isDone());
 ```
-

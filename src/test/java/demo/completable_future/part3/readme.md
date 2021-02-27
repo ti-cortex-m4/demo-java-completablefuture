@@ -1,3 +1,4 @@
+#### Code examples
 
 The no-arg constructor creates an incomplete future.
 
@@ -8,7 +9,7 @@ assertFalse(future.isDone());
 ```
 
 
-The _newIncompleteFuture_ method creates an incomplete future of the same type as the called _CompletableFuture_ object. This method should be overridden if you are implementing a subclass of _CompletableFuture_.
+The _newIncompleteFuture_ method creates an incomplete future of the same type as the called _CompletableFuture_ object. You should override this method if you are implementing a subclass of _CompletableFuture_.
 
 
 ```
