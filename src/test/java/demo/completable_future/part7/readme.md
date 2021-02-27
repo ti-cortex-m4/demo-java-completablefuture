@@ -67,3 +67,4 @@ CompletableFuture<String> future = future1
        .applyToEither(future2, value -> value);
 
 assertEquals("parallel1", future.get());
+```
