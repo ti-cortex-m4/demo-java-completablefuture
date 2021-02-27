@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 
-public class Example2 extends Demo1 {
+public class MethodsToPipelineComputations extends Demo1 {
 
     // area = π * r^2
     @Test

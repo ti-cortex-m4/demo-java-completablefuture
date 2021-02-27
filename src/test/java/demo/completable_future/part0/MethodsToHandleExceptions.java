@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 
-public class Example3 extends Demo1 {
+public class MethodsToHandleExceptions extends Demo1 {
 
     @Test
     public void test() {

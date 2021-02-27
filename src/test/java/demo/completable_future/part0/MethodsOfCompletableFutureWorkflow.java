@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.concurrent.*;
 
-public class Example4 extends Demo1 {
+public class MethodsOfCompletableFutureWorkflow extends Demo1 {
 
     @Test
     public void test() throws InterruptedException, ExecutionException {

@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
-public class Example extends Demo1 {
+public class SycnchronousVsAsynchronousExecution extends Demo1 {
 
     @Test
     public void testSynchronous() {
