@@ -5,8 +5,8 @@ skinparam monochrome true
 skinparam RectangleBackgroundColor white
 
 rectangle "Methods of the CompletionStage interface" as methods
-rectangle "methods to\npipeline computations \n \n thenApply(Async), thenCompose(Async) \n thenAccept(Async) \n thenRun(Async) \n \n applyToEither(Async) \n acceptEither(Async) \n runAfterEither(Async) \n \n thenCombine(Async) \n thenAcceptBoth(Async) \n runAfterBoth(Async)" as methods1
-rectangle "methods to\nhandle exceptions \n \n whenComplete(Async) \n handle(Async) \n exceptionally(Async) \n exceptionallyCompose(Async)" as methods2
+rectangle "methods to\npipeline computations \n \n thenApply, thenCompose \n thenAccept \n thenRun \n \n applyToEither \n acceptEither \n runAfterEither \n \n thenCombine \n thenAcceptBoth \n runAfterBoth" as methods1
+rectangle "methods to\nhandle exceptions \n \n whenComplete \n handle \n exceptionally \n exceptionallyCompose" as methods2
 
 methods --> methods1
 methods --> methods2

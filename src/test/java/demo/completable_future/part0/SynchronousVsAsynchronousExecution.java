@@ -10,9 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import static java.util.concurrent.CompletableFuture.supplyAsync;
-
-public class SycnchronousVsAsynchronousExecution extends Demo1 {
+public class SynchronousVsAsynchronousExecution extends Demo1 {
 
     @Test
     public void testSynchronous() {
@@ -61,8 +59,8 @@ public class SycnchronousVsAsynchronousExecution extends Demo1 {
 
     @Test
     public void testAsynchronousWithCompletableFuture() throws InterruptedException {
-        CompletableFuture<Integer> priceInEur = supplyAsync(this::getPriceInEur);
-        CompletableFuture<Integer> exchangeRateEurToUsd = supplyAsync(this::getExchangeRateEurToUsd);
+        CompletableFuture<Integer> priceInEur = CompletableFuture.supplyAsync(this::getPriceInEur);
+        CompletableFuture<Integer> exchangeRateEurToUsd = CompletableFuture.supplyAsync(this::getExchangeRateEurToUsd);
 
         CompletableFuture<Integer> netAmountInUsd = priceInEur
                 .thenCombine(exchangeRateEurToUsd, (price, exchangeRate) -> price * exchangeRate);
@@ -70,7 +68,7 @@ public class SycnchronousVsAsynchronousExecution extends Demo1 {
         logger.info("this task started");
 
         netAmountInUsd
-                .thenCompose(amount -> supplyAsync(() -> amount * (1 + getTax(amount))))
+                .thenCompose(amount -> CompletableFuture.supplyAsync(() -> amount * (1 + getTax(amount))))
                 .whenComplete((grossAmountInUsd, throwable) -> {
                     if (throwable == null) {
                         logger.info("this task finished: {}", grossAmountInUsd);

@@ -19,7 +19,7 @@ public class MethodsOfCompletableFutureWorkflow extends Demo1 {
             return null;
         });
 
-        while (!future.isDone()) { // checking for the future completion
+        while (!future.isDone()) { // checking the future for completion
             Thread.sleep(1000);
         }
 
