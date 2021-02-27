@@ -751,4 +751,3 @@ There are the following rules of thumb for using CompletableFuture API:
 The CompletableFuture API is quite complex and justifiable to use when a single result depends on many stages that form a rather complicated _directed acyclic graph_. It is wise to try the simpler asynchronous APIs at the beginning, for example, Parallel Streams or _ExecutorServices_. Be aware of the disadvantages of asynchronous programming - asynchronous code is often much more difficult to implement, understand, and debug. Make sure that the CompletableFuture API is the right tool for your job.
 
 Complete code examples are available in the [GitHub repository](https://github.com/aliakh/demo-java-completablefuture).
-
