@@ -1,11 +1,10 @@
 package demo.completable_future.part3;
 
-import demo.common.Demo;
+import demo.completable_future.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertTrue;
 

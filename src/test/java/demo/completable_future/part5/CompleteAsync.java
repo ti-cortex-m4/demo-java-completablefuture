@@ -1,6 +1,6 @@
 package demo.completable_future.part5;
 
-import demo.common.Demo;
+import demo.completable_future.common.Demo;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
